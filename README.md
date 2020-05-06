@@ -1,10 +1,18 @@
 # Sia Name Service
 
-A way to register, update, and lookup `[name].sns` hosts on the Sia blockchain.
+Sia Name Service is a Java Gradle project that provides a process to register, update, and lookup `[name].sns` hosts on the Sia blockchain.
 
 ## Dependencies
 
 Must have the Sia wallet running, synced, and unlocked.
+
+##  How to run
+
+You can compile the gradle project and then run it on your own or you can open the project in a Gradle-enabled Java IDE (I use IntelliJ IDEA) and run `com.georgemcarlson.sianameservice.Main.java`.
+
+## How to build
+
+Have gradle installed on your computer. Then, in your terminal, navigate to the projects root and run `gradle clean jar`. The compiled jar will be in the projects `./build/libs/`. Note: You may also need to run chmod +x sia-name-service-[x.x.x].jar to make the compiled jar executable.
 
 ## Register a host
 
