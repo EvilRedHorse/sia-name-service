@@ -15,7 +15,7 @@ import org.json.JSONObject;
 public class SiaHostScanner extends SiaHostScannerCache implements Runnable {
     private static final Logger LOGGER = Logger.getInstance();
     private static final String FILE_NAME = "scanner";
-    private static final long GENESIS_BLOCK = 258533L;
+    private static final long GENESIS_BLOCK = 258549L;
     private boolean running = true;
 
     private SiaHostScanner(){
