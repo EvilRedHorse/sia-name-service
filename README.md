@@ -2,6 +2,10 @@
 
 A way to register, update, and lookup `[name].sia` hosts on the Sia blockchain.
 
+## Dependencies
+
+Must have the Sia wallet running, synced, and unlocked.
+
 ## Register a host
 
 Register a host by posting the `[name].sia` host that you wish to register with the skylink that it should point at and a registrant address and a fee to the register endpoint. The fee is how many siacoins to the power of ten that will be needed to register or update the linked skylink. The registrant address should be an address that you control.
