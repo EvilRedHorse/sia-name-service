@@ -95,7 +95,6 @@ public class ThickClientUser extends User {
 
             Response response = clientBuilder.build().newCall(requestBuilder.build()).execute();
             String rawResponse = response.body().string();
-            System.out.println(rawResponse);
             JSONArray transactionIds = new JSONObject(rawResponse).getJSONArray("transactionids");
             String transactionId = transactionIds.get(transactionIds.length()-1).toString();
             transaction = Transaction.getInstance(transactionId, blockHeight, txOutputs);

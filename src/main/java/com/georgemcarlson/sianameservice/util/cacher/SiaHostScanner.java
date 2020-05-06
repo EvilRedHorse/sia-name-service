@@ -86,7 +86,6 @@ public class SiaHostScanner extends SiaHostScannerCache implements Runnable {
         if (arbitraryData == null || arbitraryData.length < (skylinkLength + ".sia ".length())) {
             return false;
         }
-        System.out.println("writing skylink: " + new String(arbitraryData));
         return Arrays.equals(
             ".sia".getBytes(),
             Arrays.copyOfRange(
@@ -164,7 +163,7 @@ public class SiaHostScanner extends SiaHostScannerCache implements Runnable {
         if (!registrant.getAddress().equals(hostFile.getString("registrant"))) {
             return;
         }
-        if (fee >= hostFile.getInt("fee")) {
+        if (fee < hostFile.getInt("fee")) {
             return;
         }
         hostFile.put("skylink", skylink);
