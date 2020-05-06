@@ -35,7 +35,6 @@ public abstract class User {
                 registrant,
                 fee
             );
-            System.out.println("here");
             return postTransaction(txOutputs);
         } catch(Exception e){
             LOGGER.error(e.getLocalizedMessage(), e);

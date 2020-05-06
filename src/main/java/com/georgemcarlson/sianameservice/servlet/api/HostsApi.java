@@ -3,6 +3,7 @@ package com.georgemcarlson.sianameservice.servlet.api;
 import com.georgemcarlson.sianameservice.util.cacher.SiaHostScannerCache;
 import com.sawwit.integration.util.Encoder;
 import com.sawwit.integration.util.Fingerprint;
+import com.sawwit.integration.util.Logger;
 import java.io.File;
 import java.nio.file.Files;
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class HostsApi extends SiaNameServiceApi {
+    private static final Logger LOGGER = Logger.getInstance();
     public static final String PATH = "/" + SiaHostScannerCache.TOP_FOLDER;
     public static final String HELP_PARAMETER = "help";
     public static final String HOST_PARAMETER = "host";
@@ -44,10 +46,7 @@ public class HostsApi extends SiaNameServiceApi {
                 try {
                     return new String(Files.readAllBytes(file.toPath()));
                 } catch (Exception e) {
-                    System.out.println(e.getLocalizedMessage());
-                    System.out.println(e.getStackTrace()[0]);
-                    System.out.println(e.getStackTrace()[1]);
-                    System.out.println(e.getStackTrace()[2]);
+                    LOGGER.error(e.getLocalizedMessage(), e);
                 }
             }
             return new JSONArray().toString(2);

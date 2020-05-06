@@ -22,11 +22,6 @@ public class SiaHostNameCreator {
     }
 
     public String create() {
-        System.out.println("host: " + host);
-        System.out.println("skylink: " + skylink);
-        System.out.println("registrant: " + registrant);
-        System.out.println("fee: " + fee);
-        System.out.println("user: " + user);
         return user.postArbitraryData(getArbitraryData(), registrant, fee).getTransactionId();
     }
 
