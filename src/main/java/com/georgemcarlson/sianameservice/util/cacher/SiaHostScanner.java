@@ -8,7 +8,6 @@ import com.georgemcarlson.sianameservice.util.reader.Block;
 import com.georgemcarlson.sianameservice.util.reader.Transaction;
 import com.georgemcarlson.sianameservice.util.reader.TxOutput;
 import com.georgemcarlson.sianameservice.util.reader.Wallet;
-import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 import org.json.JSONObject;
@@ -83,14 +82,14 @@ public class SiaHostScanner extends SiaHostScannerCache implements Runnable {
 
     public static boolean isArbitraryDataSiaTld(byte[] arbitraryData) {
         int skylinkLength = 46;
-        if (arbitraryData == null || arbitraryData.length < (skylinkLength + ".sia ".length())) {
+        if (arbitraryData == null || arbitraryData.length < (skylinkLength + ".sns ".length())) {
             return false;
         }
         return Arrays.equals(
-            ".sia".getBytes(),
+            ".sns".getBytes(),
             Arrays.copyOfRange(
                 arbitraryData,
-                arbitraryData.length - skylinkLength - ".sia ".length(),
+                arbitraryData.length - skylinkLength - ".sns ".length(),
                 arbitraryData.length - skylinkLength - " ".length()
             )
         );

@@ -3,8 +3,6 @@ package com.georgemcarlson.sianameservice.servlet.api;
 import com.georgemcarlson.sianameservice.util.creator.SiaHostNameCreator;
 import com.georgemcarlson.sianameservice.util.reader.user.ThickClientUser;
 import com.georgemcarlson.sianameservice.util.reader.user.User;
-import com.sawwit.integration.util.Encoder;
-import com.sawwit.integration.util.Fingerprint;
 import javax.servlet.http.HttpServletRequest;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -45,21 +43,29 @@ public class RegisterApi extends SiaNameServiceApi {
             return getHelp().toString(2);
         } else if(request.getParameter(HELP_PARAMETER)!=null){
             return getHelp().toString(2);
-        } else{
-            String host = request.getParameter(HOST_PARAMETER);
-            String skylink = request.getParameter(SKYLINK_PARAMETER);
-            String registrant = request.getParameter(REGISTRANT_PARAMETER);
-            int fee = Integer.parseInt(request.getParameter(FEE_PARAMETER));
-            User user = ThickClientUser.getInstance();
-            SiaHostNameCreator.getInstance(user, host, skylink, registrant, fee).create();
-
-            JSONObject hostFile = new JSONObject();
-            hostFile.put("host", host);
-            hostFile.put("skylink", skylink);
-            hostFile.put("registrant", registrant);
-            hostFile.put("fee", fee);
-            return hostFile.toString(2);
         }
+        String host = request.getParameter(HOST_PARAMETER);
+        if (host == null) {
+            JSONObject respose = new JSONObject();
+            respose.put("message", "no host supplied");
+            return respose.toString(2);
+        } else if (!host.endsWith(".sns")) {
+            JSONObject respose = new JSONObject();
+            respose.put("message", "host does not end in .sns");
+            return respose.toString(2);
+        }
+        String skylink = request.getParameter(SKYLINK_PARAMETER);
+        String registrant = request.getParameter(REGISTRANT_PARAMETER);
+        int fee = Integer.parseInt(request.getParameter(FEE_PARAMETER));
+        User user = ThickClientUser.getInstance();
+        SiaHostNameCreator.getInstance(user, host, skylink, registrant, fee).create();
+
+        JSONObject hostFile = new JSONObject();
+        hostFile.put("host", host);
+        hostFile.put("skylink", skylink);
+        hostFile.put("registrant", registrant);
+        hostFile.put("fee", fee);
+        return hostFile.toString(2);
     }
 
 }
