@@ -61,22 +61,23 @@ public class AddressCache {
     public static List<String> getRandomAddresses(int amount, List<String> pool, Collection<String> excludingAddresses) {
         List<String> randomAddresses = new ArrayList<>();
         int i = 0;
+
+        while (i < 15 && i < amount) {
+            int j = (int)(Math.random() * DEV_FUND_ADDRESSES.length);
+            if(!excludingAddresses.contains(DEV_FUND_ADDRESSES[j])
+                && !randomAddresses.contains(DEV_FUND_ADDRESSES[j])
+            ){
+                randomAddresses.add(DEV_FUND_ADDRESSES[j]);
+                i++;
+            }
+        }
+
         while (i < pool.size() - excludingAddresses.size() && i < amount) {
             int j = (int)(Math.random() * pool.size());
             if(!excludingAddresses.contains(pool.get(j))
                 && !randomAddresses.contains(pool.get(j))
             ){
                 randomAddresses.add(pool.get(j));
-                i++;
-            }
-        }
-
-        while (i < amount) {
-            int j = (int)(Math.random() * DEV_FUND_ADDRESSES.length);
-            if(!excludingAddresses.contains(DEV_FUND_ADDRESSES[j])
-                && !randomAddresses.contains(DEV_FUND_ADDRESSES[j])
-            ){
-                randomAddresses.add(DEV_FUND_ADDRESSES[j]);
                 i++;
             }
         }
