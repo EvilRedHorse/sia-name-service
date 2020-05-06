@@ -1,6 +1,6 @@
 # Sia Name Service
 
-A service that registers `[name].sia` hosts to a skylink on the sia blockchain.
+A way to register, update, and lookup `[name].sia` hosts on the Sia blockchain.
 
 ## Register a host
 

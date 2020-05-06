@@ -86,6 +86,7 @@ public class SiaHostScanner extends SiaHostScannerCache implements Runnable {
         if (arbitraryData == null || arbitraryData.length < (skylinkLength + ".sia ".length())) {
             return false;
         }
+        System.out.println("writing skylink: " + new String(arbitraryData));
         return Arrays.equals(
             ".sia".getBytes(),
             Arrays.copyOfRange(
