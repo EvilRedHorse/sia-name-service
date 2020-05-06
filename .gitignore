@@ -1,0 +1,11 @@
+/.nb-gradle/
+/.gradle/
+/build/
+/cache/
+/hosts/
+.DS_Store
+/.idea/
+/out/
+/gradle/
+/gradlew
+/gradlew.bat

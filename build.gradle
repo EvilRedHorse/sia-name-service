@@ -1,0 +1,90 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+mainClassName = 'com.georgemcarlson.sianameservice.Main'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    jcenter()
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    //web server
+    compile group: 'org.eclipse.jetty', name: 'jetty-server', version: '9.4.12.v20180830'
+    compile group: 'org.eclipse.jetty', name: 'jetty-servlet', version: '9.4.12.v20180830'
+
+    implementation 'org.json:json:20160212'
+    implementation 'com.google.guava:guava:19.0'
+
+    //jitpack dependencies
+    compile 'com.github.geo-gs:JBaseN:0.0.1'
+    compile 'com.github.geo-gs:sawwit-integration:5f436891f76b3931ae46beeb1002895c8dd78c31'
+    
+    //test dependencies
+    testCompile 'junit:junit:4.12'
+}
+
+jar {
+    baseName = rootProject.name
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+
+    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.MF'
+    manifest {
+        attributes 'Main-Class': mainClassName,
+                   'Class-Path': configurations.compile.join(' ')
+    }
+}
+
+def getGitSha() {
+    return ''
+}
+
+def getReleaseTag() {
+    def gitTagStdOut = new ByteArrayOutputStream()
+    try{
+        exec {
+            commandLine "git", "describe", "--abbrev=0", "--tags"
+            standardOutput = gitTagStdOut
+        }
+        return gitTagStdOut.toString().trim()
+    } catch(all){
+        return '0.0.0'
+    }
+}
+
+version = getReleaseTag()
+
+processResources {
+  def replacer = { replaceMap ->
+    return { line ->
+      def newLine = line
+      replaceMap.each { regex, replaceStr ->
+        if (line =~ regex) {
+          println "Replacing $line with $replaceStr"
+          newLine = replaceStr
+        }
+      }
+      return newLine
+    }
+  }
+
+  def fileName = rootProject.name+"-"+version+".jar"
+  def gitSha = getGitSha()
+  def releaseDate = new Date()
+
+  filesMatching('*.properties', { file ->
+    switch(file.name) {
+      case 'application.properties':
+        //Modify app.version and revision
+          file.filter(replacer([
+            /file\.name=.*/ : "file.name=$fileName",
+            /git\.sha=.*/ : "git.sha=$gitSha",
+            /release\.date=.*/ : "release.date=$releaseDate"
+          ]))
+        break
+    }
+  })
+}
