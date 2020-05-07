@@ -3,6 +3,8 @@ package com.georgemcarlson.sianameservice.servlet.api;
 import com.georgemcarlson.sianameservice.util.creator.SiaHostNameCreator;
 import com.georgemcarlson.sianameservice.util.reader.user.ThickClientUser;
 import com.georgemcarlson.sianameservice.util.reader.user.User;
+import java.net.URI;
+import java.net.URISyntaxException;
 import javax.servlet.http.HttpServletRequest;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -46,13 +48,17 @@ public class RegisterApi extends SiaNameServiceApi {
         }
         String host = request.getParameter(HOST_PARAMETER);
         if (host == null) {
-            JSONObject respose = new JSONObject();
-            respose.put("message", "no host supplied");
-            return respose.toString(2);
+            JSONObject response = new JSONObject();
+            response.put("message", "no host supplied");
+            return response.toString(2);
         } else if (!host.endsWith(".sns")) {
-            JSONObject respose = new JSONObject();
-            respose.put("message", "host does not end in .sns");
-            return respose.toString(2);
+            JSONObject response = new JSONObject();
+            response.put("message", "host does not end in .sns");
+            return response.toString(2);
+        } else if (!isHostValid(host)) {
+            JSONObject response = new JSONObject();
+            response.put("message", "invalid host");
+            return response.toString(2);
         }
         String skylink = request.getParameter(SKYLINK_PARAMETER);
         String registrant = request.getParameter(REGISTRANT_PARAMETER);
@@ -66,6 +72,17 @@ public class RegisterApi extends SiaNameServiceApi {
         hostFile.put("registrant", registrant);
         hostFile.put("fee", fee);
         return hostFile.toString(2);
+    }
+
+    public static boolean isHostValid(String host) {
+        if (host == null) {
+            return false;
+        }
+        try {
+            return host.equals(new URI("http://"+host).getHost());
+        } catch (URISyntaxException e) {
+            return false;
+        }
     }
 
 }
