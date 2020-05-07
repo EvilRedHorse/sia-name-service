@@ -58,7 +58,7 @@ public class RedirectApi extends SiaNameServiceApi {
     private void doIt(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
         String host = request.getParameter(HOST_PARAMETER);
         String portal = request.getParameter(PORTAL_PARAMETER);
-        String url = "http://" + portal + "/" + getSkyLink(host);
+        String url = "https://" + portal + "/" + getSkyLink(host);
         response.sendRedirect(url);
     }
 

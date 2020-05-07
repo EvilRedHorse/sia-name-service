@@ -90,3 +90,8 @@ Example Request:
 ```
 http://localhost:8080/redirect?host=test.sns&portal=siasky.net
 ```
+
+Example Response:
+```
+302 Found; Location https://[portal]/[skylink]
+```
