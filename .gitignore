@@ -2,7 +2,7 @@
 /.gradle/
 /build/
 /cache/
-/hosts/
+/whois/
 .DS_Store
 /.idea/
 /out/

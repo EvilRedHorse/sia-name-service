@@ -3,7 +3,7 @@ package com.georgemcarlson.sianameservice.servlet;
 import com.georgemcarlson.sianameservice.servlet.api.ListApi;
 import com.georgemcarlson.sianameservice.servlet.api.RedirectApi;
 import com.sawwit.integration.util.Logger;
-import com.georgemcarlson.sianameservice.servlet.api.HostsApi;
+import com.georgemcarlson.sianameservice.servlet.api.WhoIsApi;
 import com.georgemcarlson.sianameservice.servlet.api.HelpApi;
 import com.georgemcarlson.sianameservice.servlet.api.RegisterApi;
 import com.georgemcarlson.sianameservice.servlet.api.SiaNameServiceApi;
@@ -58,7 +58,7 @@ public class SiaNameServiceServer {
         server.setHandler(servletHandler);
 
         addServletWithMapping(HelpApi.getInstance());
-        addServletWithMapping(HostsApi.getInstance());
+        addServletWithMapping(WhoIsApi.getInstance());
         addServletWithMapping(ListApi.getInstance());
         addServletWithMapping(RedirectApi.getInstance());
         addServletWithMapping(RegisterApi.getInstance());

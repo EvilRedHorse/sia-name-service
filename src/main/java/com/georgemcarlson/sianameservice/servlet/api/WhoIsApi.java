@@ -8,14 +8,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class HostsApi extends SiaNameServiceApi {
+public class WhoIsApi extends SiaNameServiceApi {
     private static final Logger LOGGER = Logger.getInstance();
-    public static final String PATH = "/" + SiaHostScannerCache.TOP_FOLDER;
+    public static final String PATH = "/" + SiaHostScannerCache.TOP_FOLDER + "/*";
     public static final String HELP_PARAMETER = "help";
     public static final String HOST_PARAMETER = "host";
 
-    public static HostsApi getInstance(){
-        return new HostsApi();
+    public static WhoIsApi getInstance(){
+        return new WhoIsApi();
     }
     
     @Override
@@ -26,7 +26,7 @@ public class HostsApi extends SiaNameServiceApi {
     @Override
     public JSONObject getHelp() {
         JSONObject api = new JSONObject();
-        api.put("path", PATH);
+        api.put("path", "/whois/[name].sns");
         JSONArray parameters = new JSONArray();
         parameters.put("(String) " + HOST_PARAMETER);
         api.put("parameters", parameters);
@@ -38,8 +38,7 @@ public class HostsApi extends SiaNameServiceApi {
         if(request.getParameter(HELP_PARAMETER)!=null){
             return getHelp().toString(2);
         } else{
-            String host = request.getParameter(HOST_PARAMETER);
-            File file = new File(SiaHostScannerCache.TOP_FOLDER + "/" + host);
+            File file = new File(SiaHostScannerCache.TOP_FOLDER + "/" + request.getPathInfo());
             if (file.exists()) {
                 try {
                     return new String(Files.readAllBytes(file.toPath()));
@@ -47,7 +46,7 @@ public class HostsApi extends SiaNameServiceApi {
                     LOGGER.error(e.getLocalizedMessage(), e);
                 }
             }
-            return new JSONArray().toString(2);
+            return getHelp().toString(2);
         }
     }
 

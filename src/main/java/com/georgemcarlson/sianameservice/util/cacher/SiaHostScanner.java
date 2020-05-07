@@ -53,7 +53,12 @@ public class SiaHostScanner extends SiaHostScannerCache implements Runnable {
     public void run() {
         LOGGER.info("Sia host scanner is starting.");
         while(running){
-            run(Long.parseLong(Wallet.getInstance().get(Wallet.BLOCKCHAIN_HEIGHT)));
+            Wallet wallet = Wallet.getInstance();
+            if (Boolean.parseBoolean(wallet.get(Wallet.ONLINE))) {
+                run(Long.parseLong(wallet.get(Wallet.BLOCKCHAIN_HEIGHT)));
+            } else {
+                Sleep.block(1, TimeUnit.MINUTES);
+            }
         }
         LOGGER.info("Sia host scanner has been shut down.");
     }

@@ -65,11 +65,11 @@ Example Response:
 
 ## Look up a host
 
-You look up a host by posting the `[name].sns` host that you wish to look up to the hosts endpoint.
+You look up the meta-data registered to a `[name].sns` host with the whois endpoint.
 
 Example Request:
 ```
-http://localhost:8080/hosts?host=test.sns
+http://localhost:8080/whois/test.sns
 ```
 
 Example Response:

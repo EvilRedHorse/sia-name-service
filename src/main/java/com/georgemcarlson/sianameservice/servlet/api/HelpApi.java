@@ -16,7 +16,7 @@ public class HelpApi extends SiaNameServiceApi {
     @Override
     public JSONObject getHelp() {
         JSONObject api = new JSONObject();
-        api.put(HostsApi.getInstance().getPath(), HostsApi.getInstance().getHelp());
+        api.put(WhoIsApi.getInstance().getPath(), WhoIsApi.getInstance().getHelp());
         api.put(ListApi.getInstance().getPath(), ListApi.getInstance().getHelp());
         api.put(RedirectApi.getInstance().getPath(), RedirectApi.getInstance().getHelp());
         api.put(RegisterApi.getInstance().getPath(), RegisterApi.getInstance().getHelp());

@@ -10,7 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 public abstract class SiaHostScannerCache {
-    public static final String TOP_FOLDER = "hosts";
+    public static final String TOP_FOLDER = "whois";
 
     protected String readFile(String filePath, String fileName){
         if(!filePath.endsWith("/")){
