@@ -4,7 +4,7 @@ import com.georgemcarlson.sianameservice.servlet.api.ListApi;
 import com.georgemcarlson.sianameservice.servlet.api.RedirectApi;
 import com.sawwit.integration.util.Logger;
 import com.georgemcarlson.sianameservice.servlet.api.WhoIsApi;
-import com.georgemcarlson.sianameservice.servlet.api.HelpApi;
+import com.georgemcarlson.sianameservice.servlet.api.IndexApi;
 import com.georgemcarlson.sianameservice.servlet.api.RegisterApi;
 import com.georgemcarlson.sianameservice.servlet.api.SiaNameServiceApi;
 import org.eclipse.jetty.server.Connector;
@@ -57,11 +57,11 @@ public class SiaNameServiceServer {
         ServletHandler servletHandler = new ServletHandler();
         server.setHandler(servletHandler);
 
-        addServletWithMapping(HelpApi.getInstance());
-        addServletWithMapping(WhoIsApi.getInstance());
+        addServletWithMapping(IndexApi.getInstance());
         addServletWithMapping(ListApi.getInstance());
         addServletWithMapping(RedirectApi.getInstance());
         addServletWithMapping(RegisterApi.getInstance());
+        addServletWithMapping(WhoIsApi.getInstance());
 
         try {
             server.start();
