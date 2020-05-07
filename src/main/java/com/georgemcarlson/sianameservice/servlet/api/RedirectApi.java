@@ -4,17 +4,9 @@ import com.georgemcarlson.sianameservice.util.cacher.SiaHostScannerCache;
 import com.sawwit.integration.util.Logger;
 import java.io.File;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.nio.file.Files;
-import javax.servlet.AsyncContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.WriteListener;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -50,22 +42,6 @@ public class RedirectApi extends SiaNameServiceApi {
         return null;
     }
 
-    protected byte[] getRaw(HttpServletRequest request) throws IOException{
-        String host = request.getParameter(HOST_PARAMETER);
-        String portal = request.getParameter(PORTAL_PARAMETER);
-
-        OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
-
-        Request.Builder requestBuilder = new Request.Builder();
-        String url = "http://" + portal + "/" + getSkyLink(host);
-        System.out.println(url);
-        requestBuilder.url(url);
-        requestBuilder.get();
-
-        Response response = clientBuilder.build().newCall(requestBuilder.build()).execute();
-        return response.body().bytes();
-    }
-
     private String getSkyLink(String host) {
         File file = new File(SiaHostScannerCache.TOP_FOLDER + "/" + host);
         if (file.exists()) {
@@ -79,58 +55,21 @@ public class RedirectApi extends SiaNameServiceApi {
         return null;
     }
 
-    @Override
-    protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-        final ByteBuffer bytes = ByteBuffer.wrap(getRaw(request));
-        final AsyncContext async = request.startAsync();
-        final ServletOutputStream out = response.getOutputStream();
-        out.setWriteListener(new WriteListener() {
-            @Override
-            public void onWritePossible() throws IOException {
-                while (out.isReady()) {
-                    if (!bytes.hasRemaining()) {
-                        response.setContentType("application/json");
-                        response.setStatus(200);
-                        async.complete();
-                        return;
-                    }
-                    out.write(bytes.get());
-                }
-            }
-
-            @Override
-            public void onError(Throwable t) {
-                getServletContext().log("Async Error", t);
-                async.complete();
-            }
-        });
+    private void doIt(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+        String host = request.getParameter(HOST_PARAMETER);
+        String portal = request.getParameter(PORTAL_PARAMETER);
+        String url = "http://" + portal + "/" + getSkyLink(host);
+        response.sendRedirect(url);
     }
 
     @Override
-    protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-        final ByteBuffer bytes = ByteBuffer.wrap(getRaw(request));
-        final AsyncContext async = request.startAsync();
-        final ServletOutputStream out = response.getOutputStream();
-        out.setWriteListener(new WriteListener() {
-            @Override
-            public void onWritePossible() throws IOException {
-                while (out.isReady()) {
-                    if (!bytes.hasRemaining()) {
-                        response.setContentType("application/json");
-                        response.setStatus(200);
-                        async.complete();
-                        return;
-                    }
-                    out.write(bytes.get());
-                }
-            }
+    protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+        doIt(request, response);
+    }
 
-            @Override
-            public void onError(Throwable t) {
-                getServletContext().log("Async Error", t);
-                async.complete();
-            }
-        });
+    @Override
+    protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+        doIt(request, response);
     }
 
 }

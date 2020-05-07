@@ -81,3 +81,12 @@ Example Response:
   "registrant": "8d2e801ffcec48cd7276652c5871332592975942af1c7e4964c77be8b01f80a4dcae15d1a308"
 }
 ```
+
+## Redirect to skylink
+
+You can automatically redirect to the skylink registered to a `[name].sns` host with the redirect endpoint.
+
+Example Request:
+```
+http://localhost:8080/redirect?host=test.sns&portal=siasky.net
+```
