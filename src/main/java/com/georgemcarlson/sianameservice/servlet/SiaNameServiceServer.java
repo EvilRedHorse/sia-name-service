@@ -1,5 +1,6 @@
 package com.georgemcarlson.sianameservice.servlet;
 
+import com.georgemcarlson.sianameservice.servlet.api.RedirectApi;
 import com.sawwit.integration.util.Logger;
 import com.georgemcarlson.sianameservice.servlet.api.HostsApi;
 import com.georgemcarlson.sianameservice.servlet.api.HelpApi;
@@ -55,8 +56,9 @@ public class SiaNameServiceServer {
         ServletHandler servletHandler = new ServletHandler();
         server.setHandler(servletHandler);
 
-        addServletWithMapping(HostsApi.getInstance());
         addServletWithMapping(HelpApi.getInstance());
+        addServletWithMapping(HostsApi.getInstance());
+        addServletWithMapping(RedirectApi.getInstance());
         addServletWithMapping(RegisterApi.getInstance());
 
         try {

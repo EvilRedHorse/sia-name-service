@@ -11,7 +11,6 @@ import java.nio.file.Files;
 
 public abstract class SiaHostScannerCache {
     public static final String TOP_FOLDER = "hosts";
-    public static final String FILE_NAME_EXTENSION = ".json";
 
     protected String readFile(String filePath, String fileName){
         if(!filePath.endsWith("/")){

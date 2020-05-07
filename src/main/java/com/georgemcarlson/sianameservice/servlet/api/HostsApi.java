@@ -1,8 +1,6 @@
 package com.georgemcarlson.sianameservice.servlet.api;
 
 import com.georgemcarlson.sianameservice.util.cacher.SiaHostScannerCache;
-import com.sawwit.integration.util.Encoder;
-import com.sawwit.integration.util.Fingerprint;
 import com.sawwit.integration.util.Logger;
 import java.io.File;
 import java.nio.file.Files;
@@ -41,7 +39,7 @@ public class HostsApi extends SiaNameServiceApi {
             return getHelp().toString(2);
         } else{
             String host = request.getParameter(HOST_PARAMETER);
-            File file = new File(SiaHostScannerCache.TOP_FOLDER + "/" + getFileName(host));
+            File file = new File(SiaHostScannerCache.TOP_FOLDER + "/" + host);
             if (file.exists()) {
                 try {
                     return new String(Files.readAllBytes(file.toPath()));
@@ -51,11 +49,6 @@ public class HostsApi extends SiaNameServiceApi {
             }
             return new JSONArray().toString(2);
         }
-    }
-
-    private String getFileName(String host) {
-        return Encoder.BASE_56.encodeToStr(Fingerprint.SHA256.getFingerprint(host.getBytes()))
-            + SiaHostScannerCache.FILE_NAME_EXTENSION;
     }
 
 }

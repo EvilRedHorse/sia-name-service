@@ -1,7 +1,5 @@
 package com.georgemcarlson.sianameservice.util.cacher;
 
-import com.sawwit.integration.util.Encoder;
-import com.sawwit.integration.util.Fingerprint;
 import com.sawwit.integration.util.Logger;
 import com.sawwit.integration.util.Sleep;
 import com.georgemcarlson.sianameservice.util.reader.Block;
@@ -14,6 +12,7 @@ import org.json.JSONObject;
 
 public class SiaHostScanner extends SiaHostScannerCache implements Runnable {
     private static final Logger LOGGER = Logger.getInstance();
+    private static final String FILE_NAME_EXTENSION = ".json";
     private static final String FILE_NAME = "scanner";
     private static final long GENESIS_BLOCK = 258549L;
     private boolean running = true;
@@ -144,10 +143,7 @@ public class SiaHostScanner extends SiaHostScannerCache implements Runnable {
         if (host == null || skylink == null || registrant == null) {
             return;
         }
-        String fileName
-            = Encoder.BASE_56.encodeToStr(Fingerprint.SHA256.getFingerprint(host.getBytes()))
-            + FILE_NAME_EXTENSION;
-        String data = super.readFile(TOP_FOLDER, fileName);
+        String data = super.readFile(TOP_FOLDER, host);
         int fee = registrant.getAmount().toString().length() - 24;
         if (data == null) {
             JSONObject hostFile = new JSONObject();
@@ -155,7 +151,7 @@ public class SiaHostScanner extends SiaHostScannerCache implements Runnable {
             hostFile.put("skylink", skylink);
             hostFile.put("registrant", registrant.getAddress());
             hostFile.put("fee", fee);
-            super.writeFile(TOP_FOLDER, fileName, hostFile.toString(2));
+            super.writeFile(TOP_FOLDER, host, hostFile.toString(2));
             return;
         }
         JSONObject hostFile = new JSONObject(data);
@@ -167,7 +163,7 @@ public class SiaHostScanner extends SiaHostScannerCache implements Runnable {
         }
         hostFile.put("skylink", skylink);
         hostFile.put("fee", fee);
-        super.writeFile(TOP_FOLDER, fileName, hostFile.toString(2));
+        super.writeFile(TOP_FOLDER, host, hostFile.toString(2));
     }
 
 }
