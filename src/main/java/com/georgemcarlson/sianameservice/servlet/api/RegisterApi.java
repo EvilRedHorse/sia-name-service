@@ -61,7 +61,25 @@ public class RegisterApi extends SiaNameServiceApi {
             return response.toString(2);
         }
         String skylink = request.getParameter(SKYLINK_PARAMETER);
+        if (skylink == null) {
+            JSONObject response = new JSONObject();
+            response.put("message", "no skylink hash supplied");
+            return response.toString(2);
+        } else if (skylink.length() != 46) {
+            JSONObject response = new JSONObject();
+            response.put("message", "invalid skylink hash. must be exactly 46 characters.");
+            return response.toString(2);
+        }
         String registrant = request.getParameter(REGISTRANT_PARAMETER);
+        if (registrant == null) {
+            JSONObject response = new JSONObject();
+            response.put("message", "no registrant sia address supplied");
+            return response.toString(2);
+        } else if (registrant.length() != 76) {
+            JSONObject response = new JSONObject();
+            response.put("message", "invalid registraint sia address. must be exactly 76 characters.");
+            return response.toString(2);
+        }
         int fee = Integer.parseInt(request.getParameter(FEE_PARAMETER));
         User user = ThickClientUser.getInstance();
         SiaHostNameCreator.getInstance(user, host, skylink, registrant, fee).create();
