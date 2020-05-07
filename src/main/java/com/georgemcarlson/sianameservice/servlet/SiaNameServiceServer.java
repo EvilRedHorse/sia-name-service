@@ -1,5 +1,6 @@
 package com.georgemcarlson.sianameservice.servlet;
 
+import com.georgemcarlson.sianameservice.servlet.api.ListApi;
 import com.georgemcarlson.sianameservice.servlet.api.RedirectApi;
 import com.sawwit.integration.util.Logger;
 import com.georgemcarlson.sianameservice.servlet.api.HostsApi;
@@ -58,6 +59,7 @@ public class SiaNameServiceServer {
 
         addServletWithMapping(HelpApi.getInstance());
         addServletWithMapping(HostsApi.getInstance());
+        addServletWithMapping(ListApi.getInstance());
         addServletWithMapping(RedirectApi.getInstance());
         addServletWithMapping(RegisterApi.getInstance());
 

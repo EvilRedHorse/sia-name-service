@@ -13,7 +13,6 @@ import org.json.JSONObject;
 public class RedirectApi extends SiaNameServiceApi {
     private static final Logger LOGGER = Logger.getInstance();
     public static final String PATH = "/redirect";
-    public static final String HELP_PARAMETER = "help";
     public static final String HOST_PARAMETER = "host";
     public static final String PORTAL_PARAMETER = "portal";
 

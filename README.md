@@ -95,3 +95,17 @@ Example Response:
 ```
 302 Found; Location https://[portal]/[skylink]
 ```
+
+## List registered hosts
+
+You can list all known registered hosts using the list endpoint
+
+Example Request:
+```
+http://localhost:8080/list
+```
+
+Example Response:
+```
+["test.sns"]
+```
