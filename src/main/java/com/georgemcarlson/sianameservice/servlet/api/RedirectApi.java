@@ -54,21 +54,12 @@ public class RedirectApi extends SiaNameServiceApi {
         return null;
     }
 
-    private void doIt(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+    @Override
+    protected void doIt(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
         String host = request.getParameter(HOST_PARAMETER);
         String portal = request.getParameter(PORTAL_PARAMETER);
         String url = "https://" + portal + "/" + getSkyLink(host);
         response.sendRedirect(url);
-    }
-
-    @Override
-    protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-        doIt(request, response);
-    }
-
-    @Override
-    protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-        doIt(request, response);
     }
 
 }
