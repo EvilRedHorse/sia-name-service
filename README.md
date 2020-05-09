@@ -95,7 +95,7 @@ http://localhost:8080/test.sns
 ### Using the redirect endpoint:
 Example Request:
 ```
-http://localhost:8080/redirect?host=test.sns&portal=siasky.net
+http://localhost:8080/redirect?host=test.sns
 ```
 
 ### Configuring your DNS resolver to map `*.sns` TLDs to a Sia-Name_Service server IP:
