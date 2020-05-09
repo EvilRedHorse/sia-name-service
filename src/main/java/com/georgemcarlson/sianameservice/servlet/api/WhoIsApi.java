@@ -10,20 +10,18 @@ import org.json.JSONObject;
 
 public class WhoIsApi extends SiaNameServiceApi {
     private static final Logger LOGGER = Logger.getInstance();
-    public static final String PATH = "/" + SiaHostScannerCache.TOP_FOLDER + "/*";
     public static final String HELP_PARAMETER = "help";
     public static final String HOST_PARAMETER = "host";
+    private String host;
 
-    public static WhoIsApi getInstance(){
-        return new WhoIsApi();
+    private WhoIsApi(String host) {
+        this.host = host;
+    }
+
+    public static WhoIsApi getInstance(String host){
+        return new WhoIsApi(host);
     }
     
-    @Override
-    public String getPath() {
-        return PATH;
-    }
-
-    @Override
     public JSONObject getHelp() {
         JSONObject api = new JSONObject();
         api.put("path", "/whois/[name].sns");
@@ -33,12 +31,11 @@ public class WhoIsApi extends SiaNameServiceApi {
         return api;
     }
     
-    @Override
     protected String getContent(HttpServletRequest request) {
         if(request.getParameter(HELP_PARAMETER)!=null){
             return getHelp().toString(2);
         } else{
-            File file = new File(SiaHostScannerCache.TOP_FOLDER + "/" + request.getPathInfo());
+            File file = new File(SiaHostScannerCache.TOP_FOLDER + "/" + host);
             if (file.exists()) {
                 try {
                     return new String(Files.readAllBytes(file.toPath()));

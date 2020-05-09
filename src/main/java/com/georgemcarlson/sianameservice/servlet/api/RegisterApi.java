@@ -21,12 +21,6 @@ public class RegisterApi extends SiaNameServiceApi {
         return new RegisterApi();
     }
 
-    @Override
-    public String getPath() {
-        return PATH;
-    }
-
-    @Override
     public JSONObject getHelp() {
         JSONObject api = new JSONObject();
         api.put("path", PATH);

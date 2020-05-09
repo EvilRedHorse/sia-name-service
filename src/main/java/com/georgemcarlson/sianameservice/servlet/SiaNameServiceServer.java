@@ -1,12 +1,7 @@
 package com.georgemcarlson.sianameservice.servlet;
 
-import com.georgemcarlson.sianameservice.servlet.api.ListApi;
-import com.georgemcarlson.sianameservice.servlet.api.RedirectApi;
 import com.sawwit.integration.util.Logger;
-import com.georgemcarlson.sianameservice.servlet.api.WhoIsApi;
-import com.georgemcarlson.sianameservice.servlet.api.IndexApi;
-import com.georgemcarlson.sianameservice.servlet.api.RegisterApi;
-import com.georgemcarlson.sianameservice.servlet.api.SiaNameServiceApi;
+import com.georgemcarlson.sianameservice.servlet.api.SnsProxy;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
@@ -57,27 +52,13 @@ public class SiaNameServiceServer {
         ServletHandler servletHandler = new ServletHandler();
         server.setHandler(servletHandler);
 
-        addServletWithMapping(IndexApi.getInstance());
-        addServletWithMapping(ListApi.getInstance());
-        addServletWithMapping(RedirectApi.getInstance());
-        addServletWithMapping(RegisterApi.getInstance());
-        addServletWithMapping(WhoIsApi.getInstance());
+        servletHandler.addServletWithMapping(SnsProxy.class, "/*");
 
         try {
             server.start();
         } catch (Exception e) {
             LOGGER.error(e.getLocalizedMessage(), e);
         }
-    }
-    
-    private void addServletWithMapping(SiaNameServiceApi sawwitApi){
-        ServletHandler servletHandler = ((ServletHandler)server.getHandler());
-        servletHandler.addServletWithMapping(sawwitApi.getClass(), constructPath(sawwitApi));
-    }
-    
-    private String constructPath(SiaNameServiceApi sawwitApi){
-        String path = sawwitApi.getPath();
-        return path.startsWith("/") ? path : "/" + path;
     }
 
     public int getPort() {

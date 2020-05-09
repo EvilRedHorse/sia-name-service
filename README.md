@@ -84,11 +84,24 @@ Example Response:
 
 ## Redirect to skylink
 
-You can automatically redirect to the skylink registered to a `[name].sns` host with the redirect endpoint.
+You can automatically redirect to the skylink registered to a `[name].sns` host by:
 
+### Supplying the `[name].sns` host as the context:
+Example Request:
+```
+http://localhost:8080/test.sns
+```
+
+### Using the redirect endpoint:
 Example Request:
 ```
 http://localhost:8080/redirect?host=test.sns&portal=siasky.net
+```
+
+### Configuring your DNS resolver to map `*.sns` TLDs to a Sia-Name_Service server IP:
+Example Request:
+```
+http://test.sns
 ```
 
 Example Response:

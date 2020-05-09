@@ -1,47 +1,70 @@
 package com.georgemcarlson.sianameservice.servlet.api;
 
+import com.georgemcarlson.sianameservice.util.cacher.PortalCache;
 import com.georgemcarlson.sianameservice.util.cacher.SiaHostScannerCache;
 import com.sawwit.integration.util.Logger;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class RedirectApi extends SiaNameServiceApi {
     private static final Logger LOGGER = Logger.getInstance();
-    public static final String PATH = "/redirect";
     public static final String HOST_PARAMETER = "host";
     public static final String PORTAL_PARAMETER = "portal";
+    private String host;
+
+    private RedirectApi(String host) {
+        this.host = host;
+    }
 
     public static RedirectApi getInstance(){
-        return new RedirectApi();
+        return new RedirectApi(null);
     }
-    
-    @Override
-    public String getPath() {
-        return PATH;
+
+    public static RedirectApi getInstance(String host){
+        return new RedirectApi(host);
     }
 
     @Override
-    public JSONObject getHelp() {
-        JSONObject api = new JSONObject();
-        api.put("path", PATH);
-        JSONArray parameters = new JSONArray();
-        parameters.put("(String) " + HOST_PARAMETER);
-        parameters.put("(String) " + PORTAL_PARAMETER);
-        api.put("parameters", parameters);
-        return api;
+    protected String getContentType() {
+        return "text/html";
     }
 
     @Override
     protected String getContent(HttpServletRequest request) {
-        return null;
+        StringBuilder portalChooser = new StringBuilder();
+        portalChooser.append("<h1>Choose The Portal To Use</h1>");
+        portalChooser
+            .append("<div><i>")
+            .append("Note that you can automate this page by supplying a `portal=` parameter to ")
+            .append("the URL query")
+            .append("</i></div>");
+        for (String portal : PortalCache.PORTALS) {
+            portalChooser.append("<div><a href='https://").append(portal).append("/")
+                .append(getSkyLink(request)).append(getSnsPath(request))
+                .append(getSnsQuery(request)).append("'>").append(portal).append("</a>");
+        }
+        return portalChooser.toString();
     }
 
-    private String getSkyLink(String host) {
+    @Override
+    protected void doIt(final HttpServletRequest request, final HttpServletResponse response)
+        throws IOException, ServletException {
+        String portal = request.getParameter(PORTAL_PARAMETER);
+        if (portal == null) {
+            super.doIt(request, response);
+        } else {
+            String url = "https://" + portal + "/" + getSkyLink(request) + getSnsPath(request) + getSnsQuery(request);
+            response.sendRedirect(url);
+        }
+    }
+
+    private String getSkyLink(final HttpServletRequest request) {
+        String host = getHost() != null ? getHost() : request.getParameter(HOST_PARAMETER);
         File file = new File(SiaHostScannerCache.TOP_FOLDER + "/" + host);
         if (file.exists()) {
             try {
@@ -54,12 +77,27 @@ public class RedirectApi extends SiaNameServiceApi {
         return null;
     }
 
-    @Override
-    protected void doIt(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-        String host = request.getParameter(HOST_PARAMETER);
-        String portal = request.getParameter(PORTAL_PARAMETER);
-        String url = "https://" + portal + "/" + getSkyLink(host);
-        response.sendRedirect(url);
+    private static String getSnsPath(final HttpServletRequest request) {
+        String path = request.getPathInfo();
+        if (path == null) {
+            return "";
+        }
+        if (path.contains(".sns")) {
+            return path.substring(path.lastIndexOf(".sns") + 4);
+        }
+        return path;
+    }
+
+    private static String getSnsQuery(final HttpServletRequest request) {
+        String query = request.getQueryString();
+        if (query == null || query.trim().isEmpty()) {
+            return "";
+        }
+        return "?" + query;
+    }
+
+    private String getHost() {
+        return host;
     }
 
 }

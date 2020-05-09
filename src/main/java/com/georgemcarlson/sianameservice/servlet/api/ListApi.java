@@ -4,25 +4,11 @@ import com.georgemcarlson.sianameservice.util.cacher.SiaHostScannerCache;
 import java.io.File;
 import javax.servlet.http.HttpServletRequest;
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 public class ListApi extends SiaNameServiceApi {
-    public static final String PATH = "/list";
 
     public static ListApi getInstance(){
         return new ListApi();
-    }
-    
-    @Override
-    public String getPath() {
-        return PATH;
-    }
-
-    @Override
-    public JSONObject getHelp() {
-        JSONObject api = new JSONObject();
-        api.put("path", PATH);
-        return api;
     }
     
     @Override

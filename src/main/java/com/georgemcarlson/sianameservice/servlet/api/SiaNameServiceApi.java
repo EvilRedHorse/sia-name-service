@@ -10,11 +10,9 @@ import javax.servlet.WriteListener;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.json.JSONObject;
 
 public abstract class SiaNameServiceApi extends HttpServlet {
-    public abstract String getPath();
-    public abstract JSONObject getHelp();
+
     protected abstract String getContent(HttpServletRequest request)
         throws ServletException, IOException;
 
