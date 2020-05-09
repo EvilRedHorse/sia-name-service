@@ -79,7 +79,7 @@ public class RedirectApi extends SiaNameServiceApi {
 
     private static String getSnsPath(final HttpServletRequest request) {
         String path = request.getPathInfo();
-        if (path == null) {
+        if (path == null || path.equals("/redirect")) {
             return "";
         }
         if (path.contains(".sns")) {
