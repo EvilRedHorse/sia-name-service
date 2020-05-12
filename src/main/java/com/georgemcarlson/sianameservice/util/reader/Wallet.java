@@ -47,7 +47,7 @@ public class Wallet extends SiaApi {
         String currentWalletAddress = "";
         try{
             Request.Builder requestBuilder = new Request.Builder();
-            requestBuilder.url("http://localhost:" + Settings.WALLET_PORT + "/consensus");
+            requestBuilder.url("http://localhost:" + Settings.WALLET_API_PORT + "/consensus");
             requestBuilder.header("User-Agent", Settings.WALLET_API_USER_AGENT);
 
             OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
@@ -66,7 +66,7 @@ public class Wallet extends SiaApi {
         }
         try{
             Request.Builder requestBuilder = new Request.Builder();
-            requestBuilder.url("http://localhost:" + Settings.WALLET_PORT + "/wallet");
+            requestBuilder.url("http://localhost:" + Settings.WALLET_API_PORT + "/wallet");
             requestBuilder.header("User-Agent", Settings.WALLET_API_USER_AGENT);
 
             OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
@@ -93,7 +93,7 @@ public class Wallet extends SiaApi {
         if(unlocked){
             try{
                 Request.Builder requestBuilder = new Request.Builder();
-                requestBuilder.url("http://localhost:" + Settings.WALLET_PORT + "/wallet/addresses");
+                requestBuilder.url("http://localhost:" + Settings.WALLET_API_PORT + "/wallet/addresses");
                 requestBuilder.header("User-Agent", Settings.WALLET_API_USER_AGENT);
 
                 OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
