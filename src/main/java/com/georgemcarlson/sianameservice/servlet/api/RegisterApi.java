@@ -2,8 +2,7 @@ package com.georgemcarlson.sianameservice.servlet.api;
 
 import com.georgemcarlson.sianameservice.util.Settings;
 import com.georgemcarlson.sianameservice.util.creator.SiaHostNameCreator;
-import com.georgemcarlson.sianameservice.util.reader.user.ThickClientUser;
-import com.georgemcarlson.sianameservice.util.reader.user.User;
+import com.georgemcarlson.sianameservice.util.reader.User;
 import java.net.URI;
 import java.net.URISyntaxException;
 import javax.servlet.http.HttpServletRequest;
@@ -78,8 +77,13 @@ public class RegisterApi extends SiaNameServiceApi {
             response.put("message", "invalid registraint sia address. must be exactly 76 characters.");
             return response.toString(2);
         }
-        User user = ThickClientUser.getInstance();
-        SiaHostNameCreator.getInstance(user, host, skylink, registrant, Settings.FEE).create();
+        SiaHostNameCreator.getInstance(
+            User.getSingletonInstance(),
+            host,
+            skylink,
+            registrant,
+            Settings.FEE
+        ).create();
 
         JSONObject hostFile = new JSONObject();
         hostFile.put("host", host);

@@ -1,10 +1,7 @@
-package com.georgemcarlson.sianameservice.util.reader.user;
+package com.georgemcarlson.sianameservice.util.reader;
 
 import com.georgemcarlson.sianameservice.util.Settings;
-import com.georgemcarlson.sianameservice.util.cacher.AddressCache;
-import com.georgemcarlson.sianameservice.util.reader.Transaction;
-import com.georgemcarlson.sianameservice.util.reader.TxOutput;
-import com.georgemcarlson.sianameservice.util.reader.Wallet;
+import com.georgemcarlson.sianameservice.util.TxOutputEncoder;
 import com.sawwit.integration.util.Logger;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,18 +14,45 @@ import okhttp3.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class ThickClientUser extends User {
+public class User {
     private static final Logger LOGGER = Logger.getInstance();
+    private static final User SINGLETON = new User();
 
-    protected ThickClientUser(){
-        super();
+    private User(){
+
     }
 
-    public static ThickClientUser getInstance(){
-        return new ThickClientUser();
+    public static User getSingletonInstance(){
+        return SINGLETON;
     }
 
-    @Override
+    public List<String> getAddresses() {
+        List<String> addresses = new ArrayList<>();
+        try {
+            OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
+
+            Request.Builder requestBuilder = new Request.Builder();
+            requestBuilder.url("http://localhost:" + Settings.WALLET_API_PORT + "/wallet/seedaddrs");
+            requestBuilder.header("User-Agent", Settings.WALLET_API_USER_AGENT);
+            requestBuilder.get();
+
+            Response response = clientBuilder.build().newCall(requestBuilder.build()).execute();
+            JSONArray addressArray
+                = new JSONObject(response.body().string()).getJSONArray("addresses");
+            for (int i = 0; i < addressArray.length(); i++) {
+                addresses.add(addressArray.getString(i));
+            }
+        } catch (Exception e) {
+            //swallow
+        }
+        return addresses;
+    }
+    
+    /**
+     * Post transaction, return transactionId
+     * @param txOutputs
+     * @return 
+     */
     public Transaction postTransaction(List<TxOutput> txOutputs){
         Collections.shuffle(txOutputs);
         long blockHeight = Long.parseLong(Wallet.getInstance().get(Wallet.BLOCKCHAIN_HEIGHT));
@@ -71,48 +95,19 @@ public class ThickClientUser extends User {
         return transaction;
     }
 
-    @Override
-    public String getCurrentAddress() {
-        if(currentAddress==null) {
-            return getNewAddress();
-        } else {
-            return currentAddress;
+    public Transaction postArbitraryData(byte[] data, String registrant, int fee){
+        try{
+            List<TxOutput> txOutputs = TxOutputEncoder.encodeArbitraryData(
+                this.getAddresses(),
+                data,
+                registrant,
+                fee
+            );
+            return postTransaction(txOutputs);
+        } catch(Exception e){
+            LOGGER.error(e.getLocalizedMessage(), e);
+            return null;
         }
-    }
-
-    @Override
-    public List<String> getAddresses() {
-        List<String> addresses = new ArrayList<>();
-        try {
-            OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
-
-            Request.Builder requestBuilder = new Request.Builder();
-            requestBuilder.url("http://localhost:" + Settings.WALLET_API_PORT + "/wallet/seedaddrs");
-            requestBuilder.header("User-Agent", Settings.WALLET_API_USER_AGENT);
-            requestBuilder.get();
-
-            Response response = clientBuilder.build().newCall(requestBuilder.build()).execute();
-            JSONArray addressArray
-                = new JSONObject(response.body().string()).getJSONArray("addresses");
-            for (int i = 0; i < addressArray.length(); i++) {
-                addresses.add(addressArray.getString(i));
-            }
-        } catch (Exception e) {
-            //swallow
-        }
-        return addresses;
-    }
-
-    @Override
-    public String getNewAddress() {
-        List<String> addresses = getAddresses();
-        if (!addresses.isEmpty()) {
-            currentAddress = addresses.get((int)(Math.random() * addresses.size()));
-            return currentAddress;
-        }
-        int randomAddressIndex = (int)(Math.random() * AddressCache.getDevFundAddresses().length);
-        currentAddress = AddressCache.getDevFundAddresses()[randomAddressIndex];
-        return currentAddress;
     }
 
 }

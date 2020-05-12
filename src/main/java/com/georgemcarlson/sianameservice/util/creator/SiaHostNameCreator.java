@@ -1,6 +1,6 @@
 package com.georgemcarlson.sianameservice.util.creator;
 
-import com.georgemcarlson.sianameservice.util.reader.user.User;
+import com.georgemcarlson.sianameservice.util.reader.User;
 
 public class SiaHostNameCreator {
     private final User user;
