@@ -1,8 +1,9 @@
 {
   "port": 8080,
   "fee": 1,
-  "wallet_api_password":"",
   "wallet_port": 9980,
+  "wallet_api_password":"",
+  "wallet_api_user_agent": "Sia-Agent",
   "tlds": [
     "sns"
   ],

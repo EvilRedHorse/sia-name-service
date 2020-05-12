@@ -65,7 +65,7 @@ public class Block extends SiaApi{
         try {
             Request.Builder requestBuilder = new Request.Builder();
             requestBuilder.url("http://localhost:" + Settings.WALLET_PORT + "/consensus/blocks?height="+blockHeight);
-            requestBuilder.header("User-Agent", "Sia-Agent");
+            requestBuilder.header("User-Agent", Settings.WALLET_API_USER_AGENT);
             OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
             Response response = clientBuilder.build().newCall(requestBuilder.build()).execute();
             if (response.body() == null) {

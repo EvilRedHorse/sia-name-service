@@ -42,6 +42,7 @@ public class Settings {
     private static final String SETTINGS_FILE_PATH = "settings.json";
     public static final int PORT;
     public static final int FEE;
+    public static final String WALLET_API_USER_AGENT;
     public static final String WALLET_API_PASSWORD;
     public static final int WALLET_PORT;
     public static final List<String> TLDS;
@@ -58,8 +59,9 @@ public class Settings {
             LOGGER.error(unableToLoadSettings.getLocalizedMessage(), unableToLoadSettings);
         }
         PORT = settings.optInt("port", 8080);
-        WALLET_API_PASSWORD = settings.optString("wallet_api_password");
         WALLET_PORT = settings.optInt("wallet_port", 9980);
+        WALLET_API_PASSWORD = settings.optString("wallet_api_password");
+        WALLET_API_USER_AGENT = settings.optString("wallet_api_user_agent", "Sia-Agent");
         FEE = settings.optInt("fee", 0);
         TLDS = optStrings(settings, "tlds");
         PORTALS = optStrings(settings, "portals");

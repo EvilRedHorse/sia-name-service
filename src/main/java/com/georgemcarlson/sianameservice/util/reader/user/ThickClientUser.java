@@ -56,7 +56,7 @@ public class ThickClientUser extends User {
 
             Request.Builder requestBuilder = new Request.Builder();
             requestBuilder.url("http://localhost:" + Settings.WALLET_PORT + "/wallet/siacoins");
-            requestBuilder.header("User-Agent", "Sia-Agent");
+            requestBuilder.header("User-Agent", Settings.WALLET_API_USER_AGENT);
             requestBuilder.post(formBuilder.build());
 
 
@@ -88,7 +88,7 @@ public class ThickClientUser extends User {
 
             Request.Builder requestBuilder = new Request.Builder();
             requestBuilder.url("http://localhost:" + Settings.WALLET_PORT + "/wallet/seedaddrs");
-            requestBuilder.header("User-Agent", "Sia-Agent");
+            requestBuilder.header("User-Agent", Settings.WALLET_API_USER_AGENT);
             requestBuilder.get();
 
             Response response = clientBuilder.build().newCall(requestBuilder.build()).execute();

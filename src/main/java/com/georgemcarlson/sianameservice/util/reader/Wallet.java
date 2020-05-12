@@ -48,7 +48,7 @@ public class Wallet extends SiaApi {
         try{
             Request.Builder requestBuilder = new Request.Builder();
             requestBuilder.url("http://localhost:" + Settings.WALLET_PORT + "/consensus");
-            requestBuilder.header("User-Agent", "Sia-Agent");
+            requestBuilder.header("User-Agent", Settings.WALLET_API_USER_AGENT);
 
             OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
             Response response = clientBuilder.build().newCall(requestBuilder.build()).execute();
@@ -67,7 +67,7 @@ public class Wallet extends SiaApi {
         try{
             Request.Builder requestBuilder = new Request.Builder();
             requestBuilder.url("http://localhost:" + Settings.WALLET_PORT + "/wallet");
-            requestBuilder.header("User-Agent", "Sia-Agent");
+            requestBuilder.header("User-Agent", Settings.WALLET_API_USER_AGENT);
 
             OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
             Response response = clientBuilder.build().newCall(requestBuilder.build()).execute();
@@ -94,7 +94,7 @@ public class Wallet extends SiaApi {
             try{
                 Request.Builder requestBuilder = new Request.Builder();
                 requestBuilder.url("http://localhost:" + Settings.WALLET_PORT + "/wallet/addresses");
-                requestBuilder.header("User-Agent", "Sia-Agent");
+                requestBuilder.header("User-Agent", Settings.WALLET_API_USER_AGENT);
 
                 OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
                 Response response = clientBuilder.build().newCall(requestBuilder.build()).execute();
