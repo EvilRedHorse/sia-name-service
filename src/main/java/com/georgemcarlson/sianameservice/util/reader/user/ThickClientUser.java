@@ -6,11 +6,6 @@ import com.georgemcarlson.sianameservice.util.reader.Transaction;
 import com.georgemcarlson.sianameservice.util.reader.TxOutput;
 import com.georgemcarlson.sianameservice.util.reader.Wallet;
 import com.sawwit.integration.util.Logger;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,40 +14,11 @@ import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.apache.commons.lang3.SystemUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class ThickClientUser extends User {
     private static final Logger LOGGER = Logger.getInstance();
-    public static final String SIA_AUTHENTICATION;
-
-    static {
-        String filePath = null;
-        File apiPasswordFile = new File("apipassword");
-        if (apiPasswordFile.exists() && apiPasswordFile.isFile()) {
-            filePath = apiPasswordFile.getPath();
-        } else if (SystemUtils.IS_OS_MAC) {
-            filePath = System.getProperty("user.home") + "/Library/Application Support/Sia/apipassword";
-        } else if (SystemUtils.IS_OS_LINUX) {
-            filePath = System.getProperty("user.home") + "/.sia/apipassword";
-        }
-        ByteArrayOutputStream apiPassword = new ByteArrayOutputStream();
-        if (filePath != null) {
-            try (InputStream is = new FileInputStream(filePath)) {
-                int i;
-                while ((i = is.read()) != -1) {
-                    if (i == '\n') {
-                        break;
-                    }
-                    apiPassword.write(i);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        SIA_AUTHENTICATION = new String(apiPassword.toByteArray());
-    }
 
     protected ThickClientUser(){
         super();
@@ -81,7 +47,7 @@ public class ThickClientUser extends User {
             OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
 
             clientBuilder.authenticator((route, response) -> {
-                String credential = Credentials.basic("", SIA_AUTHENTICATION);
+                String credential = Credentials.basic("", Settings.WALLET_API_PASSWORD);
                 return response.request().newBuilder().header("Authorization", credential).build();
             });
 

@@ -1,6 +1,7 @@
 {
   "port": 8080,
   "fee": 1,
+  "wallet_api_password":"",
   "wallet_port": 9980,
   "tlds": [
     "sns"
