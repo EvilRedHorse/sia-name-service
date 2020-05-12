@@ -1,7 +1,6 @@
 package com.georgemcarlson.sianameservice.servlet.api;
 
 import com.georgemcarlson.sianameservice.util.Settings;
-import com.georgemcarlson.sianameservice.util.cacher.PortalCache;
 import com.georgemcarlson.sianameservice.util.cacher.SiaHostScannerCache;
 import com.sawwit.integration.util.Logger;
 import java.io.File;
@@ -44,7 +43,7 @@ public class RedirectApi extends SiaNameServiceApi {
             .append("Note that you can automate this page by supplying a `portal=` parameter to ")
             .append("the URL query")
             .append("</i></div>");
-        for (String portal : PortalCache.PORTALS) {
+        for (String portal : Settings.PORTALS) {
             portalChooser.append("<div><a href='https://").append(portal).append("/")
                 .append(getSkyLink(request)).append(getSnsPath(request))
                 .append(getSnsQuery(request)).append("'>").append(portal).append("</a>");

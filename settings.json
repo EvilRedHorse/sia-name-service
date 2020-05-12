@@ -3,5 +3,17 @@
   "fee": 1,
   "tlds": [
     "sns"
+  ],
+  "portals": [
+    "siasky.net",
+    "siacdn.com",
+    "skynet.tutemwesi.com",
+    "skydrain.net",
+    "sialoop.net",
+    "skyportal.xyz",
+    "skynet.luxor.tech",
+    "skynethub.io",
+    "skynet.utxo.no",
+    "vault.lightspeedhosting.com"
   ]
 }

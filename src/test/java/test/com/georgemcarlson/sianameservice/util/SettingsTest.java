@@ -1,11 +1,6 @@
 package test.com.georgemcarlson.sianameservice.util;
 
 import com.georgemcarlson.sianameservice.util.Settings;
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Assert;
@@ -15,30 +10,33 @@ public class SettingsTest {
 
     @Test
     public void getTldsTest() {
-        Assert.assertEquals(0, Settings.getTlds(null).size());
+        String key = "tlds";
 
-        Assert.assertEquals(0, Settings.getTlds(new JSONObject()).size());
+        Assert.assertEquals(0, Settings.optStrings(null, key).size());
+
+        Assert.assertEquals(0, Settings.optStrings(new JSONObject(), key).size());
 
         JSONObject settings = new JSONObject();
-        settings.put("tlds", "");
-        Assert.assertEquals(0, Settings.getTlds(settings).size());
+        settings.put(key, "");
+        Assert.assertEquals(0, Settings.optStrings(settings, key).size());
 
-        settings.put("tlds", "1");
-        Assert.assertEquals(0, Settings.getTlds(settings).size());
+        settings.put(key, "1");
+        Assert.assertEquals(0, Settings.optStrings(settings, key).size());
 
         JSONArray tlds = new JSONArray();
-        settings.put("tlds", tlds);
-        Assert.assertEquals(0, Settings.getTlds(settings).size());
+        settings.put(key, tlds);
+        Assert.assertEquals(0, Settings.optStrings(settings, key).size());
 
         tlds = new JSONArray();
         tlds.put("sns");
-        settings.put("tlds", tlds);
-        Assert.assertEquals(1, Settings.getTlds(settings).size());
+        settings.put(key, tlds);
+        Assert.assertEquals(1, Settings.optStrings(settings, key).size());
 
         tlds = new JSONArray();
         tlds.put("sns");
         tlds.put("pin");
-        settings.put("tlds", tlds);
-        Assert.assertEquals(2, Settings.getTlds(settings).size());
+        settings.put(key, tlds);
+        Assert.assertEquals(2, Settings.optStrings(settings, key).size());
     }
+
 }

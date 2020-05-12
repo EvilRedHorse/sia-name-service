@@ -43,6 +43,7 @@ public class Settings {
     public static final int PORT;
     public static final int FEE;
     public static final List<String> TLDS;
+    public static final List<String> PORTALS;
 
     static {
         JSONObject settings = new JSONObject();
@@ -56,19 +57,19 @@ public class Settings {
         }
         PORT = settings.optInt("port", 8080);
         FEE = settings.optInt("fee", 0);
-        TLDS = getTlds(settings);
+        TLDS = optStrings(settings, "tlds");
+        PORTALS = optStrings(settings, "portals");
     }
 
-    public static List<String> getTlds(JSONObject settings) {
-        List<String> tlds = new ArrayList<>();
-        if (settings != null && settings.optJSONArray("tlds") != null) {
-            for(int i = 0; i < settings.getJSONArray("tlds").length(); i++) {
-                String tld = settings.getJSONArray("tlds").get(i).toString();
-                System.out.println("tld: " + tld);
-                tlds.add(tld);
+    public static List<String> optStrings(JSONObject jsonObject, String key) {
+        List<String> values = new ArrayList<>();
+        if (jsonObject != null && jsonObject.optJSONArray(key) != null) {
+            for(int i = 0; i < jsonObject.getJSONArray(key).length(); i++) {
+                String tld = jsonObject.getJSONArray(key).get(i).toString();
+                values.add(tld);
             }
         }
-        return Collections.unmodifiableList(tlds);
+        return Collections.unmodifiableList(values);
     }
 
 }
