@@ -59,7 +59,7 @@ public class Settings {
             LOGGER.error(unableToLoadSettings.getLocalizedMessage(), unableToLoadSettings);
         }
         PORT = settings.optInt("port", 8080);
-        WALLET_API_PORT = settings.optInt("wallet_port", 9980);
+        WALLET_API_PORT = settings.optInt("wallet_api_port", 9980);
         WALLET_API_PASSWORD = settings.optString("wallet_api_password");
         WALLET_API_USER_AGENT = settings.optString("wallet_api_user_agent", "Sia-Agent");
         FEE = settings.optInt("fee", 0);
