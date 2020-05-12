@@ -42,6 +42,7 @@ public class Settings {
     private static final String SETTINGS_FILE_PATH = "settings.json";
     public static final int PORT;
     public static final int FEE;
+    public static final int WALLET_PORT;
     public static final List<String> TLDS;
     public static final List<String> PORTALS;
 
@@ -56,6 +57,7 @@ public class Settings {
             LOGGER.error(unableToLoadSettings.getLocalizedMessage(), unableToLoadSettings);
         }
         PORT = settings.optInt("port", 8080);
+        WALLET_PORT = settings.optInt("wallet_port", 9980);
         FEE = settings.optInt("fee", 0);
         TLDS = optStrings(settings, "tlds");
         PORTALS = optStrings(settings, "portals");

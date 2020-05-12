@@ -1,5 +1,6 @@
 package com.georgemcarlson.sianameservice.util.reader;
 
+import com.georgemcarlson.sianameservice.util.Settings;
 import com.sawwit.integration.util.Logger;
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -46,7 +47,7 @@ public class Wallet extends SiaApi {
         String currentWalletAddress = "";
         try{
             Request.Builder requestBuilder = new Request.Builder();
-            requestBuilder.url("http://localhost:9980/consensus");
+            requestBuilder.url("http://localhost:" + Settings.WALLET_PORT + "/consensus");
             requestBuilder.header("User-Agent", "Sia-Agent");
 
             OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
@@ -65,7 +66,7 @@ public class Wallet extends SiaApi {
         }
         try{
             Request.Builder requestBuilder = new Request.Builder();
-            requestBuilder.url("http://localhost:9980/wallet");
+            requestBuilder.url("http://localhost:" + Settings.WALLET_PORT + "/wallet");
             requestBuilder.header("User-Agent", "Sia-Agent");
 
             OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
@@ -92,7 +93,7 @@ public class Wallet extends SiaApi {
         if(unlocked){
             try{
                 Request.Builder requestBuilder = new Request.Builder();
-                requestBuilder.url("http://localhost:9980/wallet/addresses");
+                requestBuilder.url("http://localhost:" + Settings.WALLET_PORT + "/wallet/addresses");
                 requestBuilder.header("User-Agent", "Sia-Agent");
 
                 OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();

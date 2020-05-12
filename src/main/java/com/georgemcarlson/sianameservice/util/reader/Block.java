@@ -1,5 +1,6 @@
 package com.georgemcarlson.sianameservice.util.reader;
 
+import com.georgemcarlson.sianameservice.util.Settings;
 import com.sawwit.integration.util.Logger;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -63,7 +64,7 @@ public class Block extends SiaApi{
         JSONObject block;
         try {
             Request.Builder requestBuilder = new Request.Builder();
-            requestBuilder.url("http://localhost:9980/consensus/blocks?height="+blockHeight);
+            requestBuilder.url("http://localhost:" + Settings.WALLET_PORT + "/consensus/blocks?height="+blockHeight);
             requestBuilder.header("User-Agent", "Sia-Agent");
             OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
             Response response = clientBuilder.build().newCall(requestBuilder.build()).execute();
