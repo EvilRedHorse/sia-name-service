@@ -12,13 +12,13 @@ public class Main {
             port = Integer.parseInt(args[0]);
         } catch(Exception e){
             //defaulting to "8080"
-            port = 8080;
+            port = 80;
         }
         run(port);
     }
 
     public static void run() throws Exception {
-        run(8080);
+        run(80);
     }
 
     public static void run(int port) throws Exception {

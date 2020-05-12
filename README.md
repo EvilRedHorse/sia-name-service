@@ -16,7 +16,7 @@ Have gradle installed on your computer. Then, in your terminal, navigate to the 
 
 ## Register a host
 
-Register a host by posting the `[name].sns` host that you wish to register with the skylink that it should point at and a registrant address and a fee to the register endpoint. The fee is how many siacoins to the power of ten that will be needed to register or update the linked skylink. The registrant address should be an address that you control.
+Register a host by posting the `[name].sns` host that you wish to register with the skylink that it should point at and a registrant address and a fee to the register endpoint and is configured in the `settings.json` file. The fee is how many siacoins to the power of ten that will be needed to register or update the linked skylink. Registration is turned off if the fee is set to less than one. The registrant address should be an address that you control.
 
 Example Request:
 ```
@@ -24,7 +24,6 @@ http://localhost:8080/register
 ?host=test.sns
 &skylink=_ArnmJ2mQAvFofAiW3qEA2V1t3PuPJhYvYQdp8I0_nQMXQ
 &registrant=8d2e801ffcec48cd7276652c5871332592975942af1c7e4964c77be8b01f80a4dcae15d1a308
-&fee=5
 ```
 
 Example Response:
@@ -50,7 +49,6 @@ http://localhost:8080/register
 ?host=test.sns
 &skylink=CAA2XstfpNmrh5WrI3ThcBQKtsTFTEtmrGq--7eeKAlO9Q
 &registrant=8d2e801ffcec48cd7276652c5871332592975942af1c7e4964c77be8b01f80a4dcae15d1a308
-&fee=6
 ```
 
 Example Response:

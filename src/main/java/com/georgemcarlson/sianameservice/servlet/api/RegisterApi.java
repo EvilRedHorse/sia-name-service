@@ -1,5 +1,6 @@
 package com.georgemcarlson.sianameservice.servlet.api;
 
+import com.georgemcarlson.sianameservice.util.Settings;
 import com.georgemcarlson.sianameservice.util.creator.SiaHostNameCreator;
 import com.georgemcarlson.sianameservice.util.reader.user.ThickClientUser;
 import com.georgemcarlson.sianameservice.util.reader.user.User;
@@ -15,7 +16,6 @@ public class RegisterApi extends SiaNameServiceApi {
     public static final String HOST_PARAMETER = "host";
     public static final String SKYLINK_PARAMETER = "skylink";
     public static final String REGISTRANT_PARAMETER = "registrant";
-    public static final String FEE_PARAMETER = "fee";
 
     public static RegisterApi getInstance(){
         return new RegisterApi();
@@ -28,7 +28,6 @@ public class RegisterApi extends SiaNameServiceApi {
         parameters.put("(String) " + HOST_PARAMETER);
         parameters.put("(String) " + SKYLINK_PARAMETER);
         parameters.put("(String) " + REGISTRANT_PARAMETER);
-        parameters.put("(String) " + FEE_PARAMETER);
         api.put("parameters", parameters);
         return api;
     }
@@ -74,15 +73,14 @@ public class RegisterApi extends SiaNameServiceApi {
             response.put("message", "invalid registraint sia address. must be exactly 76 characters.");
             return response.toString(2);
         }
-        int fee = Integer.parseInt(request.getParameter(FEE_PARAMETER));
         User user = ThickClientUser.getInstance();
-        SiaHostNameCreator.getInstance(user, host, skylink, registrant, fee).create();
+        SiaHostNameCreator.getInstance(user, host, skylink, registrant, Settings.FEE).create();
 
         JSONObject hostFile = new JSONObject();
         hostFile.put("host", host);
         hostFile.put("skylink", skylink);
         hostFile.put("registrant", registrant);
-        hostFile.put("fee", fee);
+        hostFile.put("fee", Settings.FEE);
         return hostFile.toString(2);
     }
 

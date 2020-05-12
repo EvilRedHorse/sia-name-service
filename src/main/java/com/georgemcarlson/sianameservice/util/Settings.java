@@ -1,9 +1,12 @@
 package com.georgemcarlson.sianameservice.util;
 
 import com.sawwit.integration.util.Logger;
+import java.io.File;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
+import org.json.JSONObject;
 
 public class Settings {
     private static final Logger LOGGER = Logger.getInstance();
@@ -31,6 +34,22 @@ public class Settings {
             potentialRelease = null;
         }
         RELEASE = potentialRelease;
+    }
+
+    private static final String SETTINGS_FILE_PATH = "/settings.json";
+    public static final int FEE;
+
+    static {
+        JSONObject settings = new JSONObject();
+        try {
+            byte[] payload = Files.readAllBytes(new File(SETTINGS_FILE_PATH).toPath());
+            settings = new JSONObject(new String(payload));
+        } catch (Exception e) {
+            Exception unableToLoadSettings
+                = new Exception("Unable to load settings: " + e.getLocalizedMessage());
+            LOGGER.error(unableToLoadSettings.getLocalizedMessage(), unableToLoadSettings);
+        }
+        FEE = settings.optInt("fee", 0);
     }
 
 }
