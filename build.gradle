@@ -20,8 +20,7 @@ dependencies {
     implementation 'com.google.guava:guava:19.0'
 
     //jitpack dependencies
-    compile 'com.github.geo-gs:JBaseN:0.0.1'
-    compile 'com.github.geo-gs:sawwit-integration:5f436891f76b3931ae46beeb1002895c8dd78c31'
+    compile 'com.github.geo-gs:sawwit-integration:bcc7238a00e624e79a2fc40d0c51c31a70841802'
     
     //test dependencies
     testCompile 'junit:junit:4.12'
