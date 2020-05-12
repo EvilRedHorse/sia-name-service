@@ -15,7 +15,6 @@ public class SiaHostScanner extends SiaHostScannerCache implements Runnable {
     private static final Logger LOGGER = Logger.getInstance();
     private static final String FILE_NAME_EXTENSION = ".json";
     private static final String FILE_NAME = "scanner";
-    private static final long GENESIS_BLOCK = 258549L;
     private boolean running = true;
 
     private SiaHostScanner(){
@@ -37,7 +36,7 @@ public class SiaHostScanner extends SiaHostScannerCache implements Runnable {
         JSONObject scanner;
         if (rawScanner == null) {
             scanner = new JSONObject();
-            scanner.put("block", GENESIS_BLOCK);
+            scanner.put("block", Settings.GELESIS_BLOCK);
             super.writeFile(TOP_FOLDER, FILE_NAME + FILE_NAME_EXTENSION, scanner.toString(2));
         } else {
             scanner = new JSONObject(rawScanner);
