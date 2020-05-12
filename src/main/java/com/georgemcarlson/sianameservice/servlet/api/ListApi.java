@@ -1,5 +1,6 @@
 package com.georgemcarlson.sianameservice.servlet.api;
 
+import com.georgemcarlson.sianameservice.util.Settings;
 import com.georgemcarlson.sianameservice.util.cacher.SiaHostScannerCache;
 import java.io.File;
 import javax.servlet.http.HttpServletRequest;
@@ -15,8 +16,10 @@ public class ListApi extends SiaNameServiceApi {
     protected String getContent(HttpServletRequest request) {
         JSONArray files = new JSONArray();
         for (File file : new File(SiaHostScannerCache.TOP_FOLDER).listFiles()) {
-            if (file.getName().endsWith(".sns")) {
-                files.put(file.getName());
+            for (String tld : Settings.TLDS) {
+                if (file.getName().endsWith("." + tld)) {
+                    files.put(file.getName());
+                }
             }
         }
         return files.toString(2);

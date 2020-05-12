@@ -1,5 +1,6 @@
 package com.georgemcarlson.sianameservice.servlet.api;
 
+import com.georgemcarlson.sianameservice.util.Settings;
 import com.georgemcarlson.sianameservice.util.cacher.PortalCache;
 import com.georgemcarlson.sianameservice.util.cacher.SiaHostScannerCache;
 import com.sawwit.integration.util.Logger;
@@ -82,8 +83,13 @@ public class RedirectApi extends SiaNameServiceApi {
         if (path == null || path.equals("/redirect")) {
             return "";
         }
-        if (path.contains(".sns")) {
-            return path.substring(path.lastIndexOf(".sns") + 4);
+        for (String tld : Settings.TLDS) {
+            if (path.endsWith("." + tld)) {
+                return "";
+            }
+            if (path.contains("." + tld + "/")) {
+                return path.substring(path.lastIndexOf("." + tld + "/") + tld.length() + 1);
+            }
         }
         return path;
     }

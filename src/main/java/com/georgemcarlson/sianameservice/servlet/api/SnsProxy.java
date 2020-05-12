@@ -1,5 +1,6 @@
 package com.georgemcarlson.sianameservice.servlet.api;
 
+import com.georgemcarlson.sianameservice.util.Settings;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -23,12 +24,19 @@ public class SnsProxy extends HttpServlet {
     protected void doIt(final HttpServletRequest request, final HttpServletResponse response)
         throws ServletException, IOException {
 
-        if (request.getServerName().endsWith(".sns")) {
-            RedirectApi.getInstance(request.getServerName()).doIt(request, response);
-        } else if (request.getPathInfo().startsWith("/whois/") && request.getPathInfo().contains(".sns")) {
-            WhoIsApi.getInstance(getServerNameFromPath(request)).doIt(request, response);
-        } else if (request.getPathInfo().contains(".sns")) {
-            RedirectApi.getInstance(getServerNameFromPath(request)).doIt(request, response);
+        for (String tld : Settings.TLDS) {
+            if (request.getServerName().endsWith("." + tld)) {
+                RedirectApi.getInstance(request.getServerName()).doIt(request, response);
+                return;
+            }
+        }
+        String serverNameFromPath = getServerNameFromPath(request.getPathInfo());
+        if (serverNameFromPath != null) {
+            if (request.getPathInfo().startsWith("/whois/")) {
+                WhoIsApi.getInstance(serverNameFromPath).doIt(request, response);
+            } else {
+                RedirectApi.getInstance(serverNameFromPath).doIt(request, response);
+            }
         } else if (request.getPathInfo().equals("/redirect")) {
             RedirectApi.getInstance().doIt(request, response);
         } else if (request.getPathInfo().equals("/register")) {
@@ -40,13 +48,22 @@ public class SnsProxy extends HttpServlet {
         }
     }
 
-    private static String getServerNameFromPath(final HttpServletRequest request) {
-        String serverName
-            = request.getPathInfo().substring(0, request.getPathInfo().lastIndexOf(".sns") + 4);
-        if (serverName.contains("/")) {
-            serverName = serverName.substring(serverName.lastIndexOf("/") + 1);
+    public static String getServerNameFromPath(String path) {
+        if (path == null || path.trim().isEmpty()) {
+            return null;
         }
-        return serverName;
+        for (String tld : Settings.TLDS) {
+            if (path.endsWith("." + tld) || path.contains("." + tld + "/")
+            ) {
+                String serverName
+                    = path.substring(0, path.lastIndexOf("." + tld) + tld.length() + 1);
+                if (serverName.contains("/")) {
+                    serverName = serverName.substring(serverName.lastIndexOf("/") + 1);
+                }
+                return serverName;
+            }
+        }
+        return null;
     }
 
 }

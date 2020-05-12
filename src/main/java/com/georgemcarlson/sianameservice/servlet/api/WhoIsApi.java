@@ -24,7 +24,7 @@ public class WhoIsApi extends SiaNameServiceApi {
     
     public JSONObject getHelp() {
         JSONObject api = new JSONObject();
-        api.put("path", "/whois/[name].sns");
+        api.put("path", "/whois/[name].[tld]");
         JSONArray parameters = new JSONArray();
         parameters.put("(String) " + HOST_PARAMETER);
         api.put("parameters", parameters);

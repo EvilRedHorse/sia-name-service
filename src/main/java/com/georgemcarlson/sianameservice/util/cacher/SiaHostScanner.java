@@ -1,5 +1,6 @@
 package com.georgemcarlson.sianameservice.util.cacher;
 
+import com.georgemcarlson.sianameservice.util.Settings;
 import com.sawwit.integration.util.Logger;
 import com.sawwit.integration.util.Sleep;
 import com.georgemcarlson.sianameservice.util.reader.Block;
@@ -86,17 +87,23 @@ public class SiaHostScanner extends SiaHostScannerCache implements Runnable {
 
     public static boolean isArbitraryDataSiaTld(byte[] arbitraryData) {
         int skylinkLength = 46;
-        if (arbitraryData == null || arbitraryData.length < (skylinkLength + ".sns ".length())) {
+        if (arbitraryData == null || arbitraryData.length < skylinkLength) {
             return false;
         }
-        return Arrays.equals(
-            ".sns".getBytes(),
-            Arrays.copyOfRange(
-                arbitraryData,
-                arbitraryData.length - skylinkLength - ".sns ".length(),
-                arbitraryData.length - skylinkLength - " ".length()
-            )
-        );
+        for (String tld : Settings.TLDS) {
+            if (Arrays.equals(
+                    ("." + tld).getBytes(),
+                    Arrays.copyOfRange(
+                        arbitraryData,
+                        arbitraryData.length - skylinkLength - ("." + tld + " ").length(),
+                        arbitraryData.length - skylinkLength - " ".length()
+                    )
+                )
+            ) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static String parseSkyLink(byte[] arbitraryData) {

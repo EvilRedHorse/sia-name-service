@@ -44,9 +44,9 @@ public class RegisterApi extends SiaNameServiceApi {
             JSONObject response = new JSONObject();
             response.put("message", "no host supplied");
             return response.toString(2);
-        } else if (!host.endsWith(".sns")) {
+        } else if (!isTldValid(host)) {
             JSONObject response = new JSONObject();
-            response.put("message", "host does not end in .sns");
+            response.put("message", "host does not end in " + String.join(" or ", Settings.TLDS));
             return response.toString(2);
         } else if (!isHostValid(host)) {
             JSONObject response = new JSONObject();
@@ -82,6 +82,18 @@ public class RegisterApi extends SiaNameServiceApi {
         hostFile.put("registrant", registrant);
         hostFile.put("fee", Settings.FEE);
         return hostFile.toString(2);
+    }
+
+    public static boolean isTldValid(String host) {
+        if (host == null || host.trim().isEmpty()) {
+            return false;
+        }
+        for (String tld : Settings.TLDS) {
+            if (host.endsWith("." + tld)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static boolean isHostValid(String host) {

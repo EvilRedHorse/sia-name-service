@@ -7,11 +7,11 @@
 <body>
   <h1>Sia-Name-Service</h1>
   <p>
-    Sia Name Service is a Java Gradle project that provides a process to register, update, and lookup `[name].sns` hosts on the Sia blockchain.
+    Sia Name Service is a Java Gradle project that provides a process to register, update, and lookup `[name].[tld]` hosts on the Sia blockchain.
   </p>
   <h2>Go To</h2>
   <p>
-    Supply the skynet portal and `[name].sns` host that you wish to be redirected to.
+    Supply the skynet portal and `[name].[tld]` host that you wish to be redirected to.
   </p>
   <p>
     <form action="/redirect">
@@ -24,13 +24,13 @@
   </p>
   <h2>Register a Host</h2>
   <p>
-    Register a host by posting the `[name].sns` host that you wish to register with the skylink that it should point at and a registrant address and a fee to the register endpoint. The fee is how many siacoins to the power of ten that will be needed to register or update the linked skylink. This fee is limited to 1 on this server. To increase the fee in the future you will need to update use a different server. The registrant address should be an address that you control.
+    Register a host by posting the `[name].[tld]` host that you wish to register with the skylink that it should point at and a registrant address and a fee to the register endpoint. The fee is how many siacoins to the power of ten that will be needed to register or update the linked skylink. This fee is limited to 1 on this server. To increase the fee in the future you will need to update use a different server. The registrant address should be an address that you control.
   </p>
   <p>
     <form action="/register">
       <input type="hidden" id="fee" name="fee" value="1">
       <label for="host">Host:</label>
-      <input type="text" id="host" name="host" value="[name].sns"><br/>
+      <input type="text" id="host" name="host" value="[name].[tld]"><br/>
       <label for="skylink">Skylink:</label>
       <input type="text" id="skylink" name="skylink" value="[skylink hash]"><br/>
       <label for="registrant">Registrant:</label>

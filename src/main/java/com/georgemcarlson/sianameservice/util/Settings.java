@@ -4,7 +4,10 @@ import com.sawwit.integration.util.Logger;
 import java.io.File;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 import org.json.JSONObject;
 
@@ -36,8 +39,10 @@ public class Settings {
         RELEASE = potentialRelease;
     }
 
-    private static final String SETTINGS_FILE_PATH = "/settings.json";
+    private static final String SETTINGS_FILE_PATH = "settings.json";
+    public static final int PORT;
     public static final int FEE;
+    public static final List<String> TLDS;
 
     static {
         JSONObject settings = new JSONObject();
@@ -49,7 +54,21 @@ public class Settings {
                 = new Exception("Unable to load settings: " + e.getLocalizedMessage());
             LOGGER.error(unableToLoadSettings.getLocalizedMessage(), unableToLoadSettings);
         }
+        PORT = settings.optInt("port", 8080);
         FEE = settings.optInt("fee", 0);
+        TLDS = getTlds(settings);
+    }
+
+    public static List<String> getTlds(JSONObject settings) {
+        List<String> tlds = new ArrayList<>();
+        if (settings != null && settings.optJSONArray("tlds") != null) {
+            for(int i = 0; i < settings.getJSONArray("tlds").length(); i++) {
+                String tld = settings.getJSONArray("tlds").get(i).toString();
+                System.out.println("tld: " + tld);
+                tlds.add(tld);
+            }
+        }
+        return Collections.unmodifiableList(tlds);
     }
 
 }
