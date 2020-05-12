@@ -1,6 +1,7 @@
 {
   "port": 8080,
   "fee": 1,
+  "genesis_block": 258549,
   "wallet_api_port": 9980,
   "wallet_api_password":"",
   "wallet_api_user_agent": "Sia-Agent",
