@@ -1,7 +1,7 @@
 package com.georgemcarlson.sianameservice.servlet.api;
 
+import com.georgemcarlson.sianameservice.util.Logger;
 import com.georgemcarlson.sianameservice.util.cacher.SiaHostScannerCache;
-import com.sawwit.integration.util.Logger;
 import java.io.File;
 import java.nio.file.Files;
 import javax.servlet.http.HttpServletRequest;

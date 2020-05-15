@@ -1,7 +1,7 @@
 package com.georgemcarlson.sianameservice.util.reader;
 
+import com.georgemcarlson.sianameservice.util.Logger;
 import com.georgemcarlson.sianameservice.util.Settings;
-import com.sawwit.integration.util.Logger;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -16,7 +16,6 @@ public class Wallet extends SiaApi {
     public static final String ONLINE = "online";
     public static final String SYNCED = "synced";
     public static final String UNLOCKED = "unlocked";
-    public static final String SAWWIT_ORIGIN_HEIGHT = "sawwit_origin_height";
     public static final String WALLET_HEIGHT = "wallet_height";
     public static final String BLOCKCHAIN_HEIGHT = "blockchain_height";
     public static final String CONFIRMED_BALANCE = "confirmed_balance";
@@ -110,7 +109,6 @@ public class Wallet extends SiaApi {
         data.put(ONLINE, online);
         data.put(SYNCED, synced);
         data.put(UNLOCKED, unlocked);
-        data.put(SAWWIT_ORIGIN_HEIGHT, getSawwitOriginBlockHeight());
         data.put(WALLET_HEIGHT, walletHeight);
         data.put(BLOCKCHAIN_HEIGHT, blockchainHeight);
         data.put(CONFIRMED_BALANCE, confirmedBalance.toString());
@@ -124,14 +122,6 @@ public class Wallet extends SiaApi {
             hastings = "0" + hastings;
         }
         return hastings.substring(0,hastings.length()-HASTINGS_IN_A_SIACOIN)+"."+hastings.substring(hastings.length()-HASTINGS_IN_A_SIACOIN,hastings.length()-(HASTINGS_IN_A_SIACOIN-3));
-    }
-    
-    /**
-     * This is a block height that we know is before the initial release of sawwit.
-     * @return 
-     */
-    public static long getSawwitOriginBlockHeight(){
-        return 171856;
     }
     
     private static long getOriginBlockHeight(){

@@ -1,7 +1,7 @@
 package com.georgemcarlson.sianameservice.util.reader;
 
+import com.georgemcarlson.sianameservice.util.Logger;
 import com.georgemcarlson.sianameservice.util.Settings;
-import com.sawwit.integration.util.Logger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

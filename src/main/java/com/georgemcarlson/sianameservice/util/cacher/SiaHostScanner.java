@@ -1,8 +1,8 @@
 package com.georgemcarlson.sianameservice.util.cacher;
 
+import com.georgemcarlson.sianameservice.util.Logger;
 import com.georgemcarlson.sianameservice.util.Settings;
-import com.sawwit.integration.util.Logger;
-import com.sawwit.integration.util.Sleep;
+import com.georgemcarlson.sianameservice.util.Sleep;
 import com.georgemcarlson.sianameservice.util.reader.Block;
 import com.georgemcarlson.sianameservice.util.reader.Transaction;
 import com.georgemcarlson.sianameservice.util.reader.TxOutput;

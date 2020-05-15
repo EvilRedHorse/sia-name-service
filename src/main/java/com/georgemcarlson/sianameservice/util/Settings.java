@@ -1,6 +1,5 @@
 package com.georgemcarlson.sianameservice.util;
 
-import com.sawwit.integration.util.Logger;
 import java.io.File;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;

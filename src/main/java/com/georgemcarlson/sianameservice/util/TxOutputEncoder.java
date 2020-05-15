@@ -2,7 +2,6 @@ package com.georgemcarlson.sianameservice.util;
 
 import com.georgemcarlson.sianameservice.util.cacher.AddressCache;
 import com.georgemcarlson.sianameservice.util.reader.TxOutput;
-import com.sawwit.integration.util.Encoder;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;

@@ -1,7 +1,7 @@
 package com.georgemcarlson.sianameservice.servlet;
 
-import com.sawwit.integration.util.Logger;
 import com.georgemcarlson.sianameservice.servlet.api.SnsProxy;
+import com.georgemcarlson.sianameservice.util.Logger;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;

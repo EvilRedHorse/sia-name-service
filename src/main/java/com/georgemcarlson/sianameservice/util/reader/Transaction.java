@@ -1,6 +1,6 @@
 package com.georgemcarlson.sianameservice.util.reader;
 
-import com.sawwit.integration.util.Logger;
+import com.georgemcarlson.sianameservice.util.Logger;
 import com.georgemcarlson.sianameservice.util.TxOutputEncoder;
 import java.util.Arrays;
 import java.util.List;

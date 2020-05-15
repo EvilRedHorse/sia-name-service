@@ -12,8 +12,8 @@ public class Main {
     }
 
     public static void run(int port) {
-        Thread sawwitScannerThread = new Thread(SiaHostScanner.getInstance());
-        sawwitScannerThread.start();
+        Thread siaHostScannerThread = new Thread(SiaHostScanner.getInstance());
+        siaHostScannerThread.start();
 
         System.out.println("starting: http://localhost:"+port);
         SERVER = SiaNameServiceServer.getInstance(port);
