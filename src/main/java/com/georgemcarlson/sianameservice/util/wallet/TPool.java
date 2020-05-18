@@ -8,24 +8,22 @@ import java.util.List;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.json.JSONObject;
 
-public class Block {
+public class TPool {
     private static final Logger LOGGER = Logger.getInstance();
-    private final long blockHeight;
 
-    private Block(long blockHeight){
-        this.blockHeight = blockHeight;
+    private TPool(){
+
     }
     
-    public static Block getInstance(long blockHeight){
-        return new Block(blockHeight);
+    public static TPool getInstance(){
+        return new TPool();
     }
 
-    private static String getBlock(long blockHeight) {
+    private static String getTPool() {
         try {
             Request.Builder requestBuilder = new Request.Builder();
-            requestBuilder.url("http://localhost:" + Settings.WALLET_API_PORT + "/consensus/blocks?height="+blockHeight);
+            requestBuilder.url("http://localhost:" + Settings.WALLET_API_PORT + "/tpool/transactions");
             requestBuilder.header("User-Agent", Settings.WALLET_API_USER_AGENT);
             OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
             Response response = clientBuilder.build().newCall(requestBuilder.build()).execute();
@@ -36,12 +34,8 @@ public class Block {
         }
     }
 
-    public long getEpochSeconds() {
-        return new JSONObject(getBlock(blockHeight)).getLong("timestamp");
-    }
-
     public List<HostRegistration> getHostRegistrations() {
-        return HostRegistrations.parse(getBlock(blockHeight));
+        return HostRegistrations.parse(getTPool());
     }
 
 }

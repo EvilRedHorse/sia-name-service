@@ -105,7 +105,7 @@ public class HostRegistration {
       return -1;
     }
     try {
-      return Integer.parseInt(blockSeconds.substring(blockSeconds.indexOf(" ") + 1));
+      return Integer.parseInt(blockSeconds.substring(0, blockSeconds.indexOf(" ")));
     } catch (Exception e) {
       LOGGER.error(e);
       return -1;

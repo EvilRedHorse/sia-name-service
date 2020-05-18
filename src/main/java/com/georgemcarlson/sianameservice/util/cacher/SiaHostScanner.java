@@ -6,6 +6,8 @@ import com.georgemcarlson.sianameservice.util.Sleep;
 import com.georgemcarlson.sianameservice.util.reader.TxOutput;
 import com.georgemcarlson.sianameservice.util.reader.Wallet;
 import com.georgemcarlson.sianameservice.util.wallet.Block;
+import com.georgemcarlson.sianameservice.util.wallet.TPool;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.json.JSONObject;
 
@@ -64,16 +66,18 @@ public class SiaHostScanner extends SiaHostScannerCache implements Runnable {
     public void run(long height) {
         long lastBlockScanned = getLastBlockScanned();
         if (lastBlockScanned < height) {
-            cache(lastBlockScanned + 1);
-            cacheScannedBlock(lastBlockScanned + 1);
+            long blockHeight = lastBlockScanned + 1;
+            cache(Block.getInstance(blockHeight).getHostRegistrations(), blockHeight);
+            cacheScannedBlock(blockHeight);
             Sleep.block(400, TimeUnit.MILLISECONDS);
         } else {
-            Sleep.block(1, TimeUnit.MINUTES);
+            cache(TPool.getInstance().getHostRegistrations(), -1);
+            Sleep.block(1, TimeUnit.SECONDS);
         }
     }
 
-    private void cache(long blockId) {
-        for (HostRegistration hostRegistration : Block.getInstance(blockId).getHostRegistrations()) {
+    private void cache(List<HostRegistration> hostRegistrations, long blockId) {
+        for (HostRegistration hostRegistration : hostRegistrations) {
             if (hostRegistration.isValid()) {
                 writeHost(
                     hostRegistration.getHost(),
@@ -110,7 +114,7 @@ public class SiaHostScanner extends SiaHostScannerCache implements Runnable {
         if (fee < hostFile.getInt("fee")) {
             return;
         }
-        if (block < hostFile.getInt("block")) {
+        if (block != -1 && block < hostFile.getInt("block")) {
             return;
         }
         if (block == hostFile.getLong("block") && seconds < hostFile.getInt("seconds")) {
