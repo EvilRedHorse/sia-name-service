@@ -3,11 +3,9 @@ package com.georgemcarlson.sianameservice.util.cacher;
 import com.georgemcarlson.sianameservice.util.Logger;
 import com.georgemcarlson.sianameservice.util.Settings;
 import com.georgemcarlson.sianameservice.util.Sleep;
-import com.georgemcarlson.sianameservice.util.reader.Block;
-import com.georgemcarlson.sianameservice.util.reader.Transaction;
 import com.georgemcarlson.sianameservice.util.reader.TxOutput;
 import com.georgemcarlson.sianameservice.util.reader.Wallet;
-import java.util.Arrays;
+import com.georgemcarlson.sianameservice.util.wallet.Block;
 import java.util.concurrent.TimeUnit;
 import org.json.JSONObject;
 
@@ -75,82 +73,20 @@ public class SiaHostScanner extends SiaHostScannerCache implements Runnable {
     }
 
     private void cache(long blockId) {
-        Block potentialBlock = Block.getInstance(blockId);
-        for(Transaction t : potentialBlock.getTransactions()){
-            byte[] arbitraryData = t.getArbitraryData();
-            if (isArbitraryDataSiaTld(arbitraryData)) {
-                writeHost(parseHost(arbitraryData), parseSkyLink(arbitraryData), parseFee(t));
+        for (HostRegistration hostRegistration : Block.getInstance(blockId).getHostRegistrations()) {
+            if (hostRegistration.isValid()) {
+                writeHost(
+                    hostRegistration.getHost(),
+                    hostRegistration.getSkyLink(),
+                    hostRegistration.getRegistrant(),
+                    blockId,
+                    hostRegistration.getBlockSeconds()
+                );
             }
         }
     }
 
-    public static boolean isArbitraryDataSiaTld(byte[] arbitraryData) {
-        int skylinkLength = 46;
-        if (arbitraryData == null || arbitraryData.length < skylinkLength) {
-            return false;
-        }
-        for (String tld : Settings.TLDS) {
-            if (Arrays.equals(
-                    ("." + tld).getBytes(),
-                    Arrays.copyOfRange(
-                        arbitraryData,
-                        arbitraryData.length - skylinkLength - ("." + tld + " ").length(),
-                        arbitraryData.length - skylinkLength - " ".length()
-                    )
-                )
-            ) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static String parseSkyLink(byte[] arbitraryData) {
-        if (!isArbitraryDataSiaTld(arbitraryData)) {
-            return null;
-        }
-        int skylinkLength = 46;
-        return new String(
-            Arrays.copyOfRange(
-                arbitraryData,
-                arbitraryData.length - skylinkLength,
-                arbitraryData.length
-            )
-        );
-    }
-
-    public static String parseHost(byte[] arbitraryData) {
-        if (!isArbitraryDataSiaTld(arbitraryData)) {
-            return null;
-        }
-        int skylinkLength = 46;
-        return new String(
-            Arrays.copyOfRange(
-                arbitraryData,
-                0,
-                arbitraryData.length - skylinkLength - " ".length()
-            )
-        );
-    }
-
-    public TxOutput parseFee(Transaction t) {
-        if (t.getOutputs() == null || t.getOutputs().isEmpty()) {
-            return null;
-        }
-        TxOutput largest = null;
-        for (TxOutput output : t.getOutputs()) {
-            if (largest == null) {
-                largest = output;
-                continue;
-            }
-            if (largest.getAmount().compareTo(output.getAmount()) < 0) {
-                largest = output;
-            }
-        }
-        return largest;
-    }
-
-    private void writeHost(String host, String skylink, TxOutput registrant) {
+    private void writeHost(String host, String skylink, TxOutput registrant, long block, int seconds) {
         if (host == null || skylink == null || registrant == null) {
             return;
         }
@@ -162,6 +98,8 @@ public class SiaHostScanner extends SiaHostScannerCache implements Runnable {
             hostFile.put("skylink", skylink);
             hostFile.put("registrant", registrant.getAddress());
             hostFile.put("fee", fee);
+            hostFile.put("block", block);
+            hostFile.put("seconds", seconds);
             super.writeFile(TOP_FOLDER, host, hostFile.toString(2));
             return;
         }
@@ -172,8 +110,16 @@ public class SiaHostScanner extends SiaHostScannerCache implements Runnable {
         if (fee < hostFile.getInt("fee")) {
             return;
         }
+        if (block < hostFile.getInt("block")) {
+            return;
+        }
+        if (block == hostFile.getLong("block") && seconds < hostFile.getInt("seconds")) {
+            return;
+        }
         hostFile.put("skylink", skylink);
         hostFile.put("fee", fee);
+        hostFile.put("block", block);
+        hostFile.put("seconds", seconds);
         super.writeFile(TOP_FOLDER, host, hostFile.toString(2));
     }
 

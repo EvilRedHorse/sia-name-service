@@ -38,6 +38,8 @@ public class Settings {
         RELEASE = potentialRelease;
     }
 
+    public static final int SKYLINK_LENGTH = 46;
+
     private static final String SETTINGS_FILE_PATH = "settings.json";
     public static final int PORT;
     public static final int FEE;

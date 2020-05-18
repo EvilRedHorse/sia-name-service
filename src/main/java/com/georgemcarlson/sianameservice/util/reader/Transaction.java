@@ -1,7 +1,6 @@
 package com.georgemcarlson.sianameservice.util.reader;
 
 import com.georgemcarlson.sianameservice.util.Logger;
-import com.georgemcarlson.sianameservice.util.TxOutputEncoder;
 import java.util.Arrays;
 import java.util.List;
 import org.json.JSONArray;
@@ -66,20 +65,6 @@ public class Transaction {
 
     public String getTransactionId() {
         return transactionId;
-    }
-
-    public long getBlockHeight() {
-        return blockHeight;
-    }
-
-    public byte[] getArbitraryData() {
-        byte[] arbitraryData = null;
-        try {
-            arbitraryData = TxOutputEncoder.decodeArbitraryData(outputs);
-        } catch (Exception e) {
-            LOGGER.error(e.getLocalizedMessage(), e);
-        }
-        return arbitraryData != null ? arbitraryData : "".getBytes();
     }
     
     public List<TxOutput> getOutputs() {

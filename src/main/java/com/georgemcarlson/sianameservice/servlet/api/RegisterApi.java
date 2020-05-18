@@ -2,9 +2,12 @@ package com.georgemcarlson.sianameservice.servlet.api;
 
 import com.georgemcarlson.sianameservice.util.Settings;
 import com.georgemcarlson.sianameservice.util.creator.SiaHostNameCreator;
+import com.georgemcarlson.sianameservice.util.wallet.Block;
 import com.georgemcarlson.sianameservice.util.reader.User;
+import com.georgemcarlson.sianameservice.util.wallet.Consensus;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Instant;
 import javax.servlet.http.HttpServletRequest;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -62,9 +65,10 @@ public class RegisterApi extends SiaNameServiceApi {
             JSONObject response = new JSONObject();
             response.put("message", "no skylink hash supplied");
             return response.toString(2);
-        } else if (skylink.length() != 46) {
+        } else if (skylink.length() != Settings.SKYLINK_LENGTH) {
             JSONObject response = new JSONObject();
-            response.put("message", "invalid skylink hash. must be exactly 46 characters.");
+            response.put("message", "invalid skylink hash. must be exactly "
+                + Settings.SKYLINK_LENGTH + " characters.");
             return response.toString(2);
         }
         String registrant = request.getParameter(REGISTRANT_PARAMETER);
@@ -77,12 +81,26 @@ public class RegisterApi extends SiaNameServiceApi {
             response.put("message", "invalid registraint sia address. must be exactly 76 characters.");
             return response.toString(2);
         }
+        Consensus consensus = Consensus.getInstance().execute();
+        if (!consensus.isOnline()) {
+            JSONObject response = new JSONObject();
+            response.put("message", "wallet is offline.");
+            return response.toString(2);
+        } else if (!consensus.isSynced()) {
+            JSONObject response = new JSONObject();
+            response.put("message", "wallet is not synced.");
+            return response.toString(2);
+        }
+        long blockSeconds
+            = Instant.now().getEpochSecond()
+            - Block.getInstance(consensus.getHeight()).getEpochSeconds();
         SiaHostNameCreator.getInstance(
             User.getSingletonInstance(),
             host,
             skylink,
             registrant,
-            Settings.FEE
+            Settings.FEE,
+            blockSeconds
         ).create();
 
         JSONObject hostFile = new JSONObject();

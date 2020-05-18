@@ -8,17 +8,33 @@ public class SiaHostNameCreator {
     private final String skylink;
     private final String registrant;
     private final int fee;
+    private final long blockSeconds;
 
-    private SiaHostNameCreator(User user, String host, String skylink, String registrant, int fee) {
+    private SiaHostNameCreator(
+        User user,
+        String host,
+        String skylink,
+        String registrant,
+        int fee,
+        long blockSeconds
+    ) {
         this.user = user;
         this.host = host;
         this.skylink = skylink;
         this.registrant = registrant;
         this.fee = fee;
+        this.blockSeconds = blockSeconds;
     }
     
-    public static SiaHostNameCreator getInstance(User user, String host, String skylink, String registrant, int fee){
-        return new SiaHostNameCreator(user, host, skylink, registrant, fee);
+    public static SiaHostNameCreator getInstance(
+        User user,
+        String host,
+        String skylink,
+        String registrant,
+        int fee,
+        long blockSeconds
+    ){
+        return new SiaHostNameCreator(user, host, skylink, registrant, fee, blockSeconds);
     }
 
     public String create() {
@@ -26,7 +42,7 @@ public class SiaHostNameCreator {
     }
 
     private byte[] getArbitraryData() {
-        return (host + " " + skylink).getBytes();
+        return (blockSeconds + " " + host + " " + skylink).getBytes();
     }
 
 }
