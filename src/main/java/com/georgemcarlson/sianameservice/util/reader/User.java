@@ -53,11 +53,8 @@ public class User {
      * @param txOutputs
      * @return 
      */
-    public Transaction postTransaction(List<TxOutput> txOutputs){
+    public boolean postTransaction(List<TxOutput> txOutputs){
         Collections.shuffle(txOutputs);
-        long blockHeight = Long.parseLong(Wallet.getInstance().get(Wallet.BLOCKCHAIN_HEIGHT));
-
-        Transaction transaction = null;
         try{
             JSONArray outputs = new JSONArray();
             for(TxOutput txOutput : txOutputs){
@@ -85,17 +82,14 @@ public class User {
 
 
             Response response = clientBuilder.build().newCall(requestBuilder.build()).execute();
-            String rawResponse = response.body().string();
-            JSONArray transactionIds = new JSONObject(rawResponse).getJSONArray("transactionids");
-            String transactionId = transactionIds.get(transactionIds.length()-1).toString();
-            transaction = Transaction.getInstance(transactionId, blockHeight, txOutputs);
+            return response.code() == 200;
         } catch(Exception e){
             LOGGER.error(e.getLocalizedMessage(), e);
+            return false;
         }
-        return transaction;
     }
 
-    public Transaction postArbitraryData(byte[] data, String registrant, int fee){
+    public boolean postArbitraryData(byte[] data, String registrant, int fee) {
         try{
             List<TxOutput> txOutputs = TxOutputEncoder.encodeArbitraryData(
                 this.getAddresses(),
@@ -106,7 +100,7 @@ public class User {
             return postTransaction(txOutputs);
         } catch(Exception e){
             LOGGER.error(e.getLocalizedMessage(), e);
-            return null;
+            return false;
         }
     }
 

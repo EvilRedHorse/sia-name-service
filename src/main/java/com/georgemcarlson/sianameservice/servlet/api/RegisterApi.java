@@ -94,7 +94,7 @@ public class RegisterApi extends SiaNameServiceApi {
         long blockSeconds
             = Instant.now().getEpochSecond()
             - Block.getInstance(consensus.getHeight()).getEpochSeconds();
-        SiaHostNameCreator.getInstance(
+        boolean successful = SiaHostNameCreator.getInstance(
             User.getSingletonInstance(),
             host,
             skylink,
@@ -102,7 +102,11 @@ public class RegisterApi extends SiaNameServiceApi {
             Settings.FEE,
             blockSeconds
         ).create();
-
+        if (!successful) {
+            JSONObject response = new JSONObject();
+            response.put("message", "serverside error.");
+            return response.toString(2);
+        }
         JSONObject hostFile = new JSONObject();
         hostFile.put("host", host);
         hostFile.put("skylink", skylink);

@@ -37,8 +37,8 @@ public class SiaHostNameCreator {
         return new SiaHostNameCreator(user, host, skylink, registrant, fee, blockSeconds);
     }
 
-    public String create() {
-        return user.postArbitraryData(getArbitraryData(), registrant, fee).getTransactionId();
+    public boolean create() {
+        return user.postArbitraryData(getArbitraryData(), registrant, fee);
     }
 
     private byte[] getArbitraryData() {
