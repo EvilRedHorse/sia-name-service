@@ -20,6 +20,10 @@ public abstract class SiaNameServiceApi extends HttpServlet {
         return "application/json";
     }
 
+    protected String[] getContentDisposition() {
+        return null;
+    }
+
     protected void doIt(final HttpServletRequest request, final HttpServletResponse response)
         throws ServletException, IOException {
         final String content = getContent(request);
@@ -32,6 +36,12 @@ public abstract class SiaNameServiceApi extends HttpServlet {
                 while (out.isReady()) {
                     if (!bytes.hasRemaining()) {
                         response.setContentType(getContentType());
+                        if (getContentDisposition() != null) {
+                            response.setHeader(
+                                getContentDisposition()[0],
+                                getContentDisposition()[1]
+                            );
+                        }
                         response.setStatus(200);
                         async.complete();
                         return;

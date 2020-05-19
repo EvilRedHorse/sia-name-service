@@ -39,16 +39,18 @@ public class RedirectApi extends SiaNameServiceApi {
         StringBuilder portalChooser = new StringBuilder();
         portalChooser.append("<h1>Choose The Portal To Use</h1>");
         portalChooser
-            .append("<div><i>")
+            .append("<p><i>")
             .append("Note that you can automate this page by supplying a `portal=` parameter to ")
-            .append("the URL query")
-            .append("</i></div>");
+            .append("the URL query.</p><p>Alternatively, you can install and configure the ")
+            .append("Redirector browser extension to add native support to your address bar as ")
+            .append("described in the <a href='/'>Address Bar Browser Extension</a> section.")
+            .append("</i></p><p>");
         for (String portal : Settings.PORTALS) {
-            portalChooser.append("<div><a href='https://").append(portal).append("/")
+            portalChooser.append("<a href='https://").append(portal).append("/")
                 .append(getSkyLink(request)).append(getSnsPath(request))
-                .append(getSnsQuery(request)).append("'>").append(portal).append("</a>");
+                .append(getSnsQuery(request)).append("'>").append(portal).append("</a><br/>");
         }
-        return portalChooser.toString();
+        return portalChooser.append("</p>").toString();
     }
 
     @Override

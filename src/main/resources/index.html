@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>sia-name-service</title>
+  <title>Sia-Name-Service</title>
 </head>
 <body>
   <h1>Sia-Name-Service</h1>
   <p>
-    Sia Name Service is a Java Gradle project that provides a process to register, update, and lookup `[name].[tld]` hosts on the Sia blockchain.
+    Sia-Name-Service is a Java Gradle project that provides a process to register, update, and lookup `[name].[tld]` hosts on the Sia blockchain.
   </p>
   <h2>Go To</h2>
   <p>
@@ -38,13 +38,31 @@
       <input type="submit" value="Register">
     </form>
   </p>
+  <h2>Address Bar Browser Extension</h2>
+  <p>
+    It is possible to install and configure the Redirector browser extension to add native
+    Sia-Name-Service TLD support to your address bar. To do this first install the
+    <a href="https://addons.mozilla.org/en-US/firefox/addon/redirector/">Firefox</a> or
+    <a href="https://chrome.google.com/webstore/detail/redirector/ocgpenflpmgnfapjedencafcfakcekcd">Chrome</a>
+    browser extension, then generate a Sia-Name-Service Redirector configuration file, then
+    navigate to the Redirector's settings, and finally import your generated configuration file.
+  </p>
+  <p>
+    <form action="/redirector">
+      <label for="sianameserviceportal">Sia-Name-Service:</label>
+      <input type="text" id="sianameserviceportal" name="sianameserviceportal" value="sns.redirectme.net"><br/>
+      <label for="skynetportal">Skynet Portal:</label>
+      <input type="text" id="skynetportal" name="skynetportal" value="siasky.net"><br/>
+      <input type="submit" value="Generate">
+    </form>
+  </p>
   <h2>Documentation</h2>
   <p>
       You can view the documentation <a href="https://github.com/geo-gs/sia-name-service#sia-name-service">here</a>.
   </p>
   <h2>Donate</h2>
   <p>
-    You can donate siacoin to help fund free domain registration at: 176865262b61a961f107b1148782b0c59d4877b365f98a589e945438572b3e16ace15a2cac86
+    You can donate siacoin to help fund the project at: 176865262b61a961f107b1148782b0c59d4877b365f98a589e945438572b3e16ace15a2cac86
   </p>
 </body>
 </html>
