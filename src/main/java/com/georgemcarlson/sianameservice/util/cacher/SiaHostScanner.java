@@ -3,45 +3,38 @@ package com.georgemcarlson.sianameservice.util.cacher;
 import com.georgemcarlson.sianameservice.util.Logger;
 import com.georgemcarlson.sianameservice.util.Settings;
 import com.georgemcarlson.sianameservice.util.Sleep;
+import com.georgemcarlson.sianameservice.util.persistence.Scanner;
+import com.georgemcarlson.sianameservice.util.persistence.WhoIs;
 import com.georgemcarlson.sianameservice.util.reader.TxOutput;
 import com.georgemcarlson.sianameservice.util.reader.Wallet;
 import com.georgemcarlson.sianameservice.util.wallet.Block;
 import com.georgemcarlson.sianameservice.util.wallet.TPool;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import org.json.JSONObject;
 
-public class SiaHostScanner extends SiaHostScannerCache implements Runnable {
+public class SiaHostScanner implements Runnable {
     private static final Logger LOGGER = Logger.getInstance();
-    private static final String FILE_NAME_EXTENSION = ".json";
-    private static final String FILE_NAME = "scanner";
     private boolean running = true;
+    private final Scanner scanner;
 
-    private SiaHostScanner(){
-
+    private SiaHostScanner(Scanner scanner) {
+        this.scanner = scanner;
     }
     
-    public static SiaHostScanner getInstance(){
-        return new SiaHostScanner();
-    }
-
-    public void cacheScannedBlock(long blockId) {
-        JSONObject scanner = new JSONObject();
-        scanner.put("block", blockId);
-        super.writeFile(TOP_FOLDER, FILE_NAME + FILE_NAME_EXTENSION, scanner.toString(2));
-    }
-
-    public long getLastBlockScanned() {
-        String rawScanner = super.readFile(TOP_FOLDER, FILE_NAME + FILE_NAME_EXTENSION);
-        JSONObject scanner;
-        if (rawScanner == null) {
-            scanner = new JSONObject();
-            scanner.put("block", Settings.GELESIS_BLOCK);
-            super.writeFile(TOP_FOLDER, FILE_NAME + FILE_NAME_EXTENSION, scanner.toString(2));
-        } else {
-            scanner = new JSONObject(rawScanner);
+    public static SiaHostScanner getInstance() throws SQLException {
+        Scanner scanner = Scanner.findHighest();
+        if (scanner == null) {
+            scanner = new Scanner();
+            scanner.setBlock(Settings.GENESIS_BLOCK);
+            scanner.create();
         }
-        return scanner.getLong("block");
+        return new SiaHostScanner(scanner);
+    }
+
+    public void cacheScannedBlock(int blockId) throws SQLException {
+        scanner.setBlock(blockId);
+        scanner.update();
     }
 
     public void terminate() {
@@ -64,67 +57,81 @@ public class SiaHostScanner extends SiaHostScannerCache implements Runnable {
     }
 
     public void run(long height) {
-        long lastBlockScanned = getLastBlockScanned();
+        int lastBlockScanned = scanner.getBlock();
         if (lastBlockScanned < height) {
-            long blockHeight = lastBlockScanned + 1;
+            int blockHeight = lastBlockScanned + 1;
             cache(Block.getInstance(blockHeight).getHostRegistrations(), blockHeight);
-            cacheScannedBlock(blockHeight);
-            Sleep.block(400, TimeUnit.MILLISECONDS);
+            try {
+                cacheScannedBlock(blockHeight);
+                Sleep.block(400, TimeUnit.MILLISECONDS);
+            } catch (SQLException e) {
+                LOGGER.error(e);
+                Sleep.block(1, TimeUnit.MINUTES);
+            }
         } else {
             cache(TPool.getInstance().getHostRegistrations(), -1);
             Sleep.block(1, TimeUnit.SECONDS);
         }
     }
 
-    private void cache(List<HostRegistration> hostRegistrations, long blockId) {
+    private void cache(List<HostRegistration> hostRegistrations, int blockId) {
         for (HostRegistration hostRegistration : hostRegistrations) {
             if (hostRegistration.isValid()) {
-                writeHost(
-                    hostRegistration.getHost(),
-                    hostRegistration.getSkyLink(),
-                    hostRegistration.getRegistrant(),
-                    blockId,
-                    hostRegistration.getBlockSeconds()
-                );
+                try {
+                    writeHost(
+                        hostRegistration.getHost(),
+                        hostRegistration.getSkyLink(),
+                        hostRegistration.getRegistrant(),
+                        blockId,
+                        hostRegistration.getBlockSeconds()
+                    );
+                } catch (SQLException e) {
+                    LOGGER.error(e);
+                }
             }
         }
     }
 
-    private void writeHost(String host, String skylink, TxOutput registrant, long block, int seconds) {
+    private void writeHost(
+        String host,
+        String skylink,
+        TxOutput registrant,
+        int block,
+        int seconds
+    ) throws SQLException {
         if (host == null || skylink == null || registrant == null) {
             return;
         }
-        String data = super.readFile(TOP_FOLDER, host);
+        WhoIs whoIs = WhoIs.findByHost(host);
         int fee = registrant.getAmount().toString().length() - 24;
-        if (data == null) {
-            JSONObject hostFile = new JSONObject();
-            hostFile.put("host", host);
-            hostFile.put("skylink", skylink);
-            hostFile.put("registrant", registrant.getAddress());
-            hostFile.put("fee", fee);
-            hostFile.put("block", block);
-            hostFile.put("seconds", seconds);
-            super.writeFile(TOP_FOLDER, host, hostFile.toString(2));
+        if (whoIs == null) {
+            whoIs = new WhoIs();
+            whoIs.setHost(host);
+            whoIs.setSkylink(skylink);
+            whoIs.setRegistrant(registrant.getAddress());
+            whoIs.setFee(fee);
+            whoIs.setBlock(block);
+            whoIs.setSeconds(seconds);
+            whoIs.create();
             return;
         }
-        JSONObject hostFile = new JSONObject(data);
-        if (!registrant.getAddress().equals(hostFile.getString("registrant"))) {
+        if (!registrant.getAmount().equals(whoIs.getRegistrant())) {
             return;
         }
-        if (fee < hostFile.getInt("fee")) {
+        if (fee < whoIs.getFee()) {
             return;
         }
-        if (block != -1 && block < hostFile.getInt("block")) {
+        if (block != -1 && block < whoIs.getBlock()) {
             return;
         }
-        if (block == hostFile.getLong("block") && seconds < hostFile.getInt("seconds")) {
+        if (block == whoIs.getBlock() && seconds < whoIs.getSeconds()) {
             return;
         }
-        hostFile.put("skylink", skylink);
-        hostFile.put("fee", fee);
-        hostFile.put("block", block);
-        hostFile.put("seconds", seconds);
-        super.writeFile(TOP_FOLDER, host, hostFile.toString(2));
+        whoIs.setSkylink(skylink);
+        whoIs.setFee(fee);
+        whoIs.setBlock(block);
+        whoIs.setSeconds(seconds);
+        whoIs.update();
     }
 
 }

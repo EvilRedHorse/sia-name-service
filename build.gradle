@@ -16,6 +16,9 @@ dependencies {
     compile group: 'org.eclipse.jetty', name: 'jetty-server', version: '9.4.12.v20180830'
     compile group: 'org.eclipse.jetty', name: 'jetty-servlet', version: '9.4.12.v20180830'
 
+    //database
+    compile group: 'org.hsqldb', name: 'hsqldb', version: '2.5.0'
+
     implementation 'org.json:json:20160212'
     implementation 'com.google.guava:guava:19.0'
     compile 'com.squareup.okhttp3:okhttp:3.14.4'

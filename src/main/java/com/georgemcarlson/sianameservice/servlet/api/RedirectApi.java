@@ -1,18 +1,13 @@
 package com.georgemcarlson.sianameservice.servlet.api;
 
-import com.georgemcarlson.sianameservice.util.Logger;
 import com.georgemcarlson.sianameservice.util.Settings;
-import com.georgemcarlson.sianameservice.util.cacher.SiaHostScannerCache;
-import java.io.File;
+import com.georgemcarlson.sianameservice.util.persistence.WhoIs;
 import java.io.IOException;
-import java.nio.file.Files;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.json.JSONObject;
 
 public class RedirectApi extends SiaNameServiceApi {
-    private static final Logger LOGGER = Logger.getInstance();
     public static final String HOST_PARAMETER = "host";
     public static final String PORTAL_PARAMETER = "portal";
     private String host;
@@ -67,16 +62,8 @@ public class RedirectApi extends SiaNameServiceApi {
 
     private String getSkyLink(final HttpServletRequest request) {
         String host = getHost() != null ? getHost() : request.getParameter(HOST_PARAMETER);
-        File file = new File(SiaHostScannerCache.TOP_FOLDER + "/" + host);
-        if (file.exists()) {
-            try {
-                return new JSONObject(new String(Files.readAllBytes(file.toPath())))
-                    .getString("skylink");
-            } catch (Exception e) {
-                LOGGER.error(e.getLocalizedMessage(), e);
-            }
-        }
-        return null;
+        WhoIs whoIs = WhoIs.findByHost(host);
+        return whoIs == null ? null : whoIs.getSkylink();
     }
 
     private static String getSnsPath(final HttpServletRequest request) {
