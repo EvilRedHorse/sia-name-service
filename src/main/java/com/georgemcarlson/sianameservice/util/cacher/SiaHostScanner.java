@@ -63,16 +63,14 @@ public class SiaHostScanner implements Runnable {
     }
 
     public void run(long height) {
-        int lastBlockScanned = scanner.getBlock();
-        if (lastBlockScanned < height) {
-            int blockHeight = lastBlockScanned + 1;
+        for (int i = scanner.getBlock(); i < height; i++) {
+            int blockHeight = i + 1;
             cache(Block.getInstance(blockHeight).getHostRegistrations(), blockHeight);
             cacheScannedBlock(blockHeight);
             Sleep.block(400, TimeUnit.MILLISECONDS);
-        } else {
-            cache(TPool.getInstance().getHostRegistrations(), -1);
-            Sleep.block(1, TimeUnit.SECONDS);
         }
+        cache(TPool.getInstance().getHostRegistrations(), -1);
+        Sleep.block(10, TimeUnit.SECONDS);
     }
 
     private void cache(List<HostRegistration> hostRegistrations, int blockId) {
@@ -116,7 +114,7 @@ public class SiaHostScanner implements Runnable {
             whoIs.create();
             return;
         }
-        if (!registrant.getAmount().equals(whoIs.getRegistrant())) {
+        if (!registrant.getAddress().equals(whoIs.getRegistrant())) {
             return;
         }
         if (fee < whoIs.getFee()) {
