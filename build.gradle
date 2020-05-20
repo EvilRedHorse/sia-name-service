@@ -19,8 +19,8 @@ dependencies {
     //database
     compile group: 'org.hsqldb', name: 'hsqldb', version: '2.5.0'
 
-    implementation 'org.json:json:20160212'
-    implementation 'com.google.guava:guava:19.0'
+    compile 'org.json:json:20160212'
+    compile 'com.google.guava:guava:19.0'
     compile 'com.squareup.okhttp3:okhttp:3.14.4'
     compile 'com.squareup.okhttp3:logging-interceptor:3.14.4'
 
