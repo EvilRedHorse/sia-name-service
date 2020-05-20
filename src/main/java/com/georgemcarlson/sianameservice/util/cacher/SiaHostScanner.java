@@ -32,9 +32,15 @@ public class SiaHostScanner implements Runnable {
         return new SiaHostScanner(scanner);
     }
 
-    public void cacheScannedBlock(int blockId) throws SQLException {
+    public void cacheScannedBlock(int blockId) {
         scanner.setBlock(blockId);
-        scanner.update();
+        if (blockId % 6 == 0) {
+            try {
+                scanner.update();
+            } catch (Exception e) {
+                LOGGER.error("Unable to store block: " + e.getLocalizedMessage(), e);
+            }
+        }
     }
 
     public void terminate() {
@@ -61,13 +67,8 @@ public class SiaHostScanner implements Runnable {
         if (lastBlockScanned < height) {
             int blockHeight = lastBlockScanned + 1;
             cache(Block.getInstance(blockHeight).getHostRegistrations(), blockHeight);
-            try {
-                cacheScannedBlock(blockHeight);
-                Sleep.block(400, TimeUnit.MILLISECONDS);
-            } catch (SQLException e) {
-                LOGGER.error(e);
-                Sleep.block(1, TimeUnit.MINUTES);
-            }
+            cacheScannedBlock(blockHeight);
+            Sleep.block(400, TimeUnit.MILLISECONDS);
         } else {
             cache(TPool.getInstance().getHostRegistrations(), -1);
             Sleep.block(1, TimeUnit.SECONDS);
