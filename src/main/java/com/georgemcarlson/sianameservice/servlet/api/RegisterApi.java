@@ -2,6 +2,7 @@ package com.georgemcarlson.sianameservice.servlet.api;
 
 import com.georgemcarlson.sianameservice.util.Settings;
 import com.georgemcarlson.sianameservice.util.creator.SiaHostNameCreator;
+import com.georgemcarlson.sianameservice.util.persistence.WhoIs;
 import com.georgemcarlson.sianameservice.util.wallet.Block;
 import com.georgemcarlson.sianameservice.util.reader.User;
 import com.georgemcarlson.sianameservice.util.wallet.Consensus;
@@ -89,6 +90,16 @@ public class RegisterApi extends SiaNameServiceApi {
         } else if (!consensus.isSynced()) {
             JSONObject response = new JSONObject();
             response.put("message", "wallet is not synced.");
+            return response.toString(2);
+        }
+        WhoIs whoIs = WhoIs.findByHost(host);
+        if (whoIs != null && !registrant.equals(whoIs.getRegistrant())) {
+            JSONObject response = new JSONObject();
+            response.put("message", "host is already registered to a different registrant.");
+            return response.toString(2);
+        } else if (whoIs != null && whoIs.getFee() > Settings.FEE) {
+            JSONObject response = new JSONObject();
+            response.put("message", "configured fee is not high enough to update host entry.");
             return response.toString(2);
         }
         long blockSeconds
