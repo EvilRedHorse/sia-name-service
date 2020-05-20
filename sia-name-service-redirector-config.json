@@ -1,0 +1,142 @@
+{
+    "createdBy": "Redirector v3.5.3",
+    "createdAt": "2020-05-16T13:50:29.720Z",
+    "redirects": [
+        {
+            "description": "Redirect .sns TLD",
+            "exampleUrl": "http://test.sns/",
+            "exampleResult": "http://sns.redirectme.net/test.sns?portal=siasky.net",
+            "error": null,
+            "includePattern": "http://*.sns/",
+            "excludePattern": "http://sns.*",
+            "patternDesc": "",
+            "redirectUrl": "http://sns.redirectme.net/$1.sns?portal=siasky.net",
+            "patternType": "W",
+            "processMatches": "noProcessing",
+            "disabled": false,
+            "grouped": false,
+            "appliesTo": [
+                "main_frame"
+            ]
+        },
+        {
+            "description": "Redirect .sns SSL TLD",
+            "exampleUrl": "https://test.sns/",
+            "exampleResult": "http://sns.redirectme.net/test.sns?portal=siasky.net",
+            "error": null,
+            "includePattern": "https://*.sns/",
+            "excludePattern": "http://sns.*",
+            "patternDesc": "",
+            "redirectUrl": "http://sns.redirectme.net/$1.sns?portal=siasky.net",
+            "patternType": "W",
+            "processMatches": "noProcessing",
+            "disabled": false,
+            "grouped": false,
+            "appliesTo": [
+                "main_frame"
+            ]
+        },
+        {
+            "description": "Redirect .sns TLD with Query",
+            "exampleUrl": "http://test.sns/?stream=workshop",
+            "exampleResult": "http://sns.redirectme.net/test.sns?portal=siasky.net&stream=workshop",
+            "error": null,
+            "includePattern": "http://*.sns/?*",
+            "excludePattern": "http://sns.*",
+            "patternDesc": "",
+            "redirectUrl": "http://sns.redirectme.net/$1.sns?portal=siasky.net&$2",
+            "patternType": "W",
+            "processMatches": "noProcessing",
+            "disabled": false,
+            "grouped": false,
+            "appliesTo": [
+                "main_frame"
+            ]
+        },
+        {
+            "description": "Redirect .sns SSL TLD with Query",
+            "exampleUrl": "https://test.sns/?stream=workshop",
+            "exampleResult": "http://sns.redirectme.net/test.sns?portal=siasky.net&stream=workshop",
+            "error": null,
+            "includePattern": "https://*.sns/?*",
+            "excludePattern": "http://sns.*",
+            "patternDesc": "",
+            "redirectUrl": "http://sns.redirectme.net/$1.sns?portal=siasky.net&$2",
+            "patternType": "W",
+            "processMatches": "noProcessing",
+            "disabled": false,
+            "grouped": false,
+            "appliesTo": [
+                "main_frame"
+            ]
+        },
+        {
+            "description": "Redirect .sns TLD with Path and Query",
+            "exampleUrl": "http://test.sns/player.html?stream=workshop",
+            "exampleResult": "http://sns.redirectme.net/test.sns/player.html?portal=siasky.net&stream=workshop",
+            "error": null,
+            "includePattern": "http://*.sns/*?*",
+            "excludePattern": "http://sns.*",
+            "patternDesc": "",
+            "redirectUrl": "http://sns.redirectme.net/$1.sns/$2?portal=siasky.net&$3",
+            "patternType": "W",
+            "processMatches": "noProcessing",
+            "disabled": false,
+            "grouped": false,
+            "appliesTo": [
+                "main_frame"
+            ]
+        },
+        {
+            "description": "Redirect .sns SSL TLD with Path and Query",
+            "exampleUrl": "https://test.sns/player.html?stream=workshop",
+            "exampleResult": "http://sns.redirectme.net/test.sns/player.html?portal=siasky.net&stream=workshop",
+            "error": null,
+            "includePattern": "https://*.sns/*?*",
+            "excludePattern": "http://sns.*",
+            "patternDesc": "",
+            "redirectUrl": "http://sns.redirectme.net/$1.sns/$2?portal=siasky.net&$3",
+            "patternType": "W",
+            "processMatches": "noProcessing",
+            "disabled": false,
+            "grouped": false,
+            "appliesTo": [
+                "main_frame"
+            ]
+        },
+        {
+            "description": "Redirect .sns TLD with Path",
+            "exampleUrl": "http://test.sns/player.html",
+            "exampleResult": "http://sns.redirectme.net/test.sns/player.html?portal=siasky.net",
+            "error": null,
+            "includePattern": "http://*.sns/*",
+            "excludePattern": "http://sns.*",
+            "patternDesc": "",
+            "redirectUrl": "http://sns.redirectme.net/$1.sns/$2?portal=siasky.net",
+            "patternType": "W",
+            "processMatches": "noProcessing",
+            "disabled": false,
+            "grouped": false,
+            "appliesTo": [
+                "main_frame"
+            ]
+        },
+        {
+            "description": "Redirect .sns SSL TLD with Path",
+            "exampleUrl": "https://test.sns/player.html",
+            "exampleResult": "http://sns.redirectme.net/test.sns/player.html?portal=siasky.net",
+            "error": null,
+            "includePattern": "https://*.sns/*",
+            "excludePattern": "http://sns.*",
+            "patternDesc": "",
+            "redirectUrl": "http://sns.redirectme.net/$1.sns/$2?portal=siasky.net",
+            "patternType": "W",
+            "processMatches": "noProcessing",
+            "disabled": false,
+            "grouped": false,
+            "appliesTo": [
+                "main_frame"
+            ]
+        }
+    ]
+}
