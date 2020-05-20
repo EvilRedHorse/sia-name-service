@@ -4,7 +4,11 @@ Sia Name Service is a Java Gradle project that provides a process to register, u
 
 ## Dependencies
 
-Must have the Sia wallet running, synced, and unlocked.
+Must have the Sia wallet running to be able to locate new host entries. Must be synced and unlocked to be able to register or update host entries.
+
+## How to configure
+
+Sia Name Service uses a settings.json file for its configurations. In this file you can set the web server's port, the registration fee, the wallets port, the wallets API password, the TLDs to scan for, and the skynet portals to use.
 
 ##  How to run
 
