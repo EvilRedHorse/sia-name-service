@@ -14,7 +14,13 @@ public class HostRegistrations {
 
   public static List<HostRegistration> parse(String jsonResponse) {
     List<HostRegistration> hostRegistrations = new ArrayList<>();
-    JSONArray transactions = new JSONObject(jsonResponse).optJSONArray("transactions");
+    JSONArray transactions;
+    try {
+      transactions = new JSONObject(jsonResponse).optJSONArray("transactions");
+    } catch (Exception e) {
+      LOGGER.error(e);
+      return hostRegistrations;
+    }
     if (transactions == null) {
       return hostRegistrations;
     }
