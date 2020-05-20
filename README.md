@@ -109,11 +109,11 @@ Example Response:
 
 ## List registered hosts
 
-You can list all known registered hosts using the list endpoint
+You can list 50 known registered hosts using the list endpoint and the offset parameter
 
 Example Request:
 ```
-http://localhost:8080/list
+http://localhost:8080/list?offset=50
 ```
 
 Example Response:
