@@ -1,6 +1,6 @@
 # Sia Name Service
 
-Sia Name Service is a Java Gradle project that provides a process to register, update, and lookup `[name].sns` hosts on the Sia blockchain.
+Sia Name Service is a Java Gradle project that provides the webportal software necessary to register, update, and lookup `[name].sns` hosts on the Sia blockchain.
 
 ## Sia Name Service Webportals
 Sia name service webportals can be found at:
