@@ -11,7 +11,7 @@ Please contact me if you have a sia name service webportal that you would like r
 
 ## Dependencies
 
-Must have the Sia wallet running to be able to locate new host entries. Must be synced and unlocked to be able to register or update host entries.
+Must have a Sia wallet that is running to be able to locate new host entries. Must have a Sia wallet that is synced and unlocked to be able to register or update host entries.
 
 ## How to configure
 
