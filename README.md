@@ -2,6 +2,13 @@
 
 Sia Name Service is a Java Gradle project that provides a process to register, update, and lookup `[name].sns` hosts on the Sia blockchain.
 
+## Public Portals
+Public sia-name-service portal can be found at:
+* [sns.hopto.me](http://sns.hopto.me)
+* [sns.redirectme.net](http://sns.redirectme.net)
+
+Please contact me if you have a public portal that you would like added.
+
 ## Dependencies
 
 Must have the Sia wallet running to be able to locate new host entries. Must be synced and unlocked to be able to register or update host entries.
