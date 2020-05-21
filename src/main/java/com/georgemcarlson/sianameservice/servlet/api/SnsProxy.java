@@ -41,6 +41,8 @@ public class SnsProxy extends HttpServlet {
             RedirectApi.getInstance().doIt(request, response);
         } else if (request.getPathInfo().equals("/register")) {
             RegisterApi.getInstance().doIt(request, response);
+        } else if (request.getPathInfo().equals("/update")) {
+            UpdateApi.getInstance().doIt(request, response);
         } else if (request.getPathInfo().equals("/list")) {
             ListApi.getInstance().doIt(request, response);
         } else if (request.getPathInfo().equals("/scanner")) {

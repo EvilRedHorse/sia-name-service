@@ -24,11 +24,10 @@
   </p>
   <h2>Register a Host</h2>
   <p>
-    Register a host by posting the `[name].[tld]` host that you wish to register with the skylink that it should point at and a registrant address and a fee to the register endpoint. The fee is how many siacoins to the power of ten that will be needed to register or update the linked skylink. This fee is limited to 1 on this server. To increase the fee in the future you will need to update use a different server. The registrant address should be an address that you control.
+    Register a host by posting to the register endpoint: the `[name].[tld]` host entry that you wish to register, the skylink that it should point at, and a registrant address. A fee value that is configured server side will determine how many siacoins to the power of ten that will be needed to register or update the linked skylink. The fee on this server is set to 1. You can increase this fee in the future by updating the host entry on a server that is configured for a larger fee. The registrant address should be an address that you control.
   </p>
   <p>
     <form action="/register">
-      <input type="hidden" id="fee" name="fee" value="1">
       <label for="host">Host:</label>
       <input type="text" id="host" name="host" value="[name].[tld]"><br/>
       <label for="skylink">Skylink:</label>
@@ -37,6 +36,19 @@
       <input type="text" id="registrant" name="registrant" value="[sia address]"><br/>
       <input type="submit" value="Register">
     </form>
+  </p>
+  <h2>Update a Host</h2>
+  <p>
+    Update a host by posting the `[name].[tld]` host entry that you wish update and the skylink that it should point at.
+  </p>
+  <p>
+  <form action="/update">
+    <label for="updatehost">Host:</label>
+    <input type="text" id="updatehost" name="host" value="[name].[tld]"><br/>
+    <label for="updateskylink">Skylink:</label>
+    <input type="text" id="updateskylink" name="skylink" value="[skylink hash]"><br/>
+    <input type="submit" value="Update">
+  </form>
   </p>
   <h2>Address Bar Browser Extension</h2>
   <p>

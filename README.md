@@ -51,17 +51,16 @@ Example Response:
 
 ## Update a host
 
-Update a host by posting the `[name].sns` host that you wish to register with the skylink that it should point at and the original registrant address that was used and a fee at least equal to the original fee.
+Update a host by posting the `[name].sns` host that you wish to update with the skylink that it should point at.
 
-Note: You can update someone else's fee but since they should own the registrant address they will get the fee and they can then just update the host again for next to nothing because they will be sending the fee to themselves. Also note that if you supply a larger fee than last time this becomes the new minimum fee to update in the future.
+Note: You can update someone else's fee but since they should own the registrant address they will get the fee and they can then just update the host again for next to nothing because they will be sending the fee to themselves. Also note that if the server is configures to use a larger fee than last time this larger becomes the new minimum fee to update in the future.
 
 Example Request:
 
 ```
-http://localhost:8080/register
+http://localhost:8080/update
 ?host=test.sns
 &skylink=CAA2XstfpNmrh5WrI3ThcBQKtsTFTEtmrGq--7eeKAlO9Q
-&registrant=8d2e801ffcec48cd7276652c5871332592975942af1c7e4964c77be8b01f80a4dcae15d1a308
 ```
 
 Example Response:
