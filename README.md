@@ -2,6 +2,9 @@
 
 Sia Name Service is a Java Gradle project that provides the webportal software necessary to register, update, and lookup `[name].sns` host entries on the Sia blockchain.
 
+## Download
+[Precompiled Sia Name Service releases](https://github.com/geo-gs/sia-name-service/releases)
+
 ## Sia Name Service Webportals
 Sia name service webportals can be found at:
 * [sns.hopto.me](http://sns.hopto.me)
@@ -19,7 +22,7 @@ Sia Name Service uses a settings.json file for its configurations. In this file 
 
 ##  How to run
 
-You can compile the gradle project and then run it on your own or you can open the project in a Gradle-enabled Java IDE (I use IntelliJ IDEA) and run `com.georgemcarlson.sianameservice.Main.java`.
+You can run the precompiled jar or a self-compiled jar on your own or you can open the project in a Gradle-enabled Java IDE (I use IntelliJ IDEA) and run `com.georgemcarlson.sianameservice.Main.java`.
 
 ## How to build
 
