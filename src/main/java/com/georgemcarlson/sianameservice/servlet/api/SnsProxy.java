@@ -10,6 +10,18 @@ import javax.servlet.http.HttpServletResponse;
 public class SnsProxy extends HttpServlet {
 
     @Override
+    protected void doHead(final HttpServletRequest request, final HttpServletResponse response)
+        throws IOException {
+        if (request.getPathInfo().startsWith("/skynet/skylink")) {
+            SkylinkApi.getInstance().doHead(request, response);
+        } else if (isSkylink(request.getPathInfo())) {
+            SkylinkApi.getInstance().doHead(request, response);
+        } else {
+            doHead(request, response);
+        }
+    }
+
+    @Override
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response)
         throws ServletException, IOException {
         doIt(request,response);
@@ -49,8 +61,27 @@ public class SnsProxy extends HttpServlet {
             ScannerApi.getInstance().doIt(request, response);
         } else if (request.getPathInfo().equals("/redirector")) {
             RedirectorDownload.getInstance().doIt(request, response);
+        } else if (request.getPathInfo().startsWith("/skynet/skyfile")) {
+            System.out.println("here");
+            SkyfileApi.getInstance().doPost(request, response);
+        } else if (request.getPathInfo().startsWith("/skynet/skylink")) {
+            SkylinkApi.getInstance().doGet(request, response);
+        } else if (isSkylink(request.getPathInfo())) {
+            SkylinkApi.getInstance().doGet(request, response);
         } else {
+            System.out.println(request.getPathInfo());
+            System.out.println(request.getPathInfo().length());
             IndexApi.getInstance().doIt(request, response);
+        }
+    }
+
+    public static boolean isSkylink(String path) {
+        if (path == null || path.length() < 47) {
+            return false;
+        } else if (path.indexOf("/", 1) != -1 && path.indexOf("/", 1) < 47) {
+            return false;
+        } else {
+            return true;
         }
     }
 

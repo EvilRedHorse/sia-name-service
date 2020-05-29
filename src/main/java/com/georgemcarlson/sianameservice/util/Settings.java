@@ -1,5 +1,8 @@
 package com.georgemcarlson.sianameservice.util;
 
+import com.georgemcarlson.sianameservice.util.skynet.SkynetClient;
+import com.georgemcarlson.sianameservice.util.skynet.SkynetClientPortal;
+import com.georgemcarlson.sianameservice.util.skynet.SkynetClientSiaWallet;
 import java.io.File;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
@@ -48,7 +51,7 @@ public class Settings {
     public static final String WALLET_API_PASSWORD;
     public static final int WALLET_API_PORT;
     public static final List<String> TLDS;
-    public static final List<String> PORTALS;
+    public static final SkynetClient SKYNET_CLIENT;
 
     static {
         JSONObject settings = new JSONObject();
@@ -67,7 +70,12 @@ public class Settings {
         WALLET_API_PASSWORD = settings.optString("wallet_api_password");
         WALLET_API_USER_AGENT = settings.optString("wallet_api_user_agent", "Sia-Agent");
         TLDS = optStrings(settings, "tlds");
-        PORTALS = optStrings(settings, "portals");
+        String portal = settings.optString("portal");
+        if (portal == null || portal.equals("wallet")) {
+            SKYNET_CLIENT = SkynetClientSiaWallet.getSingletonInstance();
+        } else {
+            SKYNET_CLIENT = SkynetClientPortal.getInstance(portal);
+        }
     }
 
     public static List<String> optStrings(JSONObject jsonObject, String key) {

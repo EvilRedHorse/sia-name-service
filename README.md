@@ -196,3 +196,20 @@ Example Response:
   "id": 0
 }
 ```
+
+## Upload Skyfile to Skynet
+
+Upload to skynet by making a multipart post to `/skynet/skyfile` as documented 
+<a href='https://sia.tech/docs/#skynet-skyfile-siapath-post'>here</a>.
+
+## Retrieve Skylink from Skynet
+
+You can retrieve data from skynet by making a get request to either `/[skylink]` or 
+`/skymet/skylink/[skylink]` as documented 
+<a href='https://sia.tech/docs/#skynet-skylink-skylink-get'>here</a>.
+
+## Retrieve Skylink HEAD from Skynet
+
+You can retrieve HEAD metadata from skynet by making a head request to either `/[skylink]` or 
+`/skymet/skylink/[skylink]` as documented 
+<a href='https://sia.tech/docs/#skynet-skylink-skylink-head'>here</a>.

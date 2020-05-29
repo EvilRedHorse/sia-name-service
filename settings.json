@@ -5,19 +5,8 @@
   "wallet_api_port": 9980,
   "wallet_api_password":"",
   "wallet_api_user_agent": "Sia-Agent",
+  "portal": "wallet",
   "tlds": [
     "sns"
-  ],
-  "portals": [
-    "siasky.net",
-    "siacdn.com",
-    "skynet.tutemwesi.com",
-    "skydrain.net",
-    "sialoop.net",
-    "skyportal.xyz",
-    "skynet.luxor.tech",
-    "skynethub.io",
-    "skynet.utxo.no",
-    "vault.lightspeedhosting.com"
   ]
 }

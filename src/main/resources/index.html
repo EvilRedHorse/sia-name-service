@@ -68,6 +68,18 @@
       <input type="submit" value="Generate">
     </form>
   </p>
+  <h2>Skynet</h2>
+  <p>
+    Upload to Skynet
+  </p>
+  <p>
+  <form action="/skynet/skyfile/sns" method="post" enctype="multipart/form-data">
+    <label for="filename">Filename:</label>
+    <input type="text" id="filename" name="filename" value="test.png"><br/>
+    <input type="file" name="file" /><br/>
+    <input type="submit" value="Upload">
+  </form>
+  </p>
   <h2>Documentation</h2>
   <p>
     You can view the documentation <a href="https://github.com/geo-gs/sia-name-service#sia-name-service">here</a>.

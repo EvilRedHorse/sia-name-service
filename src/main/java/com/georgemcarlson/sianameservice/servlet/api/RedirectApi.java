@@ -3,7 +3,6 @@ package com.georgemcarlson.sianameservice.servlet.api;
 import com.georgemcarlson.sianameservice.util.Settings;
 import com.georgemcarlson.sianameservice.util.persistence.WhoIs;
 import java.io.IOException;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,39 +24,14 @@ public class RedirectApi extends SiaNameServiceApi {
     }
 
     @Override
-    protected String getContentType() {
-        return "text/html";
-    }
-
-    @Override
     protected String getContent(HttpServletRequest request) {
-        StringBuilder portalChooser = new StringBuilder();
-        portalChooser.append("<h1>Choose The Portal To Use</h1>");
-        portalChooser
-            .append("<p><i>")
-            .append("Note that you can automate this page by supplying a `portal=` parameter to ")
-            .append("the URL query.</p><p>Alternatively, you can install and configure the ")
-            .append("Redirector browser extension to add native support to your address bar as ")
-            .append("described in the <a href='/'>Address Bar Browser Extension</a> section.")
-            .append("</i></p><p>");
-        for (String portal : Settings.PORTALS) {
-            portalChooser.append("<a href='https://").append(portal).append("/")
-                .append(getSkyLink(request)).append(getSnsPath(request))
-                .append(getSnsQuery(request)).append("'>").append(portal).append("</a><br/>");
-        }
-        return portalChooser.append("</p>").toString();
+        return null;
     }
 
     @Override
     protected void doIt(final HttpServletRequest request, final HttpServletResponse response)
-        throws IOException, ServletException {
-        String portal = request.getParameter(PORTAL_PARAMETER);
-        if (portal == null) {
-            super.doIt(request, response);
-        } else {
-            String url = "https://" + portal + "/" + getSkyLink(request) + getSnsPath(request) + getSnsQuery(request);
-            response.sendRedirect(url);
-        }
+        throws IOException {
+        Settings.SKYNET_CLIENT.get(getSkyLink(request) + getSnsPath(request) + getSnsQuery(request), request, response);
     }
 
     private String getSkyLink(final HttpServletRequest request) {
