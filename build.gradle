@@ -26,7 +26,8 @@ dependencies {
 
     //jitpack dependencies
     compile 'com.github.geo-gs:JBaseN:0.0.2'
-    
+    compile 'com.github.geo-gs:WaifUPnP:master-SNAPSHOT'
+
     //test dependencies
     testCompile 'junit:junit:4.12'
 }

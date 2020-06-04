@@ -1,7 +1,9 @@
 package com.georgemcarlson.sianameservice.servlet;
 
+import com.dosse.upnp.UPnP;
 import com.georgemcarlson.sianameservice.servlet.api.SnsProxy;
 import com.georgemcarlson.sianameservice.util.Logger;
+import com.georgemcarlson.sianameservice.util.Settings;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
@@ -28,6 +30,9 @@ public class SiaNameServiceServer {
             if(server!=null){
                 server.stop();
                 server = null;
+            }
+            if (Settings.PUBLIC) {
+                UPnP.closePortTCP(port);
             }
             LOGGER.info("Portal server has been shut down.");
         } catch (Exception e) {
@@ -58,6 +63,10 @@ public class SiaNameServiceServer {
             server.start();
         } catch (Exception e) {
             LOGGER.error(e.getLocalizedMessage(), e);
+        }
+
+        if (Settings.PUBLIC) {
+            UPnP.openPortTCP(port);
         }
     }
 

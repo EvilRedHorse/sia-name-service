@@ -1,4 +1,5 @@
 {
+  "public": true,
   "port": 8080,
   "fee": 1,
   "genesis_block": 258549,

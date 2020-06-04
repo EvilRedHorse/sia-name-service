@@ -44,6 +44,7 @@ public class Settings {
     public static final int SKYLINK_LENGTH = 46;
 
     private static final String SETTINGS_FILE_PATH = "settings.json";
+    public static final boolean PUBLIC;
     public static final int PORT;
     public static final int FEE;
     public static final int GENESIS_BLOCK;
@@ -63,6 +64,7 @@ public class Settings {
                 = new Exception("Unable to load settings: " + e.getLocalizedMessage());
             LOGGER.error(unableToLoadSettings.getLocalizedMessage(), unableToLoadSettings);
         }
+        PUBLIC = settings.optBoolean("public", false);
         PORT = settings.optInt("port", 8080);
         FEE = settings.optInt("fee", 0);
         GENESIS_BLOCK = settings.optInt("genesis_block", 258549);
