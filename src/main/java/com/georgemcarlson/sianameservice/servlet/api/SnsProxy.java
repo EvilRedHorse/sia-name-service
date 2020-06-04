@@ -62,15 +62,12 @@ public class SnsProxy extends HttpServlet {
         } else if (request.getPathInfo().equals("/redirector")) {
             RedirectorDownload.getInstance().doIt(request, response);
         } else if (request.getPathInfo().startsWith("/skynet/skyfile")) {
-            System.out.println("here");
             SkyfileApi.getInstance().doPost(request, response);
         } else if (request.getPathInfo().startsWith("/skynet/skylink")) {
             SkylinkApi.getInstance().doGet(request, response);
         } else if (isSkylink(request.getPathInfo())) {
             SkylinkApi.getInstance().doGet(request, response);
         } else {
-            System.out.println(request.getPathInfo());
-            System.out.println(request.getPathInfo().length());
             IndexApi.getInstance().doIt(request, response);
         }
     }
