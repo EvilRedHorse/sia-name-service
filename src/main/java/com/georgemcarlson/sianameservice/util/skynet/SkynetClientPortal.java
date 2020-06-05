@@ -114,7 +114,7 @@ public class SkynetClientPortal extends SkynetClient {
   }
 
   @Override
-  public void store(String filename, byte[] data, final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+  public void store(String filename, String contentType, byte[] data, final HttpServletRequest request, final HttpServletResponse response) throws IOException {
     OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
 
     clientBuilder.authenticator((route, skynetResponse) -> {
@@ -124,7 +124,7 @@ public class SkynetClientPortal extends SkynetClient {
         .readTimeout(100, TimeUnit.SECONDS);
 
     RequestBody binary = RequestBody.create(
-        okhttp3.MediaType.get("text/plain; charset=utf-8"),
+        okhttp3.MediaType.get(contentType),
         data
     );
     RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)

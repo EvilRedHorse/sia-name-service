@@ -43,6 +43,7 @@ public class SkyfileApi extends HttpServlet {
         }
         byte[] file = null;
         String fileName = null;
+        String contentType = null;
         if (request.getPart(FILE_PARAMETER) != null) {
             fileName = request.getPart(FILE_PARAMETER).getSubmittedFileName();
             try (InputStream inputStream = request.getPart(FILE_PARAMETER).getInputStream()) {
@@ -54,8 +55,12 @@ public class SkyfileApi extends HttpServlet {
                 fileName = new String(ByteStreams.toByteArray(inputStream));
             }
         }
+        if (request.getPart(FILE_PARAMETER) != null) {
+            contentType = request.getPart(FILE_PARAMETER).getContentType();
+        }
         Settings.SKYNET_CLIENT.store(
             fileName,
+            contentType,
             file,
             request,
             response

@@ -18,6 +18,6 @@ public abstract class SkynetClient {
 
   public abstract void get(String path, final HttpServletRequest request, final HttpServletResponse response) throws IOException;
 
-  public abstract void store(String filename, byte[] data, final HttpServletRequest request, final HttpServletResponse response) throws IOException;
+  public abstract void store(String filename, String contentType, byte[] data, final HttpServletRequest request, final HttpServletResponse response) throws IOException;
 
 }
