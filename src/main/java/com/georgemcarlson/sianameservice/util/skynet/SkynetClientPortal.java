@@ -1,15 +1,22 @@
 package com.georgemcarlson.sianameservice.util.skynet;
 
 import com.georgemcarlson.sianameservice.util.Logger;
+import com.georgemcarlson.sianameservice.util.Settings;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.concurrent.TimeUnit;
 import javax.servlet.AsyncContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.WriteListener;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import okhttp3.Credentials;
+import okhttp3.Headers;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class SkynetClientPortal extends SkynetClient {
 
@@ -108,7 +115,30 @@ public class SkynetClientPortal extends SkynetClient {
 
   @Override
   public void store(String filename, byte[] data, final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-    final ByteBuffer bytes = ByteBuffer.wrap("".getBytes());
+    OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
+
+    clientBuilder.authenticator((route, skynetResponse) -> {
+      String credential = Credentials.basic("", Settings.WALLET_API_PASSWORD);
+      return skynetResponse.request().newBuilder().header("Authorization", credential).build();
+    }).connectTimeout(100, TimeUnit.SECONDS)
+        .readTimeout(100, TimeUnit.SECONDS);
+
+    RequestBody binary = RequestBody.create(
+        okhttp3.MediaType.get("text/plain; charset=utf-8"),
+        data
+    );
+    RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+        .addFormDataPart("file", filename, binary)
+        .build();
+    Request.Builder requestBuilder = new Request.Builder();
+    requestBuilder.url(
+        String.format(getProtocol() + "://" + portal + request.getPathInfo(), filename)
+    );
+    requestBuilder.post(body);
+
+    Response skynetResponse = clientBuilder.build().newCall(requestBuilder.build()).execute();
+    final ByteBuffer bytes = ByteBuffer.wrap(skynetResponse.body().bytes());
+    final Headers headers = skynetResponse.headers();
     final AsyncContext async = request.startAsync();
     final ServletOutputStream out = response.getOutputStream();
     out.setWriteListener(new WriteListener() {
@@ -116,9 +146,10 @@ public class SkynetClientPortal extends SkynetClient {
       public void onWritePossible() throws IOException {
         while (out.isReady()) {
           if (!bytes.hasRemaining()) {
-            response.setStatus(HttpServletResponse.SC_TEMPORARY_REDIRECT);
-            System.out.println(getProtocol() + "://" + portal + request.getPathInfo());
-            response.setHeader("Location", getProtocol() + "://" + portal + request.getPathInfo());
+            for (String name : headers.names()) {
+              response.setHeader(name, headers.get(name));
+            }
+            response.setStatus(200);
             async.complete();
             return;
           }

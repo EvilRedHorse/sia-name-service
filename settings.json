@@ -7,7 +7,7 @@
   "wallet_api_port": 9980,
   "wallet_api_password":"",
   "wallet_api_user_agent": "Sia-Agent",
-  "portal": "wallet",
+  "portal": "siasky.net",
   "tlds": [
     "sns"
   ]

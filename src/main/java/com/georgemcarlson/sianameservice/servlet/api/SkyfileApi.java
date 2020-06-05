@@ -1,7 +1,6 @@
 package com.georgemcarlson.sianameservice.servlet.api;
 
 import com.georgemcarlson.sianameservice.util.Settings;
-import com.georgemcarlson.sianameservice.util.skynet.SkynetClientSiaWallet;
 import com.google.common.io.ByteStreams;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,10 +38,6 @@ public class SkyfileApi extends HttpServlet {
     @Override
     protected void doPost(final HttpServletRequest request, final HttpServletResponse response)
         throws ServletException, IOException {
-        if (Settings.SKYNET_CLIENT != SkynetClientSiaWallet.getSingletonInstance()) {
-            Settings.SKYNET_CLIENT.store(null, null, request, response);
-            return;
-        }
         if (isMultipartRequest(request)) {
             request.setAttribute(Request.__MULTIPART_CONFIG_ELEMENT, MULTI_PART_CONFIG);
         }
