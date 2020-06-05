@@ -1,100 +1,158 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Sia-Name-Service</title>
+  <title>Skynet</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+  <script>
+    function redirect() {
+      event.preventDefault();
+      window.location = "/" + document.getElementById("redirect").value;
+    }
+    function register() {
+      event.preventDefault();
+      document.getElementById("results").innerHTML = "";
+      document.getElementById("resultsModalSpinner").style.display = 'inline-block';
+      $('#resultsModal').modal('show');
+
+      var host = document.getElementById("host").value;
+      var registrant = document.getElementById("registrant").value;
+      var skylink = "TAAyGBRU3c0HL-IbL1p9cIwQeEANzzAGgNuzFQbRysPqQw";
+      fetch(`/register?host=${host}&registrant=${registrant}&skylink=${skylink}`, {method: 'GET'})
+      .then(response => response.json())
+      .then(result => {
+        document.getElementById("results").innerHTML = JSON.stringify(result, null, 2);
+        document.getElementById("resultsModalSpinner").style.display = 'none';
+        $('#resultsModal').modal('show');
+      }).catch(error => {
+        document.getElementById("results").innerHTML = "Error: " + error;
+        document.getElementById("resultsModalSpinner").style.display = 'none';
+        $('#resultsModal').modal('show');
+      })
+    }
+    function update(host, skylink) {
+      document.getElementById("results").innerHTML = "";
+      document.getElementById("resultsModalSpinner").style.display = 'inline-block';
+      $('#resultsModal').modal('show');
+
+      fetch(`/update?host=${host}&skylink=${skylink}`, {method: 'GET'})
+      .then(response => response.json())
+      .then(result => {
+        document.getElementById("results").innerHTML = JSON.stringify(result, null, 2);
+        document.getElementById("resultsModalSpinner").style.display = 'none';
+        $('#resultsModal').modal('show');
+      }).catch(error => {
+        document.getElementById("results").innerHTML = "Error: " + error;
+        document.getElementById("resultsModalSpinner").style.display = 'none';
+        $('#resultsModal').modal('show');
+      })
+    }
+    function upload() {
+      event.preventDefault();
+      document.getElementById("results").innerHTML = "";
+      document.getElementById("resultsModalSpinner").style.display = 'inline-block';
+      $('#resultsModal').modal('show');
+
+      let formData = new FormData(document.getElementById("upload"));
+      formData.append('file', $('input[type=file]')[0].files[0]);
+      fetch(`/skynet/skyfile/sns`, {method: 'POST',body: formData})
+      .then(response => response.json())
+      .then(result => {
+        var host = document.getElementById("updateHost").value;
+        update(host, result.skylink);
+      }).catch(error => {
+        document.getElementById("results").innerHTML = "Error: " + error;
+        document.getElementById("resultsModalSpinner").style.display = 'none';
+        $('#resultsModal').modal('show');
+      })
+    }
+  </script>
 </head>
 <body>
-  <h1>Sia-Name-Service</h1>
-  <p>
-    Sia-Name-Service is a Java Gradle project that provides a process to register, update, and lookup `[name].[tld]` hosts on the Sia blockchain.
-  </p>
-  <h2>Go To</h2>
-  <p>
-    Supply the skynet portal and `[name].[tld]` host that you wish to be redirected to.
-  </p>
-  <p>
-    <form action="/redirect">
-      <label for="redirect">Host:</label>
-      <input type="text" id="redirect" name="host" value="test.sns"><br/>
-      <label for="portal">Portal:</label>
-      <input type="text" id="portal" name="portal" value="siasky.net"><br/>
-      <input type="submit" value="Redirect">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#" style="color: 1ED600">Skynet</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/sia-name-service.sns">Documentation</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="sia-name-service.sns" aria-label="Go" id="redirect">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="redirect()">Go</button>
     </form>
-  </p>
-  <h2>Register a Host</h2>
-  <p>
-    Register a host by posting to the register endpoint: the `[name].[tld]` host entry that you wish to register, the skylink that it should point at, and a registrant address. A fee value that is configured server side will determine how many siacoins to the power of ten that will be needed to register or update the linked skylink. The fee on this server is set to 1. You can increase this fee in the future by updating the host entry on a server that is configured for a larger fee. The registrant address should be an address that you control.
-  </p>
-  <p>
-    <form action="/register">
-      <label for="host">Host:</label>
-      <input type="text" id="host" name="host" value="[name].[tld]"><br/>
-      <label for="skylink">Skylink:</label>
-      <input type="text" id="skylink" name="skylink" value="[skylink hash]"><br/>
-      <label for="registrant">Registrant:</label>
-      <input type="text" id="registrant" name="registrant" value="[sia address]"><br/>
-      <input type="submit" value="Register">
-    </form>
-  </p>
-  <h2>Update a Host</h2>
-  <p>
-    Update a host by posting the `[name].[tld]` host entry that you wish update and the skylink that it should point at.
-  </p>
-  <p>
-  <form action="/update">
-    <label for="updatehost">Host:</label>
-    <input type="text" id="updatehost" name="host" value="[name].[tld]"><br/>
-    <label for="updateskylink">Skylink:</label>
-    <input type="text" id="updateskylink" name="skylink" value="[skylink hash]"><br/>
-    <input type="submit" value="Update">
-  </form>
-  </p>
-  <h2>Address Bar Browser Extension</h2>
-  <p>
-    It is possible to install and configure the Redirector browser extension to add native
-    Sia-Name-Service TLD support to your address bar. To do this first install the
-    <a href="https://addons.mozilla.org/en-US/firefox/addon/redirector/">Firefox</a> or
-    <a href="https://chrome.google.com/webstore/detail/redirector/ocgpenflpmgnfapjedencafcfakcekcd">Chrome</a>
-    browser extension, then generate a Sia-Name-Service Redirector configuration file, then
-    navigate to the Redirector's settings, and finally import your generated configuration file.
-  </p>
-  <p>
-    <form action="/redirector">
-      <label for="sianameserviceportal">Sia-Name-Service:</label>
-      <input type="text" id="sianameserviceportal" name="sianameserviceportal" value="sns.redirectme.net"><br/>
-      <label for="skynetportal">Skynet Portal:</label>
-      <input type="text" id="skynetportal" name="skynetportal" value="siasky.net"><br/>
-      <input type="submit" value="Generate">
-    </form>
-  </p>
-  <h2>Skynet</h2>
-  <p>
-    Upload to Skynet
-  </p>
-  <p>
-  <form action="/skynet/skyfile/sns" method="post" enctype="multipart/form-data">
-    <label for="filename">Filename:</label>
-    <input type="text" id="filename" name="filename" value="test.png"><br/>
-    <input type="file" name="file" /><br/>
-    <input type="submit" value="Upload">
-  </form>
-  </p>
-  <h2>Documentation</h2>
-  <p>
-    You can view the documentation <a href="https://github.com/geo-gs/sia-name-service#sia-name-service">here</a>.
-  </p>
-  <h2>Sia name service webportals</h2>
-  <p>
-    Sia name service webportals can be found at:
-  </p>
-  <ul>
-    <li><a href='http://sns.hopto.me'>sns.hopto.me</a></li>
-    <li><a href='http://sns.redirectme.net'>sns.redirectme.net</a></li>
-  </ul>
-  <h2>Donate</h2>
-  <p>
-    You can donate siacoin to help fund the project at: 176865262b61a961f107b1148782b0c59d4877b365f98a589e945438572b3e16ace15a2cac86
-  </p>
+  </div>
+</nav>
+<center>
+  <div class="container-md">
+    <br/>
+    <h1>Build a Free Internet.</h1>
+    <br/>
+    <h3>The decentralized CDN and file sharing platform for devs. Skynet is the storage foundation for a Free Internet!</h3>
+    <br/>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <h3>Register a Domain</h3>
+          <form>
+            <div class="form-group">
+              <label for="host">Domian</label>
+              <input type="text" class="form-control" id="host" name="host" placeholder="[domain].sns">
+            </div>
+            <div class="form-group">
+              <label for="registrant">Registrant</label>
+              <input type="text" class="form-control" id="registrant" name="registrant" placeholder="[sia address]">
+            </div>
+            <button type="submit" class="btn btn-primary" onclick="register()">Register</button>
+          </form>
+        </div>
+        <div class="col">
+          <h3>Upload Your File</h3>
+          <div class="form-group">
+            <label for="updateHost">Domian</label>
+            <input type="text" class="form-control" id="updateHost" placeholder="[domain].sns">
+          </div>
+          <form id="upload" enctype="multipart/form-data">
+            <div class="form-group">
+              <label for="file">File</label>
+              <input type="file" class="form-control-file" id="file">
+            </div>
+            <button type="submit" class="btn btn-primary" onclick="upload()">Upload</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="resultsModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Results</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p id="results"></p>
+          <div class="spinner-border" role="status" id="resultsModalSpinner">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</center>
 </body>
 </html>
