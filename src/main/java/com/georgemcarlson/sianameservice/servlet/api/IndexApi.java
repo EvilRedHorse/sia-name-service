@@ -2,15 +2,16 @@ package com.georgemcarlson.sianameservice.servlet.api;
 
 import com.georgemcarlson.sianameservice.util.Logger;
 import com.georgemcarlson.sianameservice.util.Settings;
-import com.google.common.io.ByteStreams;
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
+import java.nio.file.Files;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class IndexApi extends SiaNameServiceApi {
     private static final Logger LOGGER = Logger.getInstance();
+    private static final String INDEX_FILE_PATH = "index.html";
 
     public static IndexApi getInstance(){
         return new IndexApi();
@@ -18,9 +19,9 @@ public class IndexApi extends SiaNameServiceApi {
 
     @Override
     protected String getContent(HttpServletRequest request) {
-        try (InputStream index = IndexApi.class.getResourceAsStream("/index.html")) {
-            return new String(ByteStreams.toByteArray(index));
-        } catch (IOException e) {
+        try {
+            return new String(Files.readAllBytes(new File(INDEX_FILE_PATH).toPath()));
+        } catch (Exception e) {
             LOGGER.error(e.getLocalizedMessage(), e);
             return "";
         }
