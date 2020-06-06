@@ -97,7 +97,10 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#" style="color: 1ED600">Skynet</a>
+  <form class="form-inline my-2 my-lg-0">
+    <input class="form-control mr-sm-2" type="search" placeholder="sia-name-service.sns" aria-label="Go" id="redirect">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="go()">GO</button>
+  </form>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -114,10 +117,6 @@
         <a class="nav-link" href="#donate">Donate</a>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="sia-name-service.sns" aria-label="Go" id="redirect">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="go()">GO</button>
-    </form>
   </div>
 </nav>
 <center>
@@ -140,7 +139,7 @@
               <label for="registrant">Registrant</label>
               <input type="text" class="form-control" id="registrant" name="registrant" placeholder="[sia address]">
             </div>
-            <button type="submit" class="btn btn-primary" onclick="register()">Register</button>
+            <button type="submit" class="btn btn-outline-success" onclick="register()">Register</button>
           </form>
         </div>
         <div class="col">
@@ -154,7 +153,7 @@
               <label for="uploadAndLinkFile">File</label>
               <input type="file" class="form-control-file" id="uploadAndLinkFile">
             </div>
-            <button type="submit" class="btn btn-primary" onclick="uploadAndLink()">Upload</button>
+            <button type="submit" class="btn btn-outline-success" onclick="uploadAndLink()">Upload</button>
           </form>
         </div>
         <div class="col">
@@ -164,7 +163,7 @@
               <label for="uploadFile">File</label>
               <input type="file" class="form-control-file" id="uploadFile">
             </div>
-            <button type="submit" class="btn btn-primary" onclick="upload()">Upload</button>
+            <button type="submit" class="btn btn-outline-success" onclick="upload()">Upload</button>
           </form>
         </div>
       </div>
