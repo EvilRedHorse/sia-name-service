@@ -54,6 +54,25 @@
         $('#resultsModal').modal('show');
       })
     }
+    function uploadAndLink() {
+      event.preventDefault();
+      document.getElementById("results").innerHTML = "";
+      document.getElementById("resultsModalSpinner").style.display = 'inline-block';
+      $('#resultsModal').modal('show');
+
+      let formData = new FormData(document.getElementById("uploadAndLink"));
+      formData.append('file', document.getElementById("uploadAndLinkFile").files[0]);
+      fetch(`/skynet/skyfile`, {method: 'POST',body: formData})
+      .then(response => response.json())
+      .then(result => {
+        var host = document.getElementById("updateHost").value;
+        update(host, result.skylink);
+      }).catch(error => {
+        document.getElementById("results").innerHTML = "Error: " + error;
+        document.getElementById("resultsModalSpinner").style.display = 'none';
+        $('#resultsModal').modal('show');
+      })
+    }
     function upload() {
       event.preventDefault();
       document.getElementById("results").innerHTML = "";
@@ -61,12 +80,13 @@
       $('#resultsModal').modal('show');
 
       let formData = new FormData(document.getElementById("upload"));
-      formData.append('file', $('input[type=file]')[0].files[0]);
-      fetch(`/skynet/skyfile/sns`, {method: 'POST',body: formData})
+      formData.append('file', document.getElementById("uploadFile").files[0]);
+      fetch(`/skynet/skyfile`, {method: 'POST',body: formData})
       .then(response => response.json())
       .then(result => {
-        var host = document.getElementById("updateHost").value;
-        update(host, result.skylink);
+        document.getElementById("results").innerHTML = "Skylink: " + result.skylink;
+        document.getElementById("resultsModalSpinner").style.display = 'none';
+        $('#resultsModal').modal('show');
       }).catch(error => {
         document.getElementById("results").innerHTML = "Error: " + error;
         document.getElementById("resultsModalSpinner").style.display = 'none';
@@ -124,15 +144,25 @@
           </form>
         </div>
         <div class="col">
-          <h3>Upload Your File</h3>
+          <h3>Upload And Link Your File</h3>
           <div class="form-group">
             <label for="updateHost">Domian</label>
             <input type="text" class="form-control" id="updateHost" placeholder="[domain].sns">
           </div>
+          <form id="uploadAndLink" enctype="multipart/form-data">
+            <div class="form-group">
+              <label for="uploadAndLinkFile">File</label>
+              <input type="file" class="form-control-file" id="uploadAndLinkFile">
+            </div>
+            <button type="submit" class="btn btn-primary" onclick="uploadAndLink()">Upload</button>
+          </form>
+        </div>
+        <div class="col">
+          <h3>Upload Your File</h3>
           <form id="upload" enctype="multipart/form-data">
             <div class="form-group">
-              <label for="file">File</label>
-              <input type="file" class="form-control-file" id="file">
+              <label for="uploadFile">File</label>
+              <input type="file" class="form-control-file" id="uploadFile">
             </div>
             <button type="submit" class="btn btn-primary" onclick="upload()">Upload</button>
           </form>

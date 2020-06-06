@@ -1,7 +1,6 @@
 package com.georgemcarlson.sianameservice.util.skynet;
 
 import com.georgemcarlson.sianameservice.util.Logger;
-import com.georgemcarlson.sianameservice.util.Settings;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.concurrent.TimeUnit;
@@ -10,7 +9,6 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.WriteListener;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import okhttp3.Credentials;
 import okhttp3.Headers;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -115,12 +113,8 @@ public class SkynetClientPortal extends SkynetClient {
 
   @Override
   public void store(String filename, String contentType, byte[] data, final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-    OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
-
-    clientBuilder.authenticator((route, skynetResponse) -> {
-      String credential = Credentials.basic("", Settings.WALLET_API_PASSWORD);
-      return skynetResponse.request().newBuilder().header("Authorization", credential).build();
-    }).connectTimeout(100, TimeUnit.SECONDS)
+    OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder()
+        .connectTimeout(100, TimeUnit.SECONDS)
         .readTimeout(100, TimeUnit.SECONDS);
 
     RequestBody binary = RequestBody.create(
