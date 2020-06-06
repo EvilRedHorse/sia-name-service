@@ -14,7 +14,6 @@ public class RedirectorDownload extends SiaNameServiceApi {
     public static final String PATH = "/redirector";
     public static final String HELP_PARAMETER = "help";
     public static final String SIA_NAME_SERVICE_PORTAL_PARAMETER = "sianameserviceportal";
-    public static final String SKYNET_PORTAL_PARAMETER = "skynetportal";
 
     public static RedirectorDownload getInstance(){
         return new RedirectorDownload();
@@ -25,7 +24,6 @@ public class RedirectorDownload extends SiaNameServiceApi {
         api.put("path", PATH);
         JSONArray parameters = new JSONArray();
         parameters.put("(String) " + SIA_NAME_SERVICE_PORTAL_PARAMETER);
-        parameters.put("(String) " + SKYNET_PORTAL_PARAMETER);
         api.put("parameters", parameters);
         return api;
     }
@@ -50,8 +48,7 @@ public class RedirectorDownload extends SiaNameServiceApi {
         ) {
             return String.format(
                 new String(ByteStreams.toByteArray(index)),
-                request.getParameter(SIA_NAME_SERVICE_PORTAL_PARAMETER),
-                request.getParameter(SKYNET_PORTAL_PARAMETER)
+                request.getParameter(SIA_NAME_SERVICE_PORTAL_PARAMETER)
             );
         } catch (IOException e) {
             LOGGER.error(e.getLocalizedMessage(), e);

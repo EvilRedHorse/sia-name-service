@@ -167,7 +167,7 @@ You can generate the configuration needed to set up the Redirector browser exten
 
 Example Request:
 ```
-http://localhost:8080/redirector
+http://localhost:8080/redirector?sianameserviceportal=[sianameserviceportal]
 ```
 
 Example Response:
