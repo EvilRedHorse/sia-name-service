@@ -2,6 +2,14 @@
 
 Sia Name Service is a Java Gradle project that provides the webportal software necessary to register, update, and lookup `[name].sns` host entries on the Sia blockchain.
 
+The best way to describe Sia Name Service is as a decentralized URL shortening service and a link management platform for Skynet's Skylinks.
+
+What happens is that when you assign an `.sns` domain to a Skylink you automatically have a shortened URL in the form of `http[s]://[sia-name-service portal]/[domain-name].sns` (for example: http://sns.hopto.me/bigbuckbunny.sns). Additionally, if you install the browser extension you can access `.sns` domains through the browser's address bar (for example: http://bigbuckbunny.sns/ would resolve). Thirdly, the service also lets you supply a `Host: [domain].sns` header in a request to the service. This should allow someone to point their router at a personal DNS resolver that rewrites all `.sns` domains to a defined Sia Name Service portal that will then resolve the request natively (for example: http://bigbuckbunny.sns/ would resolve without needing a browser extension). Lastly, the Sia Name Service portal provides a "GO" input field that will redirect you to the Skylink associated with the input field's `.sns` domain. 
+
+One of Sia Name Service's secondary missions is to provide an out-of-the-box Skynet portal. The idea here is to provide a Jetty server alternative to Nebulous's official Skynet webportal that you can just double click on to start up. This will allow you to run a Skynet portal without needing to set up an nginx webserver on your computer or fiddling with router configurations. 
+
+A latent purpose is to provide an alternative to Dapp Dapp Go's excellent Skylink search engine. This is achieved by providing the /list and the /whois/bigbuckbunny.sns API endpoints. The long term goal here is to someday add a /search endpoint.
+
 ## Download
 [Precompiled Sia Name Service releases](https://github.com/geo-gs/sia-name-service/releases)
 

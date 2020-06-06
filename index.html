@@ -89,6 +89,9 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
+        <a class="nav-link" href="#about">About</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="/sia-name-service.sns">Documentation</a>
       </li>
       <li class="nav-item">
@@ -97,7 +100,7 @@
     </ul>
     <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="sia-name-service.sns" aria-label="Go" id="redirect">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="go()">Go</button>
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="go()">GO</button>
     </form>
   </div>
 </nav>
@@ -139,6 +142,53 @@
           </form>
         </div>
       </div>
+    </div>
+  </div>
+  <div id="about" class="container-md">
+    <br/>
+    <h1>About Sia Name Service.</h1>
+    <br/>
+    <h3>
+      Sia Name Service is a Java Gradle project that provides the webportal software necessary to
+      register, update, and lookup `[name].sns` host entries on the Sia blockchain.
+    </h3>
+    <br/>
+    <div class="container">
+      <p>
+        The best way to describe Sia Name Service is as a decentralized URL shortening
+        service and a link management platform for Skynet's Skylinks.
+      </p>
+      <p>
+        What happens is that when you assign an `.sns` domain to a Skylink you automatically have
+        a shortened URL in the form of `http[s]://[sia-name-service portal]/[domain-name].sns`
+        (for example:
+        <a href="http://sns.hopto.me/bigbuckbunny.sns">http://sns.hopto.me/bigbuckbunny.sns</a>).
+        Additionally, if you install the browser extension you can access `.sns` domains through
+        the browser's address bar (for example:
+        <a href="http://bigbuckbunny.sns/">http://bigbuckbunny.sns/</a> would resolve). Thirdly,
+        the service also lets you supply a `Host: [domain].sns` header in a request to the service.
+        This should allow someone to point their router at a personal DNS resolver that rewrites
+        all `.sns` domains to a defined Sia Name Service portal that will then resolve the request
+        natively (for example: <a href="http://bigbuckbunny.sns/">http://bigbuckbunny.sns/</a>
+        would resolve without needing a browser extension). Lastly, the Sia Name Service portal
+        provides a "GO" input field that will redirect you to the Skylink associated with the
+        input field's `.sns` domain.
+      </p>
+      <p>
+        One of Sia Name Service's secondary missions is to provide an out-of-the-box Skynet portal.
+        The idea here is to provide a Jetty server alternative to Nebulous's official
+        <a href="https://github.com/NebulousLabs/skynet-webportal">Skynet webportal</a> that you
+        can just double click on to start up. This will allow you to run a Skynet portal without
+        needing to set up an nginx webserver on your computer or fiddling with router
+        configurations.
+      </p>
+      <p>
+        A latent purpose is to provide an alternative to
+        <a href="https://github.com/DaWe35/DappDappGo">Dapp Dapp Go's</a> excellent Skylink search
+        engine. This is achieved by providing the <a href="/list">/list</a> and the
+        <a href="/whois/bigbuckbunny.sns">/whois/bigbuckbunny.sns</a> API endpoints. The long term
+        goal here is to someday add a /search endpoint.
+      </p>
     </div>
   </div>
   <div class="modal" id="resultsModal" tabindex="-1" role="dialog">
