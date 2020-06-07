@@ -35,7 +35,7 @@ public class IndexApi extends SiaNameServiceApi {
     @Override
     protected void doIt(final HttpServletRequest request, final HttpServletResponse response)
         throws IOException, ServletException {
-        for (String tld : Settings.TLDS) {
+        for (String tld : Settings.getTlds()) {
             if (request.getServerName().endsWith("." + tld)) {
                 RedirectApi.getInstance(request.getServerName()).doIt(request, response);
                 return;

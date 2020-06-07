@@ -9,7 +9,7 @@ public class Main {
     public static SiaNameServiceServer SERVER;
 
     public static void main(String[] args) throws SQLException {
-        run(Settings.PORT);
+        run(Settings.getPort());
     }
 
     public static void run(int port) throws SQLException {

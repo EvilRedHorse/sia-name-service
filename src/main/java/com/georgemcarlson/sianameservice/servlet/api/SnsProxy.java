@@ -36,7 +36,7 @@ public class SnsProxy extends HttpServlet {
     protected void doIt(final HttpServletRequest request, final HttpServletResponse response)
         throws ServletException, IOException {
 
-        for (String tld : Settings.TLDS) {
+        for (String tld : Settings.getTlds()) {
             if (request.getServerName().endsWith("." + tld)) {
                 RedirectApi.getInstance(request.getServerName()).doIt(request, response);
                 return;
@@ -86,7 +86,7 @@ public class SnsProxy extends HttpServlet {
         if (path == null || path.trim().isEmpty()) {
             return null;
         }
-        for (String tld : Settings.TLDS) {
+        for (String tld : Settings.getTlds()) {
             if (path.endsWith("." + tld) || path.contains("." + tld + "/")
             ) {
                 String serverName

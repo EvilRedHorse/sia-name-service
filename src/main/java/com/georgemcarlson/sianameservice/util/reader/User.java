@@ -32,8 +32,8 @@ public class User {
             OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
 
             Request.Builder requestBuilder = new Request.Builder();
-            requestBuilder.url("http://localhost:" + Settings.WALLET_API_PORT + "/wallet/seedaddrs");
-            requestBuilder.header("User-Agent", Settings.WALLET_API_USER_AGENT);
+            requestBuilder.url("http://localhost:" + Settings.getWalletApiPort() + "/wallet/seedaddrs");
+            requestBuilder.header("User-Agent", Settings.getWalletApiUserAgent());
             requestBuilder.get();
 
             Response response = clientBuilder.build().newCall(requestBuilder.build()).execute();
@@ -68,7 +68,7 @@ public class User {
             OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
 
             clientBuilder.authenticator((route, response) -> {
-                String credential = Credentials.basic("", Settings.WALLET_API_PASSWORD);
+                String credential = Credentials.basic("", Settings.getWalletApiPassword());
                 return response.request().newBuilder().header("Authorization", credential).build();
             });
 
@@ -76,8 +76,8 @@ public class User {
             formBuilder.add("outputs", outputs.toString(0));
 
             Request.Builder requestBuilder = new Request.Builder();
-            requestBuilder.url("http://localhost:" + Settings.WALLET_API_PORT + "/wallet/siacoins");
-            requestBuilder.header("User-Agent", Settings.WALLET_API_USER_AGENT);
+            requestBuilder.url("http://localhost:" + Settings.getWalletApiPort() + "/wallet/siacoins");
+            requestBuilder.header("User-Agent", Settings.getWalletApiUserAgent());
             requestBuilder.post(formBuilder.build());
 
 

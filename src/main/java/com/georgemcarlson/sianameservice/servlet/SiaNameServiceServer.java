@@ -31,7 +31,7 @@ public class SiaNameServiceServer {
                 server.stop();
                 server = null;
             }
-            if (Settings.PUBLIC && Settings.ENABLED_UPNP) {
+            if (Settings.isPublic() && Settings.getEnabledUpnp()) {
                 UPnP.closePortTCP(port);
             }
             LOGGER.info("Portal server has been shut down.");
@@ -65,7 +65,7 @@ public class SiaNameServiceServer {
             LOGGER.error(e.getLocalizedMessage(), e);
         }
 
-        if (Settings.PUBLIC && Settings.ENABLED_UPNP) {
+        if (Settings.isPublic() && Settings.getEnabledUpnp()) {
             UPnP.openPortTCP(port);
         }
     }

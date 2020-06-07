@@ -22,7 +22,7 @@ public class SkylinkApi extends HttpServlet {
         String path = request.getPathInfo().startsWith("/skynet/skylink/")
             ? request.getPathInfo().substring(16)
             : request.getPathInfo().substring(1);
-        Settings.SKYNET_CLIENT.head(path, request, response);
+        Settings.getSkynetClient().head(path, request, response);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class SkylinkApi extends HttpServlet {
         String path = request.getPathInfo().startsWith("/skynet/skylink/")
             ? request.getPathInfo().substring(16)
             : request.getPathInfo().substring(1);
-        Settings.SKYNET_CLIENT.get(path, request, response);
+        Settings.getSkynetClient().get(path, request, response);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class SkylinkApi extends HttpServlet {
         String path = request.getPathInfo().startsWith("/skynet/skylink/")
             ? request.getPathInfo().substring(16)
             : request.getPathInfo().substring(1);
-        Settings.SKYNET_CLIENT.get(path, request, response);
+        Settings.getSkynetClient().get(path, request, response);
     }
 
 }

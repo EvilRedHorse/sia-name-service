@@ -25,8 +25,8 @@ public class Block {
     private static String getBlock(long blockHeight) {
         try {
             Request.Builder requestBuilder = new Request.Builder();
-            requestBuilder.url("http://localhost:" + Settings.WALLET_API_PORT + "/consensus/blocks?height="+blockHeight);
-            requestBuilder.header("User-Agent", Settings.WALLET_API_USER_AGENT);
+            requestBuilder.url("http://localhost:" + Settings.getWalletApiPort() + "/consensus/blocks?height="+blockHeight);
+            requestBuilder.header("User-Agent", Settings.getWalletApiUserAgent());
             OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
             Response response = clientBuilder.build().newCall(requestBuilder.build()).execute();
             return response.body().string();

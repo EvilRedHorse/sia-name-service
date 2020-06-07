@@ -47,7 +47,7 @@ public class HostRegistration {
         || arbitraryData.length > Settings.SKYLINK_LENGTH + ("99999 a.b ").length() + 50) {
       return true;
     }
-    for (String tld : Settings.TLDS) {
+    for (String tld : Settings.getTlds()) {
       if (arbitraryData.length < Settings.SKYLINK_LENGTH + ("." + tld + " ").length()) {
         continue;
       }

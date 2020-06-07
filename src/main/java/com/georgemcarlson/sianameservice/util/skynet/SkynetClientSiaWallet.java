@@ -118,7 +118,7 @@ public class SkynetClientSiaWallet extends SkynetClient {
     OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
 
     clientBuilder.authenticator((route, skynetResponse) -> {
-      String credential = Credentials.basic("", Settings.WALLET_API_PASSWORD);
+      String credential = Credentials.basic("", Settings.getWalletApiPassword());
       return skynetResponse.request().newBuilder().header("Authorization", credential).build();
     }).connectTimeout(100, TimeUnit.SECONDS)
         .readTimeout(100, TimeUnit.SECONDS);

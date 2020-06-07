@@ -46,8 +46,8 @@ public class Wallet extends SiaApi {
         String currentWalletAddress = "";
         try{
             Request.Builder requestBuilder = new Request.Builder();
-            requestBuilder.url("http://localhost:" + Settings.WALLET_API_PORT + "/consensus");
-            requestBuilder.header("User-Agent", Settings.WALLET_API_USER_AGENT);
+            requestBuilder.url("http://localhost:" + Settings.getWalletApiPort() + "/consensus");
+            requestBuilder.header("User-Agent", Settings.getWalletApiUserAgent());
 
             OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
             Response response = clientBuilder.build().newCall(requestBuilder.build()).execute();
@@ -65,8 +65,8 @@ public class Wallet extends SiaApi {
         }
         try{
             Request.Builder requestBuilder = new Request.Builder();
-            requestBuilder.url("http://localhost:" + Settings.WALLET_API_PORT + "/wallet");
-            requestBuilder.header("User-Agent", Settings.WALLET_API_USER_AGENT);
+            requestBuilder.url("http://localhost:" + Settings.getWalletApiPort() + "/wallet");
+            requestBuilder.header("User-Agent", Settings.getWalletApiUserAgent());
 
             OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
             Response response = clientBuilder.build().newCall(requestBuilder.build()).execute();
@@ -92,8 +92,8 @@ public class Wallet extends SiaApi {
         if(unlocked){
             try{
                 Request.Builder requestBuilder = new Request.Builder();
-                requestBuilder.url("http://localhost:" + Settings.WALLET_API_PORT + "/wallet/addresses");
-                requestBuilder.header("User-Agent", Settings.WALLET_API_USER_AGENT);
+                requestBuilder.url("http://localhost:" + Settings.getWalletApiPort() + "/wallet/addresses");
+                requestBuilder.header("User-Agent", Settings.getWalletApiUserAgent());
 
                 OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
                 Response response = clientBuilder.build().newCall(requestBuilder.build()).execute();

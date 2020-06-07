@@ -58,7 +58,7 @@ public class SkyfileApi extends HttpServlet {
         if (request.getPart(FILE_PARAMETER) != null) {
             contentType = request.getPart(FILE_PARAMETER).getContentType();
         }
-        Settings.SKYNET_CLIENT.store(
+        Settings.getSkynetClient().store(
             fileName,
             contentType,
             file,

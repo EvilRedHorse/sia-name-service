@@ -37,7 +37,7 @@ public class UpdateApi extends SiaNameServiceApi {
     
     @Override
     protected String getContent(HttpServletRequest request) {
-        if (Settings.FEE < 1) {
+        if (Settings.getFee() < 1) {
             JSONObject response = new JSONObject();
             response.put("message", "Service is not currently accepting registration requests.");
             return response.toString(2);
@@ -55,7 +55,7 @@ public class UpdateApi extends SiaNameServiceApi {
         } else if (!isTldValid(host)) {
             JSONObject response = new JSONObject();
             List<String> tlds = new ArrayList<>();
-            for (String tld : Settings.TLDS) {
+            for (String tld : Settings.getTlds()) {
                 tlds.add("." + tld);
             }
             response.put("message", "Domain name does not end in " + String.join(" or ", tlds));
@@ -92,7 +92,7 @@ public class UpdateApi extends SiaNameServiceApi {
             response.put("message", "Supplied domain name is not registered.");
             return response.toString(2);
         }
-        if (whoIs.getFee() > Settings.FEE) {
+        if (whoIs.getFee() > Settings.getFee()) {
             JSONObject response = new JSONObject();
             response.put(
                 "message",
@@ -108,7 +108,7 @@ public class UpdateApi extends SiaNameServiceApi {
             host,
             skylink,
             whoIs.getRegistrant(),
-            Settings.FEE,
+            Settings.getFee(),
             blockSeconds
         ).create();
         if (!successful) {
@@ -120,7 +120,7 @@ public class UpdateApi extends SiaNameServiceApi {
         hostFile.put("host", host);
         hostFile.put("skylink", skylink);
         hostFile.put("registrant", whoIs.getRegistrant());
-        hostFile.put("fee", Settings.FEE);
+        hostFile.put("fee", Settings.getFee());
         return hostFile.toString(2);
     }
 
@@ -128,7 +128,7 @@ public class UpdateApi extends SiaNameServiceApi {
         if (host == null || host.trim().isEmpty()) {
             return false;
         }
-        for (String tld : Settings.TLDS) {
+        for (String tld : Settings.getTlds()) {
             if (host.endsWith("." + tld)) {
                 return true;
             }

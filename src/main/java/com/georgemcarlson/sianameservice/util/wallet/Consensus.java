@@ -24,8 +24,8 @@ public class Consensus {
     public Consensus execute() {
         try{
             Request.Builder requestBuilder = new Request.Builder();
-            requestBuilder.url("http://localhost:" + Settings.WALLET_API_PORT + "/consensus");
-            requestBuilder.header("User-Agent", Settings.WALLET_API_USER_AGENT);
+            requestBuilder.url("http://localhost:" + Settings.getWalletApiPort() + "/consensus");
+            requestBuilder.header("User-Agent", Settings.getWalletApiUserAgent());
 
             OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
             Response response = clientBuilder.build().newCall(requestBuilder.build()).execute();

@@ -26,7 +26,7 @@ public class SiaHostScanner implements Runnable {
         Scanner scanner = Scanner.findHighest();
         if (scanner == null) {
             scanner = new Scanner();
-            scanner.setBlock(Settings.GENESIS_BLOCK);
+            scanner.setBlock(Settings.getGenesisBlock());
             scanner.create();
         }
         return new SiaHostScanner(scanner);

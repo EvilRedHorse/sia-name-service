@@ -31,7 +31,7 @@ public class RedirectApi extends SiaNameServiceApi {
     @Override
     protected void doIt(final HttpServletRequest request, final HttpServletResponse response)
         throws IOException {
-        Settings.SKYNET_CLIENT.get(getSkyLink(request) + getSnsPath(request) + getSnsQuery(request), request, response);
+        Settings.getSkynetClient().get(getSkyLink(request) + getSnsPath(request) + getSnsQuery(request), request, response);
     }
 
     private String getSkyLink(final HttpServletRequest request) {
@@ -45,7 +45,7 @@ public class RedirectApi extends SiaNameServiceApi {
         if (path == null || path.equals("/redirect")) {
             return "";
         }
-        for (String tld : Settings.TLDS) {
+        for (String tld : Settings.getTlds()) {
             if (path.endsWith("." + tld)) {
                 return "";
             }
