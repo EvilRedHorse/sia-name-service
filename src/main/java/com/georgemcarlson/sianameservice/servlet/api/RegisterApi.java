@@ -41,7 +41,7 @@ public class RegisterApi extends SiaNameServiceApi {
     protected String getContent(HttpServletRequest request) {
         if (Settings.FEE < 1) {
             JSONObject response = new JSONObject();
-            response.put("message", "service is not currently accepting registration requests");
+            response.put("message", "Service is not currently accepting registration requests.");
             return response.toString(2);
         }
         if(!request.getParameterNames().hasMoreElements()){

@@ -31,7 +31,7 @@
         if (result.message) {
           document.getElementById("results").innerHTML = result.message;
         } else {
-          document.getElementById("results").innerHTML = `<a href="/${result.host}">${result.host}</a> is registered.`;
+          document.getElementById("results").innerHTML = `Congratulations! You have registered <a href="/${result.host}">${result.host}</a>.`;
         }
         document.getElementById("resultsModalSpinner").style.display = 'none';
         $('#resultsModal').modal('show');
@@ -190,7 +190,7 @@
     <br/>
     <h3>
       Sia Name Service is a Java Gradle project that provides the webportal software necessary to
-      register, update, and lookup `[name].sns` host entries on the Sia blockchain.
+      register, update, and lookup `[name].sns` domain names on the Sia blockchain.
     </h3>
     <br/>
     <div class="container">
