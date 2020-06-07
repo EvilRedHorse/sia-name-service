@@ -50,56 +50,56 @@ public class RegisterApi extends SiaNameServiceApi {
         String host = request.getParameter(HOST_PARAMETER);
         if (host == null) {
             JSONObject response = new JSONObject();
-            response.put("message", "no host supplied");
+            response.put("message", "No host supplied.");
             return response.toString(2);
         } else if (!isTldValid(host)) {
             JSONObject response = new JSONObject();
-            response.put("message", "host does not end in " + String.join(" or ", Settings.TLDS));
+            response.put("message", "Host does not end in " + String.join(" or ", Settings.TLDS));
             return response.toString(2);
         } else if (!isHostValid(host)) {
             JSONObject response = new JSONObject();
-            response.put("message", "invalid host");
+            response.put("message", "Invalid host.");
             return response.toString(2);
         }
         String skylink = request.getParameter(SKYLINK_PARAMETER);
         if (skylink == null) {
             JSONObject response = new JSONObject();
-            response.put("message", "no skylink hash supplied");
+            response.put("message", "No skylink hash supplied.");
             return response.toString(2);
         } else if (skylink.length() != Settings.SKYLINK_LENGTH) {
             JSONObject response = new JSONObject();
-            response.put("message", "invalid skylink hash. must be exactly "
+            response.put("message", "Invalid skylink hash. Must be exactly "
                 + Settings.SKYLINK_LENGTH + " characters.");
             return response.toString(2);
         }
         String registrant = request.getParameter(REGISTRANT_PARAMETER);
         if (registrant == null) {
             JSONObject response = new JSONObject();
-            response.put("message", "no registrant sia address supplied");
+            response.put("message", "No registrant sia address supplied.");
             return response.toString(2);
         } else if (registrant.length() != 76) {
             JSONObject response = new JSONObject();
-            response.put("message", "invalid registraint sia address. must be exactly 76 characters.");
+            response.put("message", "Invalid registraint sia address. Must be exactly 76 characters.");
             return response.toString(2);
         }
         Consensus consensus = Consensus.getInstance().execute();
         if (!consensus.isOnline()) {
             JSONObject response = new JSONObject();
-            response.put("message", "wallet is offline.");
+            response.put("message", "Wallet is offline.");
             return response.toString(2);
         } else if (!consensus.isSynced()) {
             JSONObject response = new JSONObject();
-            response.put("message", "wallet is not synced.");
+            response.put("message", "Wallet is not synced.");
             return response.toString(2);
         }
         WhoIs whoIs = WhoIs.findByHost(host);
         if (whoIs != null && !registrant.equals(whoIs.getRegistrant())) {
             JSONObject response = new JSONObject();
-            response.put("message", "host is already registered to a different registrant.");
+            response.put("message", "Host is already registered to a different registrant.");
             return response.toString(2);
         } else if (whoIs != null && whoIs.getFee() > Settings.FEE) {
             JSONObject response = new JSONObject();
-            response.put("message", "configured fee is not high enough to update host entry.");
+            response.put("message", "Configured fee is not high enough to update host entry.");
             return response.toString(2);
         }
         long blockSeconds
@@ -115,7 +115,7 @@ public class RegisterApi extends SiaNameServiceApi {
         ).create();
         if (!successful) {
             JSONObject response = new JSONObject();
-            response.put("message", "serverside error.");
+            response.put("message", "Serverside error.");
             return response.toString(2);
         }
         JSONObject hostFile = new JSONObject();

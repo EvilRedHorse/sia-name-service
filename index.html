@@ -28,7 +28,11 @@
       fetch(`/register?host=${host}&registrant=${registrant}&skylink=${skylink}`, {method: 'GET'})
       .then(response => response.json())
       .then(result => {
-        document.getElementById("results").innerHTML = JSON.stringify(result, null, 2);
+        if (result.message) {
+          document.getElementById("results").innerHTML = result.message;
+        } else {
+          document.getElementById("results").innerHTML = `<a href="/${result.host}">${result.host}</a> is registered.`;
+        }
         document.getElementById("resultsModalSpinner").style.display = 'none';
         $('#resultsModal').modal('show');
       }).catch(error => {
@@ -45,7 +49,11 @@
       fetch(`/update?host=${host}&skylink=${skylink}`, {method: 'GET'})
       .then(response => response.json())
       .then(result => {
-        document.getElementById("results").innerHTML = JSON.stringify(result, null, 2);
+        if (result.message) {
+          document.getElementById("results").innerHTML = result.message;
+        } else {
+          document.getElementById("results").innerHTML = `<a href="/${result.host}">${result.host}</a> now redirects to skylink ${result.skylink}`;
+        }
         document.getElementById("resultsModalSpinner").style.display = 'none';
         $('#resultsModal').modal('show');
       }).catch(error => {
@@ -84,7 +92,11 @@
       fetch(`/skynet/skyfile`, {method: 'POST',body: formData})
       .then(response => response.json())
       .then(result => {
-        document.getElementById("results").innerHTML = "Skylink: " + result.skylink;
+        if (!result.skylink) {
+          document.getElementById("results").innerHTML = JSON.stringify(result, null, 2);
+        } else {
+          document.getElementById("results").innerHTML = "File is uploaded to skylink: " + result.skylink;
+        }
         document.getElementById("resultsModalSpinner").style.display = 'none';
         $('#resultsModal').modal('show');
       }).catch(error => {
