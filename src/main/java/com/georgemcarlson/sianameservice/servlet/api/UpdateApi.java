@@ -9,6 +9,8 @@ import com.georgemcarlson.sianameservice.util.wallet.Consensus;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -48,11 +50,15 @@ public class UpdateApi extends SiaNameServiceApi {
         String host = request.getParameter(HOST_PARAMETER);
         if (host == null) {
             JSONObject response = new JSONObject();
-            response.put("message", "No host supplied.");
+            response.put("message", "No domain name supplied.");
             return response.toString(2);
         } else if (!isTldValid(host)) {
             JSONObject response = new JSONObject();
-            response.put("message", "Host does not end in " + String.join(" or ", Settings.TLDS));
+            List<String> tlds = new ArrayList<>();
+            for (String tld : Settings.TLDS) {
+                tlds.add("." + tld);
+            }
+            response.put("message", "Domain name does not end in " + String.join(" or ", tlds));
             return response.toString(2);
         } else if (!isHostValid(host)) {
             JSONObject response = new JSONObject();
@@ -83,12 +89,15 @@ public class UpdateApi extends SiaNameServiceApi {
         WhoIs whoIs = WhoIs.findByHost(host);
         if (whoIs == null) {
             JSONObject response = new JSONObject();
-            response.put("message", "Supplied host is not registered.");
+            response.put("message", "Supplied domain name is not registered.");
             return response.toString(2);
         }
         if (whoIs.getFee() > Settings.FEE) {
             JSONObject response = new JSONObject();
-            response.put("message", "Configured fee is not high enough to update host entry.");
+            response.put(
+                "message",
+                "Configured fee is not high enough to update the domain name entry."
+            );
             return response.toString(2);
         }
         long blockSeconds

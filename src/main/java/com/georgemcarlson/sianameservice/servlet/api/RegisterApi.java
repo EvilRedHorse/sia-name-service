@@ -9,6 +9,8 @@ import com.georgemcarlson.sianameservice.util.wallet.Consensus;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -50,11 +52,15 @@ public class RegisterApi extends SiaNameServiceApi {
         String host = request.getParameter(HOST_PARAMETER);
         if (host == null) {
             JSONObject response = new JSONObject();
-            response.put("message", "No host supplied.");
+            response.put("message", "No domain name supplied.");
             return response.toString(2);
         } else if (!isTldValid(host)) {
             JSONObject response = new JSONObject();
-            response.put("message", "Host does not end in " + String.join(" or ", Settings.TLDS));
+            List<String> tlds = new ArrayList<>();
+            for (String tld : Settings.TLDS) {
+                tlds.add("." + tld);
+            }
+            response.put("message", "Domain name does not end in " + String.join(" or ", tlds));
             return response.toString(2);
         } else if (!isHostValid(host)) {
             JSONObject response = new JSONObject();
@@ -79,7 +85,10 @@ public class RegisterApi extends SiaNameServiceApi {
             return response.toString(2);
         } else if (registrant.length() != 76) {
             JSONObject response = new JSONObject();
-            response.put("message", "Invalid registraint sia address. Must be exactly 76 characters.");
+            response.put(
+                "message",
+                "Invalid registraint sia address. Must be exactly 76 characters."
+            );
             return response.toString(2);
         }
         Consensus consensus = Consensus.getInstance().execute();
@@ -95,11 +104,14 @@ public class RegisterApi extends SiaNameServiceApi {
         WhoIs whoIs = WhoIs.findByHost(host);
         if (whoIs != null && !registrant.equals(whoIs.getRegistrant())) {
             JSONObject response = new JSONObject();
-            response.put("message", "Host is already registered to a different registrant.");
+            response.put("message", "Domain name is already registered to a different registrant.");
             return response.toString(2);
         } else if (whoIs != null && whoIs.getFee() > Settings.FEE) {
             JSONObject response = new JSONObject();
-            response.put("message", "Configured fee is not high enough to update host entry.");
+            response.put(
+                "message",
+                "Configured fee is not high enough to update the domain name entry."
+            );
             return response.toString(2);
         }
         long blockSeconds
