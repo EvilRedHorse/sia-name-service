@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Skynet</title>
+  <title>Public Portals</title>
   <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
   <meta content="utf-8" http-equiv="encoding">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
@@ -24,8 +24,8 @@
 
       var host = document.getElementById("host").value;
       var registrant = document.getElementById("registrant").value;
-      var skylink = "TAAyGBRU3c0HL-IbL1p9cIwQeEANzzAGgNuzFQbRysPqQw";
-      fetch(`/register?host=${host}&registrant=${registrant}&skylink=${skylink}`, {method: 'GET'})
+      var publink = "TAAyGBRU3c0HL-IbL1p9cIwQeEANzzAGgNuzFQbRysPqQw";
+      fetch(`/register?host=${host}&registrant=${registrant}&publink=${publink}`, {method: 'GET'})
       .then(response => response.json())
       .then(result => {
         if (result.message) {
@@ -41,25 +41,24 @@
         $('#resultsModal').modal('show');
       })
     }
-    function update(host, skylink) {
+    function update(host, publink) {
       document.getElementById("results").innerHTML = "";
       document.getElementById("resultsModalSpinner").style.display = 'inline-block';
       $('#resultsModal').modal('show');
 
-      fetch(`/update?host=${host}&skylink=${skylink}`, {method: 'GET'})
+      fetch(`/update?host=${host}&publink=${publink}`, {method: 'GET'})
       .then(response => response.json())
       .then(result => {
         if (result.message) {
           document.getElementById("results").innerHTML = result.message;
         } else {
-          document.getElementById("results").innerHTML = `<a href="/${result.host}">${result.host}</a> now redirects to skylink ${result.skylink}`;
+          document.getElementById("results").innerHTML = `<a href="/${result.host}">${result.host}</a> now redirects to Publink ${result.publink}`;
         }
         document.getElementById("resultsModalSpinner").style.display = 'none';
         $('#resultsModal').modal('show');
       }).catch(error => {
         document.getElementById("results").innerHTML = "Error: " + error;
         document.getElementById("resultsModalSpinner").style.display = 'none';
-        $('#resultsModal').modal('show');
       })
     }
     function uploadAndLink() {
@@ -74,7 +73,7 @@
       .then(response => response.json())
       .then(result => {
         var host = document.getElementById("updateHost").value;
-        update(host, result.skylink);
+        update(host, result.publink);
       }).catch(error => {
         document.getElementById("results").innerHTML = "Error: " + error;
         document.getElementById("resultsModalSpinner").style.display = 'none';
@@ -92,10 +91,10 @@
       fetch(`/skynet/skyfile`, {method: 'POST',body: formData})
       .then(response => response.json())
       .then(result => {
-        if (!result.skylink) {
+        if (!result.publink) {
           document.getElementById("results").innerHTML = JSON.stringify(result, null, 2);
         } else {
-          document.getElementById("results").innerHTML = "File is uploaded to skylink: " + result.skylink;
+          document.getElementById("results").innerHTML = "File is uploaded to publink: " + result.publink;
         }
         document.getElementById("resultsModalSpinner").style.display = 'none';
         $('#resultsModal').modal('show');
@@ -139,7 +138,7 @@
     <br/>
     <h1>Build a Free Internet.</h1>
     <br/>
-    <h3>The decentralized CDN and file sharing platform for devs. Skynet is the storage foundation for a Free Internet!</h3>
+    <h3>The decentralized CDN and file sharing platform for devs. Public Portals is the storage foundation for a Free Internet!</h3>
     <br/>
     <div class="container">
       <div class="row">
@@ -190,16 +189,16 @@
     <br/>
     <h3>
       Sia Name Service is a Java Gradle project that provides the webportal software necessary to
-      register, update, and lookup `[name].sns` domain names on the Sia blockchain.
+      register, update, and lookup `[name].sns` domain names on the ScPrime blockchain.
     </h3>
     <br/>
     <div class="container">
       <p>
         The best way to describe Sia Name Service is as a decentralized URL shortening
-        service and a link management platform for Skynet's Skylinks.
+        service and a link management platform for Public Portals Publinks.
       </p>
       <p>
-        What happens is that when you assign an `.sns` domain to a Skylink you automatically have
+        What happens is that when you assign an `.sns` domain to a Publink you automatically have
         a shortened URL in the form of `http[s]://[sia-name-service portal]/[domain-name].sns`
         (for example:
         <a href="http://sns.hopto.me/bigbuckbunny.sns">http://sns.hopto.me/bigbuckbunny.sns</a>).
@@ -211,20 +210,20 @@
         all `.sns` domains to a defined Sia Name Service portal that will then resolve the request
         natively (for example: <a href="http://bigbuckbunny.sns/">http://bigbuckbunny.sns/</a>
         would resolve without needing a browser extension). Lastly, the Sia Name Service portal
-        provides a "GO" input field that will redirect you to the Skylink associated with the
+        provides a "GO" input field that will redirect you to the Publink associated with the
         input field's `.sns` domain.
       </p>
       <p>
-        One of Sia Name Service's secondary missions is to provide an out-of-the-box Skynet portal.
-        The idea here is to provide a Jetty server alternative to Nebulous's official
-        <a href="https://github.com/NebulousLabs/skynet-webportal">Skynet webportal</a> that you
-        can just double click on to start up. This will allow you to run a Skynet portal without
+        One of Sia Name Service's secondary missions is to provide an out-of-the-box Public Portal.
+        The idea here is to provide a Jetty server alternative to ScPrime's official
+        <a href="https://github.com/scpcorp/pubaccess-webportal">Public Portals</a> that you
+        can just double click on to start up. This will allow you to run a Public Portal without
         needing to set up an nginx webserver on your computer or fiddling with router
         configurations.
       </p>
       <p>
         A latent purpose is to provide an alternative to
-        <a href="https://github.com/DaWe35/DappDappGo">Dapp Dapp Go's</a> excellent Skylink search
+        <a href="https://github.com/DaWe35/DappDappGo">Dapp Dapp Go's</a> excellent Publink search
         engine. This is achieved by providing the <a href="/list">/list</a> and the
         <a href="/whois/bigbuckbunny.sns">/whois/bigbuckbunny.sns</a> API endpoints. The long term
         goal here is to someday add a /search endpoint.
