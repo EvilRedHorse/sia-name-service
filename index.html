@@ -24,7 +24,7 @@
 
       var host = document.getElementById("host").value;
       var registrant = document.getElementById("registrant").value;
-      var publink = "TAAyGBRU3c0HL-IbL1p9cIwQeEANzzAGgNuzFQbRysPqQw";
+      var publink = "GABNDldgLPuHMW-HYjuSj2jDjI-7lVzlpkZdEmNtLamKcQ";
       fetch(`/register?host=${host}&registrant=${registrant}&publink=${publink}`, {method: 'GET'})
       .then(response => response.json())
       .then(result => {
