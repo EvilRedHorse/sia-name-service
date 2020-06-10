@@ -19,7 +19,7 @@ public class UpdateApi extends SiaNameServiceApi {
     public static final String PATH = "/update";
     public static final String HELP_PARAMETER = "help";
     public static final String HOST_PARAMETER = "host";
-    public static final String SKYLINK_PARAMETER = "skylink";
+    public static final String SKYLINK_PARAMETER = "publink";
 
     public static UpdateApi getInstance(){
         return new UpdateApi();
@@ -68,11 +68,11 @@ public class UpdateApi extends SiaNameServiceApi {
         String skylink = request.getParameter(SKYLINK_PARAMETER);
         if (skylink == null) {
             JSONObject response = new JSONObject();
-            response.put("message", "No skylink hash supplied.");
+            response.put("message", "No publink hash supplied.");
             return response.toString(2);
         } else if (skylink.length() != Settings.SKYLINK_LENGTH) {
             JSONObject response = new JSONObject();
-            response.put("message", "Invalid skylink hash. Must be exactly "
+            response.put("message", "Invalid publink hash. Must be exactly "
                 + Settings.SKYLINK_LENGTH + " characters.");
             return response.toString(2);
         }
@@ -118,7 +118,7 @@ public class UpdateApi extends SiaNameServiceApi {
         }
         JSONObject hostFile = new JSONObject();
         hostFile.put("host", host);
-        hostFile.put("skylink", skylink);
+        hostFile.put("publink", skylink);
         hostFile.put("registrant", whoIs.getRegistrant());
         hostFile.put("fee", Settings.getFee());
         return hostFile.toString(2);
