@@ -73,7 +73,7 @@
         {
             "description": "Redirect .sns TLD with Path and Query",
             "exampleUrl": "http://test.sns/player.html?stream=workshop",
-            "exampleResult": "http://sns.redirectme.net/test.sns/player.html?portal=siasky.net&stream=workshop",
+            "exampleResult": "http://sns.redirectme.net/test.sns/player.html?portal=scp.techandsupply.ca&stream=workshop",
             "error": null,
             "includePattern": "http://*.sns/*?*",
             "excludePattern": "http://sns.*",
