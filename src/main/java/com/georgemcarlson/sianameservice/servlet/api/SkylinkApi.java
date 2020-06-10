@@ -19,7 +19,7 @@ public class SkylinkApi extends HttpServlet {
     @Override
     protected void doHead(final HttpServletRequest request, final HttpServletResponse response)
         throws IOException {
-        String path = request.getPathInfo().startsWith("/skynet/skylink/")
+        String path = request.getPathInfo().startsWith("/pubaccess/publink/")
             ? request.getPathInfo().substring(16)
             : request.getPathInfo().substring(1);
         Settings.getSkynetClient().head(path, request, response);
@@ -28,7 +28,7 @@ public class SkylinkApi extends HttpServlet {
     @Override
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response)
         throws IOException {
-        String path = request.getPathInfo().startsWith("/skynet/skylink/")
+        String path = request.getPathInfo().startsWith("/pubaccess/publink/")
             ? request.getPathInfo().substring(16)
             : request.getPathInfo().substring(1);
         Settings.getSkynetClient().get(path, request, response);
@@ -37,7 +37,7 @@ public class SkylinkApi extends HttpServlet {
     @Override
     protected void doPost(final HttpServletRequest request, final HttpServletResponse response)
         throws IOException {
-        String path = request.getPathInfo().startsWith("/skynet/skylink/")
+        String path = request.getPathInfo().startsWith("/pubaccess/publink/")
             ? request.getPathInfo().substring(16)
             : request.getPathInfo().substring(1);
         Settings.getSkynetClient().get(path, request, response);
