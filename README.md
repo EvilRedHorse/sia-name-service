@@ -2,13 +2,13 @@
 
 Sia Name Service is a Java Gradle project that provides the webportal software necessary to register, update, and lookup `[name].sns` host entries on the Sia blockchain.
 
-The best way to describe Sia Name Service is as a decentralized URL shortening service and a link management platform for Skynet's Skylinks.
+The best way to describe Sia Name Service is as a decentralized URL shortening service and a link management platform for Public Portals Publinks.
 
-What happens is that when you assign an `.sns` domain to a Skylink you automatically have a shortened URL in the form of `http[s]://[sia-name-service portal]/[domain-name].sns` (for example: http://sns.hopto.me/bigbuckbunny.sns). Additionally, if you install the browser extension you can access `.sns` domains through the browser's address bar (for example: http://bigbuckbunny.sns/ would resolve). Thirdly, the service also lets you supply a `Host: [domain].sns` header in a request to the service. This should allow someone to point their router at a personal DNS resolver that rewrites all `.sns` domains to a defined Sia Name Service portal that will then resolve the request natively (for example: http://bigbuckbunny.sns/ would resolve without needing a browser extension). Lastly, the Sia Name Service portal provides a "GO" input field that will redirect you to the Skylink associated with the input field's `.sns` domain. 
+What happens is that when you assign an `.sns` domain to a Publink you automatically have a shortened URL in the form of `http[s]://[sia-name-service portal]/[domain-name].sns` (for example: http://sns.hopto.me/bigbuckbunny.sns). Additionally, if you install the browser extension you can access `.sns` domains through the browser's address bar (for example: http://bigbuckbunny.sns/ would resolve). Thirdly, the service also lets you supply a `Host: [domain].sns` header in a request to the service. This should allow someone to point their router at a personal DNS resolver that rewrites all `.sns` domains to a defined Sia Name Service portal that will then resolve the request natively (for example: http://bigbuckbunny.sns/ would resolve without needing a browser extension). Lastly, the Sia Name Service portal provides a "GO" input field that will redirect you to the Publink associated with the input field's `.sns` domain. 
 
-One of Sia Name Service's secondary missions is to provide an out-of-the-box Skynet portal. The idea here is to provide a Jetty server alternative to Nebulous's official Skynet webportal that you can just double click on to start up. This will allow you to run a Skynet portal without needing to set up an nginx webserver on your computer or fiddling with router configurations. 
+One of Sia Name Service's secondary missions is to provide an out-of-the-box Public portal. The idea here is to provide a Jetty server alternative to ScPrime's official pubaccess webportal that you can just double click on to start up. This will allow you to run a Public portal without needing to set up an nginx webserver on your computer or fiddling with router configurations. 
 
-A latent purpose is to provide an alternative to Dapp Dapp Go's excellent Skylink search engine. This is achieved by providing the /list and the /whois/bigbuckbunny.sns API endpoints. The long term goal here is to someday add a /search endpoint.
+A latent purpose is to provide an alternative to Dapp Dapp Go's excellent Publink search engine. This is achieved by providing the /list and the /whois/bigbuckbunny.sns API endpoints. The long term goal here is to someday add a /search endpoint.
 
 ## Download
 [Precompiled Sia Name Service releases](https://github.com/geo-gs/sia-name-service/releases)
@@ -22,11 +22,11 @@ Please contact me if you have a sia name service webportal that you would like r
 
 ## Dependencies
 
-Must have a Sia wallet that is running to be able to locate new host entries. Must have a Sia wallet that is synced and unlocked to be able to register or update host entries.
+Must have a ScPrime wallet that is running to be able to locate new host entries. Must have a ScPrime wallet that is synced and unlocked to be able to register or update host entries.
 
 ## How to configure
 
-Sia Name Service uses a settings.json file for its configurations. In this file you can set the web server's port, the registration fee, the wallets port, the wallets API password, the TLDs to scan for, and the skynet portals to use.
+Sia Name Service uses a settings.json file for its configurations. In this file you can set the web server's port, the registration fee, the wallets port, the wallets API password, the TLDs to scan for, and the pubaccess portals to use.
 
 ##  How to run
 
@@ -38,20 +38,20 @@ Have gradle installed on your computer. Then, in your terminal, navigate to the 
 
 ## Register a host
 
-Register a host by posting the `[name].sns` host that you wish to register with the skylink that it should point at and a registrant address and a fee to the register endpoint and is configured in the `settings.json` file. The fee is how many siacoins to the power of ten that will be needed to register or update the linked skylink. Registration is turned off if the fee is set to less than one. The registrant address should be an address that you control.
+Register a host by posting the `[name].sns` host that you wish to register with the publink that it should point at and a registrant address and a fee to the register endpoint and is configured in the `settings.json` file. The fee is how many siacoins to the power of ten that will be needed to register or update the linked publink. Registration is turned off if the fee is set to less than one. The registrant address should be an address that you control.
 
 Example Request:
 ```
 http://localhost:8080/register
 ?host=test.sns
-&skylink=_ArnmJ2mQAvFofAiW3qEA2V1t3PuPJhYvYQdp8I0_nQMXQ
+&publink=_ArnmJ2mQAvFofAiW3qEA2V1t3PuPJhYvYQdp8I0_nQMXQ
 &registrant=8d2e801ffcec48cd7276652c5871332592975942af1c7e4964c77be8b01f80a4dcae15d1a308
 ```
 
 Example Response:
 ```
 {
-  "skylink": "_ArnmJ2mQAvFofAiW3qEA2V1t3PuPJhYvYQdp8I0_nQMXQ",
+  "publink": "_ArnmJ2mQAvFofAiW3qEA2V1t3PuPJhYvYQdp8I0_nQMXQ",
   "fee": "5",
   "host": "test.sns",
   "registrant": "8d2e801ffcec48cd7276652c5871332592975942af1c7e4964c77be8b01f80a4dcae15d1a308",
@@ -62,7 +62,7 @@ Example Response:
 
 ## Update a host
 
-Update a host by posting the `[name].sns` host that you wish to update with the skylink that it should point at.
+Update a host by posting the `[name].sns` host that you wish to update with the publink that it should point at.
 
 Note: You can update someone else's fee but since they should own the registrant address they will get the fee and they can then just update the host again for next to nothing because they will be sending the fee to themselves. Also note that if the server is configures to use a larger fee than last time this larger becomes the new minimum fee to update in the future.
 
@@ -71,13 +71,13 @@ Example Request:
 ```
 http://localhost:8080/update
 ?host=test.sns
-&skylink=CAA2XstfpNmrh5WrI3ThcBQKtsTFTEtmrGq--7eeKAlO9Q
+&publink=CAA2XstfpNmrh5WrI3ThcBQKtsTFTEtmrGq--7eeKAlO9Q
 ```
 
 Example Response:
 ```
 {
-  "skylink": "CAA2XstfpNmrh5WrI3ThcBQKtsTFTEtmrGq--7eeKAlO9Q",
+  "publink": "CAA2XstfpNmrh5WrI3ThcBQKtsTFTEtmrGq--7eeKAlO9Q",
   "fee": "6",
   "host": "test.sns",
   "registrant": "8d2e801ffcec48cd7276652c5871332592975942af1c7e4964c77be8b01f80a4dcae15d1a308",
@@ -98,7 +98,7 @@ http://localhost:8080/whois/test.sns
 Example Response:
 ```
 {
-  "skylink": "_ArnmJ2mQAvFofAiW3qEA2V1t3PuPJhYvYQdp8I0_nQMXQ",
+  "publink": "_ArnmJ2mQAvFofAiW3qEA2V1t3PuPJhYvYQdp8I0_nQMXQ",
   "fee": 5,
   "host": "test.sns",
   "registrant": "8d2e801ffcec48cd7276652c5871332592975942af1c7e4964c77be8b01f80a4dcae15d1a308",
@@ -107,9 +107,9 @@ Example Response:
 }
 ```
 
-## Redirect to skylink
+## Redirect to publink
 
-You can automatically redirect to the skylink registered to a `[name].sns` host by:
+You can automatically redirect to the publink registered to a `[name].sns` host by:
 
 ### Supplying the `[name].sns` host as the context:
 Example Request:
@@ -119,7 +119,7 @@ http://localhost:8080/test.sns
 
 Example Response:
 ```
-302 Found; Location https://[portal]/[skylink]
+302 Found; Location https://[portal]/[publink]
 ```
 
 ### Using the redirect endpoint:
@@ -130,7 +130,7 @@ http://localhost:8080/redirect?host=test.sns
 
 Example Response:
 ```
-302 Found; Location https://[portal]/[skylink]
+302 Found; Location https://[portal]/[publink]
 ```
 
 ### Configuring your DNS resolver to map `*.sns` TLDs to a Sia-Name_Service server IP:
@@ -141,7 +141,7 @@ http://test.sns
 
 Example Response:
 ```
-302 Found; Location https://[portal]/[skylink]
+302 Found; Location https://[portal]/[publink]
 ```
 
 ### Install and configure a DNS redirector browser extension:
@@ -158,7 +158,7 @@ http://test.sns
 
 Example Response:
 ```
-302 Found; Location https://[portal]/[skylink]
+302 Found; Location https://[portal]/[publink]
 ```
 
 ## Generate Redirector configuration file
@@ -205,19 +205,19 @@ Example Response:
 }
 ```
 
-## Upload Skyfile to Skynet
+## Upload Pubfile to Public Portals
 
-Upload to skynet by making a multipart post to `/skynet/skyfile` as documented 
-<a href='https://sia.tech/docs/#skynet-skyfile-siapath-post'>here</a>.
+Upload to pubaccess by making a multipart post to `/pubaccess/pubfile` as documented 
+<a href='https://medium.com/@ScPrimeGuides/public-portals-on-scprime-8b19af25c80d'>here</a>.
 
-## Retrieve Skylink from Skynet
+## Retrieve Publink from Public Portals
 
-You can retrieve data from skynet by making a get request to either `/[skylink]` or 
-`/skymet/skylink/[skylink]` as documented 
-<a href='https://sia.tech/docs/#skynet-skylink-skylink-get'>here</a>.
+You can retrieve data from pubaccess by making a get request to either `/[publink]` or 
+`/pubaccess/publink/[publink]` as documented 
+<a href='https://medium.com/@ScPrimeGuides/public-portals-on-scprime-8b19af25c80d'>here</a>.
 
-## Retrieve Skylink HEAD from Skynet
+## Retrieve Publink HEAD from Public Portals
 
-You can retrieve HEAD metadata from skynet by making a head request to either `/[skylink]` or 
-`/skymet/skylink/[skylink]` as documented 
-<a href='https://sia.tech/docs/#skynet-skylink-skylink-head'>here</a>.
+You can retrieve HEAD metadata from pubaccess by making a head request to either `/[publink]` or 
+`/pubaccess/publink/[publink]` as documented 
+<a href='https://medium.com/@ScPrimeGuides/public-portals-on-scprime-8b19af25c80d'>here</a>.
