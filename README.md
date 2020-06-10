@@ -38,7 +38,7 @@ Have gradle installed on your computer. Then, in your terminal, navigate to the 
 
 ## Register a host
 
-Register a host by posting the `[name].sns` host that you wish to register with the publink that it should point at and a registrant address and a fee to the register endpoint and is configured in the `settings.json` file. The fee is how many siacoins to the power of ten that will be needed to register or update the linked publink. Registration is turned off if the fee is set to less than one. The registrant address should be an address that you control.
+Register a host by posting the `[name].sns` host that you wish to register with the publink that it should point at and a registrant address and a fee to the register endpoint and is configured in the `settings.json` file. The fee is how many scprimecoins to the power of ten that will be needed to register or update the linked publink. Registration is turned off if the fee is set to less than one. The registrant address should be an address that you control.
 
 Example Request:
 ```
