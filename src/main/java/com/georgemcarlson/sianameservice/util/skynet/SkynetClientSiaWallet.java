@@ -18,8 +18,8 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class SkynetClientSiaWallet extends SkynetClient {
-  private static final String URL_LINK_TEMPLATE = "http://localhost:9980/skynet/skylink/%s";
-  private static final String URL_FILE_TEMPLATE = "http://localhost:9980/skynet/skyfile/%s";
+  private static final String URL_LINK_TEMPLATE = "http://localhost:4280/pubaccess/publink/%s";
+  private static final String URL_FILE_TEMPLATE = "http://localhost:4280/pubaccess/pubfile/%s";
   private static final String USER_AGENT = "Sia-Agent";
   private static final SkynetClientSiaWallet SINGLETON = new SkynetClientSiaWallet();
 
