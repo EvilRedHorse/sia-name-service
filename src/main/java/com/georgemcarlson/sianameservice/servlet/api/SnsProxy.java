@@ -12,7 +12,7 @@ public class SnsProxy extends HttpServlet {
     @Override
     protected void doHead(final HttpServletRequest request, final HttpServletResponse response)
         throws IOException {
-        if (request.getPathInfo().startsWith("/skynet/skylink")) {
+        if (request.getPathInfo().startsWith("/pubaccess/publink")) {
             SkylinkApi.getInstance().doHead(request, response);
         } else if (isSkylink(request.getPathInfo())) {
             SkylinkApi.getInstance().doHead(request, response);
@@ -61,9 +61,9 @@ public class SnsProxy extends HttpServlet {
             ScannerApi.getInstance().doIt(request, response);
         } else if (request.getPathInfo().equals("/redirector")) {
             RedirectorDownload.getInstance().doIt(request, response);
-        } else if (request.getPathInfo().startsWith("/skynet/skyfile")) {
+        } else if (request.getPathInfo().startsWith("/pubaccess/pubfile")) {
             SkyfileApi.getInstance().doPost(request, response);
-        } else if (request.getPathInfo().startsWith("/skynet/skylink")) {
+        } else if (request.getPathInfo().startsWith("/pubaccess/publink")) {
             SkylinkApi.getInstance().doGet(request, response);
         } else if (isSkylink(request.getPathInfo())) {
             SkylinkApi.getInstance().doGet(request, response);
