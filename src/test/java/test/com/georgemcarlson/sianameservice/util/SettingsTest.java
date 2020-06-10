@@ -45,7 +45,7 @@ public class SettingsTest {
         Assert.assertEquals(500000, Settings.getSettings(settingsTestPath).getInt("genesis_block"));
 
         //test can save wallet api port
-        Assert.assertEquals(9980, Settings.getWalletApiPort());
+        Assert.assertEquals(4280, Settings.getWalletApiPort());
         Settings.setWalletApiPort(9000);
         Settings.persistSettings(settingsTestPath);
         Assert.assertEquals(9000, Settings.getSettings(settingsTestPath).getInt("wallet_api_port"));
@@ -60,7 +60,7 @@ public class SettingsTest {
         );
 
         //test can save wallet api port
-        Assert.assertEquals("Sia-Agent", Settings.getWalletApiUserAgent());
+        Assert.assertEquals("ScPrime-Agent", Settings.getWalletApiUserAgent());
         Settings.setWalletApiUserAgent("Generic-User");
         Settings.persistSettings(settingsTestPath);
         Assert.assertEquals(
@@ -79,10 +79,10 @@ public class SettingsTest {
 
         //test can save wallet api port
         Assert.assertEquals("localhost", Settings.getSkynetClient().getName());
-        Settings.setSkynetClient(SkynetClientPortal.getInstance("siasky.net"));
+        Settings.setSkynetClient(SkynetClientPortal.getInstance("scp.techandsupply.ca"));
         Settings.persistSettings(settingsTestPath);
         Assert.assertEquals(
-            "siasky.net",
+            "scp.techandsupply.ca",
             Settings.getSettings(settingsTestPath).getString("portal")
         );
     }
