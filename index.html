@@ -69,7 +69,7 @@
 
       let formData = new FormData(document.getElementById("uploadAndLink"));
       formData.append('file', document.getElementById("uploadAndLinkFile").files[0]);
-      fetch(`/skynet/skyfile`, {method: 'POST',body: formData})
+      fetch(`/pubaccess/pubfile`, {method: 'POST',body: formData})
       .then(response => response.json())
       .then(result => {
         var host = document.getElementById("updateHost").value;
@@ -88,7 +88,7 @@
 
       let formData = new FormData(document.getElementById("upload"));
       formData.append('file', document.getElementById("uploadFile").files[0]);
-      fetch(`/skynet/skyfile`, {method: 'POST',body: formData})
+      fetch(`/pubaccess/pubfile`, {method: 'POST',body: formData})
       .then(response => response.json())
       .then(result => {
         if (!result.publink) {
@@ -151,7 +151,7 @@
             </div>
             <div class="form-group">
               <label for="registrant">Registrant</label>
-              <input type="text" class="form-control" id="registrant" name="registrant" placeholder="[sia address]">
+              <input type="text" class="form-control" id="registrant" name="registrant" placeholder="[scprime address]">
             </div>
             <button type="submit" class="btn btn-outline-success" onclick="register()">Register</button>
           </form>
