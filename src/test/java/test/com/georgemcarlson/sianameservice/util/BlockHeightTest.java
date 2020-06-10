@@ -8,8 +8,8 @@ import okhttp3.Response;
 import org.junit.Test;
 
 public class BlockHeightTest {
-    private static final String URL = "http://localhost:9980/consensus";
-    private static final String USER_AGENT = "Sia-Agent";
+    private static final String URL = "http://localhost:4280/consensus";
+    private static final String USER_AGENT = "ScPrime-Agent";
     private static final int TIMEOUT = 30000;
     
     @Test
